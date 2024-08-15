@@ -3,11 +3,16 @@ import React, { useEffect , useState } from 'react'
 import Navbar from '../components/Navbar';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useUserContext } from '../context/UsersContext';
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Result() {
   const {users ,setUsers ,allQuiz,fetchUserQuiz } = useUserContext();
   const [data , setData] = React.useState([]);
   const [selected , setSelected] = useState('total');
+
+  const { data: session } = useSession();
+  if(!session)  redirect('/')
   
   useEffect(()=>{
     const getData = ()=>{

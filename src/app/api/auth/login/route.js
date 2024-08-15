@@ -40,10 +40,7 @@ export async function POST(req) {
       role: user.role_id,
       image: user.image,
       name: user.name,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      gender: user.gender,
-      dob: user.dob,
+     
       accessToken
     }
     return NextResponse.json({ message: "Login successful",user:userNotPassword });

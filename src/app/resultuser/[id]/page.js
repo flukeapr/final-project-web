@@ -8,15 +8,17 @@ import AnswerQuiz from '@/app/components/AnswerQuiz'
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useUserContext } from '@/app/context/UsersContext'
+import { useSession } from "next-auth/react";
 
 export default function ResultUser({params}) {
   const {id} = params
- 
+  const { data: session } = useSession();
+  if (!session) redirect("/");
   const [selectedQuiz, setSelectedQuiz] = useState([])
   const {users ,setUsers ,allQuiz,fetchUserQuiz } = useUserContext();
   const user = users.find(user => user.id === Number(id))
   const usersQuiz = allQuiz.filter(quiz => quiz.userId === Number(id) )
-  
+  const preQuiz = usersQuiz.filter((quiz) => quiz.quizType === "PRE")
 
   
 
@@ -98,7 +100,10 @@ export default function ResultUser({params}) {
               
         
         </div>
+       
         <ThumbnailQuiz quiz={usersQuiz} onQuizSelected={handleQuizSelected}/>
+
+        
 
         
       </div>

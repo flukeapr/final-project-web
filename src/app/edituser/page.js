@@ -104,7 +104,7 @@ export default function EditUser() {
           .filter((user) => {
             if (search === "") {
               return user;
-            } else if (user.name.includes(search)) {
+            } else if (user.name.includes(search)||user.email.includes(search)) {
               return user;
             }
           })
@@ -150,7 +150,7 @@ export default function EditUser() {
             </button>
           </form>
           {/* bg top */}
-          <div className="bg-neutral-200 w-full h-[10%] absolute top-0 left-0 -z-10"></div>
+          <div className="bg-neutral-200 w-full h-[20%] absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 mt-4 ">
             <div className="flex flex-col space-y-1 mb-4">
@@ -174,44 +174,7 @@ export default function EditUser() {
                   onChange={(e)=>{setName(e.target.value)}}
                 />
               </div>
-              <hr />
-              <div className="flex flex-row justify-between py-2">
-                <h1>First Name</h1>
-                <input
-                  className=" input input-bordered w-1/2 "
-                  value={firstName}
-                  
-                />
-              </div>
-              <hr />
-              <div className="flex flex-row justify-between py-2">
-                <h1>Last Name</h1>
-                <input
-                  className=" input input-bordered w-1/2 "
-                  value={lastName}
-                  
-                />
-              </div>
-              <hr />
-              <div className="flex flex-row justify-between py-2">
-                <h1>Gender</h1>
-                <input
-                  className=" input input-bordered w-1/2 "
-                  value={gender}
-                  
-                />
-              </div>
-              <hr />
-              <div className="flex flex-row justify-between py-2">
-                <h1>Day of Birth</h1>
-                <input
-                type="date"
-                
-                  className=" input input-bordered w-1/2 "
-                  value={dob}
-                  
-                />
-              </div>
+             
               <hr />
               <div className="flex flex-row justify-between py-2">
                 <h1>Email</h1>
