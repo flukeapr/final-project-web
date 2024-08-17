@@ -11,6 +11,7 @@ export function UserProvider({ children }) {
     const [allQuiz , setAllQuiz] = useState([])
 
     const fetchUsers = async () => {
+        console.log('Fetching Users'); 
         try {
             const result = await fetch('/api/userscoreView', {
                 method: 'POST',
@@ -28,6 +29,7 @@ export function UserProvider({ children }) {
 
     }
     const fetchUserQuiz = async () => {
+        console.log('Fetching User Quiz');
         try {
             const result = await fetch('/api/userquiz')
             const data = await result.json()

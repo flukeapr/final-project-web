@@ -2,17 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Swal from "sweetalert2";
-import  Link  from "next/link";
+import Link from "next/link";
 
 import { FcGoogle } from "react-icons/fc";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -22,7 +21,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { data: session } = useSession();
   //  if (session?.user) router.replace("/home");
-  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,26 +30,40 @@ export default function LoginPage() {
         password,
         redirect: false,
       });
-     
+
       if (res.error) {
         setError(res.error);
         throw new Error(res.error);
       }
-      if(res.ok){
+      if (res.ok) {
+        try {
+          const resSession = await fetch("/api/auth/session");
+          const data = await resSession.json();
+          if (data.user) {
+            if (data.user.role === 1) {
+              toast.success("เข้าสู่ระบบสําเร็จ");
+              setTimeout(() => {
+                router.replace("/homepage");
+              }, 2500);
+            } else {
+              toast.error("คุณไม่มีสิทธิ์เข้าใช้งาน");
+              setTimeout(async() => {
+                await signOut();
+              }, 1500);
+              
+             
+            }
+          }
+        } catch (error) {
+          toast.error("ไม่สามารถเข้าสู่ระบบได้");
+          console.log(error);
+        }
         
-        
-         toast.success('Login Successful')
-         setTimeout(()=>{
-          router.replace("/homepage");
-         },2500)
-        
-        
-        
-
+       
+        //  setTimeout(()=>{
+        //   router.replace("/homepage");
+        //  },2500)
       }
-
-     
-        
     } catch (error) {
       toast.error(error.message);
       console.log(error);
@@ -63,53 +75,54 @@ export default function LoginPage() {
   //   }
   // }, [session, router]);
 
-    const handleGoogleSignIn = async () => {
-      try {
-        const res = await signIn('google',{redirect:false});
-        if(res.ok){
-           toast.success('Login Successful');
-          setTimeout(()=>{
-            router.replace("/home");
-           },2500)
-        }
-        
-      } catch (error) {
-        toast.success(error.message);
-        console.log(error);
+  const handleGoogleSignIn = async () => {
+    try {
+      const res = await signIn("google", { redirect: false });
+      if (res.ok) {
+        toast.success("Login Successful");
+        setTimeout(() => {
+          router.replace("/home");
+        }, 2500);
       }
-      
-    };
+    } catch (error) {
+      toast.success(error.message);
+      console.log(error);
+    }
+  };
   return (
-    
     <div className="w-screen h-screen flex items-center justify-center">
       <ToastContainer
-position="bottom-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-transition= {Bounce}
-/>
-      <div className="flex  justify-around  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
-      <div className="h-full ">
-        <img src="/images/logo/smile-logo-bg.png" width={400}/>
-        <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
-        Happy <span className="bg-gradient-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text">Mind</span> 
-    </h1>
-      </div>
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      <div className="flex  justify-around items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
+        <div className="h-full ">
+          <img src="/images/logo/smile-logo-bg.png" width={400} />
+          <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
+            Happy{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text">
+              Mind
+            </span>
+          </h1>
+        </div>
         <div className="">
-        <h3 className="text-4xl text-center font-semibold mb-8">LOGIN</h3>
+          <h3 className="text-4xl text-center font-semibold mb-8">LOGIN</h3>
           <hr className="my-3 border-2 border-[#F26522] rounded-lg w-full" />
-          <h1 className="text-center m-4">Please enter your username and password</h1>
+          <h1 className="text-center m-4">
+            Please enter your username and password
+          </h1>
           <form onSubmit={handleLogin} className="flex flex-col gap-6">
-            
             <label className="input input-bordered flex items-center gap-2">
-            <svg
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
                 fill="currentColor"
@@ -154,20 +167,21 @@ transition= {Bounce}
             >
               LOGIN
             </button>
-           
           </form>
-           <div className="flex flex-col items-center space-y-2 justify-center m-2">
-            <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span>
-            <Link href="#" className="text-[#F26522] underline ml-2 ">Forgot Password</Link>
-            </div>
-          <div className="flex items-center space-x-1 m-2 ">
-            <hr className=" border-2 border-[#F26522] rounded-lg w-1/2"></hr>
+          <div className="flex flex-col items-center space-y-2 justify-center m-2">
+            {/* <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span> */}
+            <Link href="#" className="text-[#F26522] underline ml-2 ">
+              Forgot Password
+            </Link>
+          </div>
+          {/* <div className="flex items-center space-x-1 m-2 ">
+            <hr className=" border-2 border-[#F26522] rounded-lg w-full"></hr>
             <span className="text-2xl text-[#F26522] font-semibold">Or</span>
             <hr className="  border-2 border-[#F26522] rounded-lg w-1/2" />
-          </div>
+          </div> */}
           <div className="flex justify-center space-x-4">
           
-          <div className="w-[250px] bg-blue-400 h-16  rounded-lg flex items-center justify-start cursor-pointer" >
+          <div className="w-[250px] bg-blue-400 h-16  rounded-lg flex items-center justify-start cursor-pointer" onClick={handleGoogleSignIn}>
           <div className="bg-white h-12 w-12 rounded-lg flex items-center justify-center ml-2">
             <FcGoogle color="white" size={40} />
           </div>
@@ -175,10 +189,9 @@ transition= {Bounce}
           </div>
           
         </div>
+
         </div>
-        
       </div>
-      
     </div>
   );
 }

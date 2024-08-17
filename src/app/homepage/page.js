@@ -21,9 +21,12 @@ export default function page() {
     if (!session) redirect("/");
 
     useEffect(() => {
-      Promise.all([fetchUsers(),fetchUserQuiz()]).then(()=>{
-        setIsLoading(false)
-      })
+      if(session){
+        Promise.all([fetchUsers(),fetchUserQuiz()]).then(()=>{
+          setIsLoading(false)
+        })
+      }
+     
       
     },[]);
   

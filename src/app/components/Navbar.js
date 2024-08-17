@@ -62,7 +62,8 @@ export default function Navbar() {
             <Link href={session ? "/homepage" : "/"}>
               <span className="text-xl tracking-tight">Happy Mind</span>
             </Link>
-            <ul className="hidden lg:flex ml-14 space-x-10">
+            {session?.user && (
+              <ul className="hidden lg:flex ml-14 space-x-10">
               <li  className={`hover:decoration-orange-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 `}>
                 <Link href={session ? "/homepage" : "/login"}>หน้าหลัก</Link>
               </li>
@@ -78,6 +79,8 @@ export default function Navbar() {
                 </Link>
               </li>
             </ul>
+            )}
+            
           </div>
 
           {session?.user ? (
@@ -148,15 +151,10 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="hidden lg:flex justify-center space-x-12 items-center">
-              <Link href="/login" className="py-2 px-3 border rounded-md">
+              <Link href="/login" className="border bg-gradient-to-r from-orange-500 to-orange-800  py-2 px-3 rounded text-white">
                 Sign In
               </Link>
-              <Link
-                href="/register"
-                className="bg-gradient-to-r from-orange-500 to-orange-800  py-2 px-3 rounded text-white"
-              >
-                Create Account
-              </Link>
+            
             </div>
           )}
 
@@ -221,18 +219,11 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex space-x-6">
-                <Link
-                  href={session ? "/login" : "/login"}
-                  className="py-2 px-3 border rounded-md bg-white "
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href={session ? "/register" : "/login"}
-                  className="bg-gradient-to-r from-orange-500 to-orange-800  py-2 px-3 rounded text-white"
-                >
-                  Create Account
-                </Link>
+               <Link href="/login" className="border bg-gradient-to-r from-orange-500 to-orange-800  py-2 px-3 rounded text-white">
+                Log In
+              </Link>
+            
+                
               </div>
             )}
           </div>
