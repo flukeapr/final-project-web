@@ -31,7 +31,7 @@ export function UserProvider({ children }) {
     const fetchUserQuiz = async () => {
         console.log('Fetching User Quiz');
         try {
-            const result = await fetch('/api/userquiz')
+            const result = await fetch('/api/userquizView')
             const data = await result.json()
             setAllQuiz(data)
         } catch (error) {

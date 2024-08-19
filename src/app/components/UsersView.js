@@ -95,7 +95,7 @@ export default function UsersView({isLoading}) {
               >
                 
 
-                <img src={user.image} className=" absolute -top-10 left-20" />
+                <img src={user.image} className=" absolute -top-8 left-20 rounded-full w-16 h-16 border-2 " />
                 
                 {user.total >0 && user.total < 50 && <div className="absolute top-4 right-2  badge  border border-neutral-300">ผู้มีความเสี่ยงน้อย</div>}
                 {user.total === null || user.total===0 && <div className="absolute top-4 right-2  badge  border border-neutral-300">ยังไม่ได้ประเมิน</div>}

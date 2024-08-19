@@ -17,11 +17,11 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
   return (
     <>
     <div className='my-2 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1>แบบทดสอบก่อน</h1>
-    <hr className="  border-2 border-[#F26522] rounded-lg w-1/2" />
+    <h1  className='font-semibold'>แบบทดสอบก่อน</h1>
+    <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
     </div>
     <div>
-      {preQuizRq3 && (<span className="badge border-2">• {preQuizRq3.total/3<=10 && preQuizRq3.total/3 >=7 ? "พลังใจมาก" : preQuizRq3.total/3<=6 && preQuizRq3.total/3 >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span>
+      {preQuizRq3 && (<span className="badge border-2 badge-lg">• {preQuizRq3.total/3<=10 && preQuizRq3.total/3 >=7 ? "พลังใจมาก" : preQuizRq3.total/3<=6 && preQuizRq3.total/3 >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span>
 )}
      
     </div>
@@ -31,7 +31,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
         return quiz.quizType==="PRE"
     }).map((quiz, index) => (
       
-      <div key={quiz.id} className={`w-10/12 p-4 mt-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-orange-500 to-neutral-300 ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
+      <div key={quiz.id} className={`w-10/12 p-4 mt-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-blue-500 via-sky-400 to-green-400 ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
         <div className='h-20 flex items-center justify-around '>
             <div className={`flex flex-col flex-wrap space-y-2 ${selectQuiz === quiz.id ? 'text-white' : 'text-black'}`}>
             <h1 className='text-md'>{quiz?.name} | {quiz.answers.length} คำถาม</h1>
@@ -41,7 +41,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
 
             </div>
             <div className='rounded-full bg-gray-100 p-2 w-14 h-14 flex items-center justify-center'>
-            <FileMinus size={35} color={selectQuiz === quiz.id ? '#f97316' : 'black'} />
+            <FileMinus size={35} color={selectQuiz === quiz.id ? '#3b82f6' : 'black'} />
 
             </div>
             
@@ -52,11 +52,11 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
         
     ))}
   <div className='my-4 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1>แบบทดสอบหลัง</h1>
-    <hr className="  border-2 border-[#F26522] rounded-lg w-1/2" />
+    <h1 className='font-semibold'>แบบทดสอบหลัง</h1>
+    <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
     </div>
     <div>
-      {postQuizRq3 && (<span className="badge border-2">• {postQuizRq3.total/3<=10 && postQuizRq3.total/3 >=7 ? "พลังใจมาก" : postQuizRq3.total/3<=6 && postQuizRq3.total/3 >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span>
+      {postQuizRq3 && (<span className="badge border-2 badge-lg">• {postQuizRq3.total/3<=10 && postQuizRq3.total/3 >=7 ? "พลังใจมาก" : postQuizRq3.total/3<=6 && postQuizRq3.total/3 >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span>
 )}
      
     </div>
@@ -64,7 +64,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
         return quiz.quizType==="POST"
     }).map((quiz, index) => (
       
-      <div key={quiz.id} className={`w-10/12 p-4 mt-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-orange-500 to-neutral-300  ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
+      <div key={quiz.id} className={`w-10/12 p-4 mt-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-blue-500 via-sky-400 to-green-400 ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
         <div className='h-20 flex items-center justify-around '>
             <div className={`flex flex-col ${selectQuiz === quiz.id ? 'text-white' : 'text-black'}`}>
             <h1 className='text-md'>{quiz?.name} | {quiz.answers.length} คำถาม</h1>
@@ -72,7 +72,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
 
             </div>
             <div className='rounded-full bg-gray-100 p-2 w-14 h-14 flex items-center justify-center'>
-            <FileMinus size={35} color={selectQuiz === quiz.id ? '#f97316' : 'black'} />
+            <FileMinus size={35} color={selectQuiz === quiz.id ? '#3b82f6' : 'black'} />
 
             </div>
         </div>

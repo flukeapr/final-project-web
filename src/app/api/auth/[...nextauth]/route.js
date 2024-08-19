@@ -17,7 +17,7 @@ export const authOptions = {
       async authorize(credentials, req) {
         try {
           const { email, password } = credentials
-          const res = await fetch(process.env.NEXT_PUBLIC_servereURL + "/api/auth/login", {
+          const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/auth/login", {
             method: "POST",
             body: JSON.stringify({ email, password }),
             headers: { "Content-Type": "application/json" },

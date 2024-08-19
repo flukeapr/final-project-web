@@ -24,6 +24,10 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if(!email || !password){
+      toast.error("กรุณากรอกข้อมูลให้ครบ");
+      return
+    }
     try {
       const res = await signIn("credentials", {
         email,
@@ -44,7 +48,7 @@ export default function LoginPage() {
               toast.success("เข้าสู่ระบบสําเร็จ");
               setTimeout(() => {
                 router.replace("/homepage");
-              }, 2500);
+              }, 1500);
             } else {
               toast.error("คุณไม่มีสิทธิ์เข้าใช้งาน");
               setTimeout(async() => {
@@ -106,19 +110,19 @@ export default function LoginPage() {
       />
       <div className="flex  justify-around items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
         <div className="h-full ">
-          <img src="/images/logo/smile-logo-bg.png" width={400} />
+          <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
           <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
             Happy{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-blue-500 to-sky-400 text-transparent bg-clip-text">
               Mind
             </span>
           </h1>
         </div>
         <div className="">
           <h3 className="text-4xl text-center font-semibold mb-8">LOGIN</h3>
-          <hr className="my-3 border-2 border-[#F26522] rounded-lg w-full" />
+          <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
           <h1 className="text-center m-4">
-            Please enter your username and password
+            Please enter your email and password
           </h1>
           <form onSubmit={handleLogin} className="flex flex-col gap-6">
             <label className="input input-bordered flex items-center gap-2">
@@ -132,11 +136,13 @@ export default function LoginPage() {
                 <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
               </svg>
               <input
-                type="text"
+                type="email"
                 className="grow"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoFocus
+                
               />
             </label>
             <label className="input input-bordered flex items-center gap-2">
@@ -158,20 +164,24 @@ export default function LoginPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
 
             <button
               type="submit"
-              className="w-full h-12 bg-[#F26522] p-2 my-2 rounded-md text-white font-semibold text-xl"
+              className="w-full h-12 bg-gradient-to-r from-blue-500 to-green-400 p-2 my-2 rounded-md text-white font-semibold text-xl"
             >
               LOGIN
             </button>
           </form>
           <div className="flex flex-col items-center space-y-2 justify-center m-2">
             {/* <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span> */}
-            <Link href="#" className="text-[#F26522] underline ml-2 ">
+            <Link href="#" className="text-[#3b82f6] underline ml-2 ">
               Forgot Password
+            </Link>
+            <Link href={'/'}>
+             back to main
             </Link>
           </div>
           {/* <div className="flex items-center space-x-1 m-2 ">
@@ -181,12 +191,12 @@ export default function LoginPage() {
           </div> */}
           <div className="flex justify-center space-x-4">
           
-          <div className="w-[250px] bg-blue-400 h-16  rounded-lg flex items-center justify-start cursor-pointer" onClick={handleGoogleSignIn}>
+          {/* <div className="w-[250px] bg-blue-400 h-16  rounded-lg flex items-center justify-start cursor-pointer" onClick={handleGoogleSignIn}>
           <div className="bg-white h-12 w-12 rounded-lg flex items-center justify-center ml-2">
             <FcGoogle color="white" size={40} />
           </div>
             <h1 className="text-white ml-2" >Sign in With Google</h1>
-          </div>
+          </div> */}
           
         </div>
 

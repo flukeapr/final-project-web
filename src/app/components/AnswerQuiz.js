@@ -6,7 +6,7 @@ export default function AnswerQuiz({quiz}) {
     const totalOptions = 4;
   return (
     <div className='w-full flex flex-col items-center h-screen overflow-y-scroll   p-4'>
-        <h1 className='text-3xl text-slate-900 '>{quiz?.name}</h1>
+        <h1 className='text-3xl text-slate-900 font-semibold '>{quiz?.name}</h1>
         {quiz?.answers?.length > 0 && quiz?.question?.length > 0 && (
         <>
           
@@ -14,7 +14,7 @@ export default function AnswerQuiz({quiz}) {
           
           {quiz.question.map((question, qIndex) => (
             <div key={qIndex} className='mb-4 flex flex-col items-center '>
-              <h2  className='text-md m-4  text-orange-600'>{question}</h2>
+              <h2  className='text-md m-4   text-blue-600'>{question}</h2>
               <div className={`flex flex-row items-center justify-center bg-[#C5C5C59e] ${quiz?.quizId === 6|| quiz?.quizId===7 ? 'w-80' : 'w-full'} h-24 rounded-2xl`}>
               {[...Array(quiz?.quizId === 6|| quiz?.quizId===7 ? 5 : 10)].map((_, oIndex) => {
                   

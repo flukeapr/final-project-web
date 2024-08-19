@@ -134,7 +134,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
           )}
       </div>
 
-      <div className="flex items-center h-[10%]  w-full">
+      <div className="flex items-center h-[10%] p-2  w-full">
         <input
           type="text"
           placeholder="Type here"
@@ -144,7 +144,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
         />
         <button className="btn bg-white w-[10%]">
-          <SendHorizontal color="#f97316" onClick={handleSendMessage} />
+          <SendHorizontal color="#3b82f6" onClick={handleSendMessage} />
         </button>
       </div>
     </>

@@ -43,3 +43,20 @@ export async function PUT(req,{params}) {
         return NextResponse.json({ error: error.message }, { status: 500 })
     }
 }
+
+export async function DELETE(req,{params}) {
+    try {
+        const {id} = params;
+        const pathUrl = `./public/profile/uploads/user-${id}.jpg`
+        if(!fs.access(pathUrl)){
+            await fs.unlink(`/public/profile/uploads/user-${id}.png`);
+            return NextResponse.json({ message: "success" }, { status: 200 });
+        }
+        
+        
+        await fs.unlink(pathUrl);
+        return NextResponse.json({ message: "success" }, { status: 200 });  
+    } catch (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+}

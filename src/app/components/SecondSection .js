@@ -30,18 +30,18 @@ export default function SecondSection (){
         <div className='mt-20'>
         <h2 className="text-3xl sm:text-5xl lg:text-6xl text-center mt-6 tracking-wide">
                 What 
-                <span className="bg-gradient-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text ">{" "}mental illnesses </span>
+                <span className="bg-gradient-to-r from-blue-500 to-green-400 text-transparent bg-clip-text ">{" "}mental illnesses </span>
                 are found?
                 
           </h2>
           <div className="flex flex-wrap justify-center mt-10">
             <motion.div whileInView={{opacity: 1,x:0}} initial={{opacity:0,x:-100}} transition={{duration:0.5}} className="p-2 w-full lg:w-1/2">
-                <img src='/images/slide/MH2.jpg' className='rounded-2xl border-4' alt="#"/>
+                <img src='/images/slide/MH4.jpg' className='rounded-2xl border-4' alt="#"/>
             </motion.div>
             <div className="pt-8 w-full lg:w-1/2  ">
                 {MetalItems.map((item, index) => (
                     <motion.div whileInView={{opacity: 1,x:0}} initial={{opacity:0,x:100}} transition={{duration:0.5}} key={index} className="flex mb-12">
-                        <div className="text-red-400 mx-6 bg-neutral-300 h-10 w-10 p-2 justify-center items-center rounded-full">
+                        <div className="text-blue-400 mx-6 bg-white shadow-md h-10 w-10 p-2 justify-center items-center rounded-full">
                             <BrainCircuit />
                         </div>
                         <div>

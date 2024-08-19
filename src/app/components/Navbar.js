@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
   const [preview , setPreview] = useState(null)
+  const pathname = usePathname()
   useEffect(() => {
     if (session?.user) {
       setName(session.user.name);
@@ -58,28 +60,32 @@ export default function Navbar() {
       <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0 cursor-pointer">
-            <img src="/images/logo/smile.png" />
+            <img src="/images/logo/smile-logo-blue-rm.png" />
             <Link href={session ? "/homepage" : "/"}>
               <span className="text-xl tracking-tight">Happy Mind</span>
             </Link>
-            {session?.user && (
-              <ul className="hidden lg:flex ml-14 space-x-10">
-              <li  className={`hover:decoration-orange-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 `}>
+            
+            <ul className="hidden lg:flex ml-14 space-x-10">
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/homepage" ? "text-blue-500" : ""}`}>
                 <Link href={session ? "/homepage" : "/login"}>หน้าหลัก</Link>
-              </li>
-              <li  className="hover:decoration-orange-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4">
+            </li>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/result" ? "text-blue-500" : ""}`}>
                 <Link href={session ? "/result" : "/login"}>ผลลัพธ์</Link>
-              </li>
-              <li  className="hover:decoration-orange-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4">
+            </li>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/edituser" ? "text-blue-500" : ""}`}>
                 <Link href={session ? "/edituser" : "/login"}>จัดการผู้ใช้</Link>
-              </li>
-              <li  className="hover:decoration-orange-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4">
-                <Link href={session ? "/support" : "/login"} >
-                  ศูนย์การช่วยเหลือ
-                </Link>
-              </li>
-            </ul>
-            )}
+            </li>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/media" ? "text-blue-500" : ""}`}>
+                <Link href={session ? "/media" : "/login"}>สื่อความรู้</Link>
+            </li>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/community" ? "text-blue-500" : ""}`}>
+                <Link href={session ? "/community" : "/login"}>โพสต์ชุมชน</Link>
+            </li>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/support" ? "text-blue-500" : ""}`}>
+                <Link href={session ? "/support" : "/login"}>ศูนย์การช่วยเหลือ</Link>
+            </li>
+          </ul>
+           
             
           </div>
 
@@ -102,7 +108,7 @@ export default function Navbar() {
                       d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                     />
                   </svg>
-                  <span className="badge badge-xs bg-orange-500 indicator-item"></span>
+                  <span className="badge badge-xs bg-blue-500 indicator-item"></span>
                 </div>
               </button>
               {/* dropdown menu profile */}
@@ -138,7 +144,7 @@ export default function Navbar() {
                   <li>
                     <a
                       onClick={() => signOut()}
-                      className="bg-gradient-to-r from-orange-500 to-orange-800 text-white  "
+                      className="bg-gradient-to-r from-blue-500 to-sky-400 text-white  "
                     >
                       <span className="mr-2  ">
                         <LogOut size={20} />
@@ -151,7 +157,7 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="hidden lg:flex justify-center space-x-12 items-center">
-              <Link href="/login" className="border bg-gradient-to-r from-orange-500 to-orange-800  py-2 px-3 rounded text-white">
+              <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded-lg text-[18px] text-white">
                 Sign In
               </Link>
             
@@ -209,7 +215,7 @@ export default function Navbar() {
 
                 <button
                   onClick={() => signOut()}
-                  className="bg-gradient-to-r from-orange-500 to-orange-800 text-white  py-2 px-3 rounded flex"
+                  className="bg-gradient-to-r from-blue-500 to-sky-400 text-white  py-2 px-3 rounded flex"
                 >
                   <span className="mr-2">
                     <LogOut size={20} />
@@ -219,8 +225,8 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex space-x-6">
-               <Link href="/login" className="border bg-gradient-to-r from-orange-500 to-orange-800  py-2 px-3 rounded text-white">
-                Log In
+               <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white">
+                Sign In
               </Link>
             
                 
@@ -297,7 +303,7 @@ export default function Navbar() {
           {/* submit and cancel button */}
           <div className="flex justify-end space-x-2">
             <button
-              className="btn btn-sm btn-outline text-md"
+              className="btn btn-sm btn-outline text-lg"
               onClick={() => {document.getElementById("profile_modal").close()
                 setPreview(null)
               }}
@@ -305,7 +311,7 @@ export default function Navbar() {
               Cancel
             </button>
             <button
-              className="btn btn-sm btn-outline bg-[#f97316] text-white text-md"
+              className="btn btn-sm btn-outline bg-blue-500 text-white text-lg"
               onClick={() => handleChangeProfile()}
             >
               Save Changes

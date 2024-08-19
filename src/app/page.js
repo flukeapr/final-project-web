@@ -25,7 +25,7 @@ export default function Home() {
     <Navbar/>
     
     <main  className="max-w-7xl mx-auto pt-20 px-6">
-   
+  
     <HeroSection/>
     <SecondSection/>
     <CareSection/>
