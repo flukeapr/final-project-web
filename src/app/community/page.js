@@ -135,13 +135,49 @@ export default function Community() {
         </h1>
         <div className="w-full flex justify-around ">
           <div className="w-1/4 h-[500px] bg-gradient-to-r from-blue-500 to-sky-400 rounded-md shadow-md drop-shadow-lg lg:block space-y-4 flex flex-col p-4">
+            
+            <div className="flex items-end justify-start">
             <h1 className="text-lg text-white">ค้นหา</h1>
+          <div className=" dropdown dropdown-start">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-circle btn-ghost btn-xs text-info"
+            >
+              <svg
+                color="white"
+                tabIndex={0}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="h-4 w-4 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <div
+              tabIndex={0}
+              className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-64 shadow"
+            >
+              <div tabIndex={0} className="card-body">
+                <h2 className="card-title">คำอธิบาย</h2>
+                <p>ค้นหาโพสต์ที่ต้องการจากเนื้อหาภายในโพสต์นั้นๆ</p>
+              </div>
+            </div>
+          </div>
+          </div>
             <input
               className="w-full h-12 bg-white rounded-md shadow-md p-2"
               placeholder="ค้นหาโพสต์"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            
 
             <div className="mt-4 space-y-4">
               <h1 className="text-lg text-white">เรียงตาม</h1>

@@ -13,7 +13,8 @@ export default function EditUserModal({ initialUser }) {
   const [users, setUsers] = useState(initialUser);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [password, setPassword] = useState('');
+  const [pin , setPin] = useState('');
   const [isAdmin, setIsAdmin] = useState(true);
   const [isUser, setIsUser] = useState(true);
   const [image, setImage] = useState(null);
@@ -34,6 +35,9 @@ export default function EditUserModal({ initialUser }) {
     setRole(0);
     setPreview(null);
     setImage(null);
+    setImgUpload(null);
+    setPassword('');
+    setPin('');
   };
   const handleSelectedUser = (user) => {
     setUserId(user.id);
@@ -129,10 +133,68 @@ export default function EditUserModal({ initialUser }) {
     });
   };
 
+  const handleCreate = async () => {
+    
+    if(pin.length > 6){
+      toast.error("รหัส PIN ต้องมีความยาวไม่เกิน 6 ตัวอักษร");
+      return
+    }
+    if(!name || !email || !password){
+      toast.error("กรุณากรอกข้อมูลให้ครบ");
+      return
+    }
+    document.getElementById("loadingModal").showModal();
+    try {
+      
+      const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({
+          name,
+          email,
+          password,
+          role,
+        })
+      })
+      const data = await res.json();
+      let id 
+      if(res.ok){
+         id = data.id;
+      }
+
+      const resPin = await fetch(process.env.NEXT_PUBLIC_serverURL + `/api/pin/${id}`, {
+        method:"PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({
+          pin
+        })
+
+      })
+
+      if(res.ok && resPin.ok){
+        document.getElementById("loadingModal").close();
+        document.getElementById("newProfileModal").close();
+        toast.success("สร้างบัญชีสําเร็จ");
+        clearSelectedUser();
+        refreshUsers();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("สร้างบัญชีไม่สําเร็จ");
+    }
+  }
+
   return (
    <>
     <div className="flex flex-row w-full h-auto">
         <div className="w-1/4 h-[500px] bg-gradient-to-br from-blue-500  to-sky-400 rounded-md shadow-md p-6">
+        <button className="btn bg-white w-full text-blue-500 text-lg" onClick={()=>{
+          document.getElementById("newProfileModal").showModal()
+        }}>สร้างบัญชีใหม่</button>
           <h1 className="text-lg text-white my-2">ค้นหาผู้ใช้</h1>
           <input
             type="text"
@@ -165,6 +227,7 @@ export default function EditUserModal({ initialUser }) {
               </label>
             </div>
           </div>
+          {/* Dropdown more details */}
           <div className="flex items-end justify-end">
           <div className=" dropdown dropdown-end">
             <div
@@ -312,7 +375,7 @@ export default function EditUserModal({ initialUser }) {
               <hr />
               <div className="flex flex-row justify-between py-2">
                 <h1>อีเมลล์</h1>
-                <input className=" input input-bordered w-1/2 " value={email} />
+                <input className=" input input-bordered w-1/2 " value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <hr />
               <div className="flex flex-row justify-between py-2">
@@ -375,12 +438,104 @@ export default function EditUserModal({ initialUser }) {
           </div>
         </div>
       </dialog>
+      {/* loading modal */}
       <dialog id="loadingModal" className="modal">
         <div className="modal-box w-auto flex items-center justify-center">
           <span className="loading loading-dots loading-lg bg-blue-500"></span>
         </div>
       </dialog>
-     
+      {/* modal insert newProfile */}
+      <dialog id="newProfileModal" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={() => {
+                clearSelectedUser();
+              }}
+            >
+              ✕
+            </button>
+          </form>
+         
+          {/* detail profile */}
+          <div className="flex flex-col p-4 mt-4 ">
+           <h1 className="mb-2">สร้างบัญชีผู้ใช้ใหม่</h1>
+
+            {/* form group detail */}
+            <div className="flex flex-col space-y-2">
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1>ชื่อ</h1>
+                <input
+                  className=" input input-bordered w-1/2  "
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </div>
+
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1>อีเมลล์</h1>
+                <input className=" input input-bordered w-1/2 " type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1>รหัสผ่าน</h1>
+                <input className=" input input-bordered w-1/2 " type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </div>
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <div className="flex flex-col">
+                <h1>รหัสผ่าน PIN</h1>
+                <p className="text-sm">*ถ้าหากใช้บนแอพลิเคชั่น <br/> ตัวเลข 6 หลัก*</p>
+                </div>
+              
+                <input className=" input input-bordered w-1/2 " type="number"   value={pin} onChange={(e) => setPin(e.target.value)} />
+              </div>
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1>กำหนดสิทธิ์</h1>
+                <select
+                  className="select select-bordered w-1/2 max-w-xs"
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option disabled selected>
+                    เลือกสิทธิ์ผู้ใช้
+                  </option>
+                  <option value={1}>Admin</option>
+                  <option value={2}>User</option>
+                </select>
+              </div>
+
+              
+             
+              <hr />
+            </div>
+          </div>
+          {/* submit and cancel button */}
+          <div className="flex justify-end space-x-2">
+            <button
+              className="btn btn-sm btn-outline text-lg"
+              onClick={() => {
+                document.getElementById("newProfileModal").close();
+                
+                clearSelectedUser();
+              }}
+            >
+              ยกเลิก
+            </button>
+            <button
+              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              onClick={handleCreate}
+            >
+              บันทึก
+            </button>
+          </div>
+        </div>
+      </dialog>
    </>
   );
 }

@@ -68,7 +68,7 @@ export async function DELETE(req,{params}) {
                 await fs.unlink(pathPng);
             } catch (err) {
                
-                return NextResponse.json({ message: "File not found" }, { status: 404 });
+                return NextResponse.json({ message: "success" }, { status: 200 });
             }
         }
 

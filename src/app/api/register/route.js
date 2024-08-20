@@ -32,11 +32,12 @@ export async function POST(req) {
       `INSERT INTO users (name, email, password, role_id, image) VALUES (?, ?, ?, ?, ?)`,
       [name, email, hashedPassword, role, avatar]
     );
-    const id  = await  query(`SELECT id FROM users WHERE email = ?`, [email]);
+    const resultId  = await  query(`SELECT id FROM users WHERE email = ?`, [email]);
+    const id = resultId[0];
 
-    await query(`INSERT INTO userscore (userId) VALUES (?)`, [id[0].id]);
+    await query(`INSERT INTO userscore (userId) VALUES (?)`, [id.id]);
 
-    return NextResponse.json({ message: "User created successfully" ,data:id}, { status: 201 });
+    return NextResponse.json({ message: "User created successfully" , id:id.id}, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
     
