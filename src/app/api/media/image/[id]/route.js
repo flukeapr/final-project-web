@@ -52,18 +52,34 @@ export async function PUT(req,{params}) {
 export async function DELETE(req,{params}) {
     try {
         const {id} = params;
-        const pathUrl = `./public/media/uploads/media-${id}.jpg`
+        
 
+        const pathJpg = `./public/media/uploads/media-${id}.jpg`;
+        const pathPng = `./public/media/uploads/media-${id}.png`;
 
-        if(!fs.access(pathUrl)){
-            await fs.unlink(`./public/media/uploads/media-${id}.png`);
-            return NextResponse.json({ message: "success" }, { status: 200 });
+        
+        try {
+            await fs.access(pathJpg);
+            await fs.unlink(pathJpg);
+        } catch (err) {
+            
+            try {
+                await fs.access(pathPng);
+                await fs.unlink(pathPng);
+            } catch (err) {
+               
+                return NextResponse.json({ message: "File not found" }, { status: 404 });
+            }
         }
+
+        return NextResponse.json({ message: "success" }, { status: 200 });
         
         
-        await fs.unlink(pathUrl);
-        return NextResponse.json({ message: "success" }, { status: 200 });  
+       
+         
     } catch (error) {
+        console.log(error)
         return NextResponse.json({ error: error.message }, { status: 500 })
+        
     }
 }

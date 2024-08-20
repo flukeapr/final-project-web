@@ -52,7 +52,7 @@ export default function EditMedia({ initialMedia }) {
             const formData = new FormData();
             formData.append("image", imgUpload);
             const resImage = await fetch(
-              `${process.env.NEXT_PUBLIC_serverURL}/api/media/image-com/${mediaId}`,
+              `${process.env.NEXT_PUBLIC_serverURL}/api/media/image/${mediaId}`,
               {
                 method: "PUT",
                 body: formData,
@@ -152,7 +152,7 @@ export default function EditMedia({ initialMedia }) {
             const formData = new FormData();
             formData.append("image", imgUpload);
             const resImage = await fetch(
-              `${process.env.NEXT_PUBLIC_serverURL}/api/media/image-com/${id}`,
+              `${process.env.NEXT_PUBLIC_serverURL}/api/media/image/${id}`,
               {
                 method: "PUT",
                 body: formData,

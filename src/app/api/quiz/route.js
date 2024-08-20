@@ -14,3 +14,17 @@ export async function GET(req){
     }
     
 }
+
+export async function POST(req){
+    try {
+        const body = await req.json();
+        const {userId ,quizId ,quizType,answers} = body;
+       
+        await query(`INSERT INTO userquiz (userId, quizId, quizType, answers) VALUES (?, ?, ?, ?)`, [userId, quizId, quizType, JSON.stringify(answers)]);
+        return NextResponse.json({ message: "Quiz created successfully" }, { status: 201 });
+
+
+    } catch (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}
