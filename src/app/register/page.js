@@ -70,7 +70,7 @@ export default function RegisterPage() {
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

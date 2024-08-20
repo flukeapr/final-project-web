@@ -36,7 +36,7 @@ export async function POST(req) {
 
     await query(`INSERT INTO userscore (userId) VALUES (?)`, [id[0].id]);
 
-    return NextResponse.json({ message: "User created successfully" }, { status: 201 });
+    return NextResponse.json({ message: "User created successfully" ,data:id}, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
     

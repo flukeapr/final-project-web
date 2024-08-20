@@ -3,11 +3,13 @@ import "./globals.css";
 import  SessionProvider  from './components/SessionProvider';
 import { getServerSession } from "next-auth";
 import { UserProvider } from "./context/UsersContext";
+import { Kanit } from "next/font/google";
+import { Prompt } from "next/font/google";
 
 
+const prompt = Prompt({ subsets: ["latin"],display: "swap", weight: ["300"] });
 
-
-
+const kanit = Kanit({ subsets: ["latin"],display: "swap", weight: ["300"] });
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const session = getServerSession();
   return (
-    <html lang="en">
+    <html lang="en" className={kanit.className}>
       <head>
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
@@ -30,7 +32,7 @@ export default function RootLayout({ children }) {
           <meta name="msapplication-TileColor" content="#da532c"/>
           <meta name="theme-color" content="#ffffff"/>
       </head>
-      <body className={inter.className}>
+      <body >
       
         <SessionProvider session={session}>
           <UserProvider>
@@ -38,6 +40,7 @@ export default function RootLayout({ children }) {
           </UserProvider>
         </SessionProvider>
         </body>
+        
     </html>
   );
 }

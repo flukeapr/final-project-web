@@ -8,15 +8,17 @@ import AnswerQuiz from '@/app/components/AnswerQuiz'
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useUserContext } from '@/app/context/UsersContext'
+import { useSession } from "next-auth/react";
 
 export default function ResultUser({params}) {
   const {id} = params
- 
+  const { data: session } = useSession();
+  if (!session) redirect("/");
   const [selectedQuiz, setSelectedQuiz] = useState([])
   const {users ,setUsers ,allQuiz,fetchUserQuiz } = useUserContext();
   const user = users.find(user => user.id === Number(id))
   const usersQuiz = allQuiz.filter(quiz => quiz.userId === Number(id) )
-  
+  const preQuiz = usersQuiz.filter((quiz) => quiz.quizType === "PRE")
 
   
 
@@ -25,7 +27,7 @@ export default function ResultUser({params}) {
 
 
   // const fetchUsersQuizAndUserScoreView = async () => {
-  //     const response = await fetch(`/api/userquiz/${id}`)
+  //     const response = await fetch(`/api/userquizView/${id}`)
   //     const data = await response.json()
   //     setUsersQuiz(data)
   //     const response2 = await fetch(`/api/userscoreView/${id}`)
@@ -91,19 +93,22 @@ export default function ResultUser({params}) {
                   <h1 className='text-md mt-2'>{user?.email}</h1>
                   <div className='space-y-2'>
 
-                  <button  className='btn border-2 border-neutral-300 w-full'>ผลลัพธ์แบบทดสอบ</button>
+                  <button  className='btn border-2 border-neutral-300 w-full'>เปรียบเทียบแบบทดสอบ</button>
                   <button className={`btn w-full ${user?.status === "follow" ? "btn-success text-white" : "btn-outline text-black"}`} onClick={() => handleUpdateStatus(user?.id)}>{user?.status === "follow" ? "ติดตามแล้ว" : "ติดตาม"}</button>
                   </div>
             </div>
               
         
         </div>
+       
         <ThumbnailQuiz quiz={usersQuiz} onQuizSelected={handleQuizSelected}/>
+
+        
 
         
       </div>
     </div>
-    <div className={`w-3/5 max-sm:w-full ${selectedQuiz.length === 0 ? " bg-white" : "bg-[#F2652236]" } `}>
+    <div className={`w-3/5 max-sm:w-full shadow-lg ${selectedQuiz.length === 0 ? " bg-white" : "bg-white" } `}>
       {selectedQuiz.length === 0 ? (
         <div className='flex justify-center w-full h-full items-center'>
           <h1 className="text-3xl font-bold text-center">กรุณาเลือกแบบทดสอบ</h1>

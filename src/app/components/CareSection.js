@@ -37,7 +37,7 @@ export default function CareSection() {
         <div className='mt-20'>
     <motion.h2 whileInView={{opacity: 1,x:0}} initial={{opacity:0,x:-100}} transition={{duration:0.5}} className="text-3xl sm:text-5xl lg:text-6xl text-center mt-6 tracking-wide">
             How to  
-            <span className="bg-gradient-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text ">{" "}take care </span>
+            <span className="bg-gradient-to-r from-blue-500 to-green-400 text-transparent bg-clip-text ">{" "}take care </span>
             of your mental health 
             
       </motion.h2>
@@ -45,7 +45,7 @@ export default function CareSection() {
         {CareMental.map((feature, index) => (
           <motion.div whileInView={{opacity: 1,x:0}} initial={{opacity:0,x:100}} transition={{duration:0.5}} key={index} className='w-full sm:w-1/2 lg:w-1/3  max-sm:h-80  '>
             <div className='flex'>
-                <div className='flex mx-6 h-10 w-10 p-2 bg-neutral-300 text-red-400 justify-center items-center rounded-full'>
+                <div className='flex mx-6 h-10 w-10 p-2 bg-white shadow-md text-blue-400 justify-center items-center rounded-full'>
                     {feature.icon}
                 </div>
                 <div>
