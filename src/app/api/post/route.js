@@ -20,7 +20,9 @@ export async function POST(req){
         if(!text || !userId) throw Error("text and userId are required")
 
         await query(`INSERT INTO post (text, userId) VALUES (?, ?)`, [text, userId]);
-        return NextResponse.json({ message: "Post created successfully" }, { status: 201});
+        const result = await query(`SELECT post_id FROM post WHERE userId = ? AND text = ?  LIMIT 1`, [userId, text]);
+        const id = result[0].post_id
+        return NextResponse.json({ message: "Post created successfully", id: id}, { status: 201});
 
 
     } catch (error) {

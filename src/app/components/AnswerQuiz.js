@@ -5,7 +5,7 @@ export default function AnswerQuiz({quiz}) {
    
     const totalOptions = 4;
   return (
-    <div className='w-full flex flex-col items-center h-screen overflow-y-scroll   p-4'>
+    <div className='w-full flex flex-col items-center h-full overflow-y-scroll   p-4'>
         <h1 className='text-3xl text-slate-900 font-semibold '>{quiz?.name}</h1>
         {quiz?.answers?.length > 0 && quiz?.question?.length > 0 && (
         <>

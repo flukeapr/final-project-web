@@ -1,5 +1,5 @@
 "use client";
-import { useState , useEffect } from "react";
+import { useState , useEffect ,useRef } from "react";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import { SquarePen, Trash2,ArrowBigUp } from "lucide-react";
 import Swal from "sweetalert2";
@@ -15,6 +15,7 @@ export default function EditMedia({ initialMedia }) {
   const [imgUpload, setImgUpload] = useState(null);
   const [search , setSearch] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  
 
   const SelectMedia = (media) => {
     setMediaId(media.id);
@@ -204,7 +205,7 @@ export default function EditMedia({ initialMedia }) {
 
   return (
     <>
-    <div className="w-1/4 h-[500px] bg-gradient-to-br from-blue-500  to-sky-400 rounded-md shadow-md p-6 mt-4 max-sm:hidden sm:hidden lg:block">
+    <div className="w-1/4 h-[200px] bg-gradient-to-r from-blue-500 to-sky-400 rounded-md shadow-md p-6 mt-4 max-sm:hidden sm:hidden lg:block">
       <div className="w-full flex flex-col ">
         <button className="btn bg-white w-full text-blue-500 tracking-wider text-lg" onClick={()=> document.getElementById("newMedia").showModal()}>เพิ่มสื่อใหม่</button>
       <div className="space-y-2 mt-4">
@@ -220,7 +221,7 @@ export default function EditMedia({ initialMedia }) {
               key={item.id}
               className="lg:w-full  lg:h-full flex flex-col items-center justify-around m-4 p-4 shadow-lg rounded-md drop-shadow-lg max-sm:w-full max-sm:h-1/5 max-sm:justify-center sm:w-full sm:h-1/5 "
             >
-              <h1 className="text-lg tracking-wide font-medium">{item.title}</h1>
+              <h1 className="text-lg tracking-normal font-medium">{item.title}</h1>
               <div className="lg:w-full max-sm:w-full">
                 <a href={item.url} target="_blank">
                 <img

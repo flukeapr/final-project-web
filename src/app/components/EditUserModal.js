@@ -15,8 +15,8 @@ export default function EditUserModal({ initialUser }) {
   const [search, setSearch] = useState("");
   const [password, setPassword] = useState('');
   const [pin , setPin] = useState('');
-  const [isAdmin, setIsAdmin] = useState(true);
-  const [isUser, setIsUser] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isUser, setIsUser] = useState(false);
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -191,10 +191,10 @@ export default function EditUserModal({ initialUser }) {
   return (
    <>
     <div className="flex flex-row w-full h-auto">
-        <div className="w-1/4 h-[500px] bg-gradient-to-br from-blue-500  to-sky-400 rounded-md shadow-md p-6">
-        <button className="btn bg-white w-full text-blue-500 text-lg" onClick={()=>{
+        <div className="w-1/4 h-[500px] bg-gradient-to-r from-blue-500  to-sky-400 rounded-md shadow-md p-6">
+        {/* <button className="btn bg-white w-full text-blue-500 text-lg" onClick={()=>{
           document.getElementById("newProfileModal").showModal()
-        }}>สร้างบัญชีใหม่</button>
+        }}>สร้างบัญชีใหม่</button> */}
           <h1 className="text-lg text-white my-2">ค้นหาผู้ใช้</h1>
           <input
             type="text"
@@ -206,10 +206,10 @@ export default function EditUserModal({ initialUser }) {
             <h1 className="text-lg text-white">ค้นหาตามกลุ่มผู้ใช้</h1>
             <div className="form-control rounded-md bg-white p-2">
               <label className="label cursor-pointer ">
-                <span className="label-text text-blue-500 text-md">Admin</span>
+                <span className="label-text  text-md">Admin</span>
                 <input
                   type="checkbox"
-                  defaultChecked
+                  
                   onChange={() => setIsAdmin(!isAdmin)}
                   className="checkbox bg-white"
                 />
@@ -217,10 +217,10 @@ export default function EditUserModal({ initialUser }) {
             </div>
             <div className="form-control rounded-md bg-white p-2">
               <label className="label cursor-pointer">
-                <span className="label-text text-blue-500 text-md">User</span>
+                <span className="label-text  text-md">User</span>
                 <input
                   type="checkbox"
-                  defaultChecked
+                  
                   onChange={() => setIsUser(!isUser)}
                   className="checkbox bg-white"
                 />
@@ -278,8 +278,10 @@ export default function EditUserModal({ initialUser }) {
                   return user;
                 }
               }).filter((user) => {
-                if (isAdmin && isUser) {
-                  return true;
+                if(!isAdmin && !isUser){
+                  return user
+                }else if (isAdmin && isUser) {
+                  return user;
                 } else if (isAdmin) {
                   return user.role_id === 1;
                 } else if (isUser) {
@@ -339,7 +341,7 @@ export default function EditUserModal({ initialUser }) {
         <div className="modal-box">
           <form method="dialog">
             <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-white"
               onClick={() => {
                 setPreview(null);
                 clearSelectedUser();
@@ -349,7 +351,7 @@ export default function EditUserModal({ initialUser }) {
             </button>
           </form>
           {/* bg top */}
-          <div className="bg-sky-200 w-full h-[15%] absolute top-0 left-0 -z-10"></div>
+          <div className="bg-blue-500 bg-opacity-50 w-full h-[15%] absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 mt-4 ">
             <div className="flex flex-col space-y-1 mb-4">

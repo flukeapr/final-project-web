@@ -66,7 +66,7 @@ export default function Navbar() {
             </Link>
             
             <ul className="hidden lg:flex ml-14 space-x-10">
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/homepage" ? "text-blue-500" : ""}`}>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/homepage/" ? "text-blue-500" : ""}`}>
                 <Link href={session ? "/homepage" : "/login"}>หน้าหลัก</Link>
             </li>
             <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/result" ? "text-blue-500" : ""}`}>
@@ -197,6 +197,12 @@ export default function Navbar() {
                   จัดการผู้ใช้
                 </Link>
               </li>
+              <li >
+                <Link  className="text-white" href={session ? "/media" : "/login"}>สื่อความรู้</Link>
+            </li>
+            <li >
+                <Link  className="text-white" href={session ? "/community" : "/login"}>โพสต์ชุมชน</Link>
+            </li>
               <li>
                 <Link
                   href={session ? "/support" : "/login"}

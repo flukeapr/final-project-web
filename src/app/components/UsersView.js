@@ -13,6 +13,22 @@ export default function UsersView({isLoading}) {
   const { data: session } = useSession();
   const router = useRouter();
   
+  const usersReduce = users.reduce((acc, item) => {
+    let user = acc.find((user) => user.id === item.id);
+    if (!user) {
+      user = {
+        ...item,
+        preQuiz:item.preRq3>0 && item.preRq20>0 ? true:false,
+        postQuiz:item.postRq3>0 && item.postRq20>0 ? true:false,
+        mayBeRisk: item.preRq20 && item.preRq3  > 0 ? item.preRq20 < 55 && item.preRq20 > 0 || item.preRq3 <= 4 && item.preRq3 > 0 ?  "high" : item.preRq20 <= 69 && item.preRq20 > 55 || item.preRq3  <=6 && item.preRq3 > 0 ? "medium" : "low" :null,
+        realRisk: item.postRq20 && item.postRq3 > 0 ? item.postRq20 < 55 && item.postRq20 > 0 || item.postRq3 <= 4 && item.postRq3 > 0 ?  "high" : item.postRq20 <= 69 && item.postRq20 > 55 || item.postRq3  <=6 && item.postRq3 > 0 ? "medium" : "low" :null,
+        changeRisk: item.preRq20 && item.preRq3 && item.postRq20 && item.postRq3 > 0 ?  item.postRq3 > item.preRq3  && item.postRq20 > item.preRq20 ? "ดีขึ้นมาก" : item.postRq3 > item.preRq3  || item.postRq20 > item.preRq20 ? "ดีขึ้น" : "แย่ลง" : null,
+      };
+      acc.push(user);
+    }
+    
+    return acc;
+  },[])
    
   // useEffect(() => {
   //   fetchUsers().then(() => {
@@ -59,7 +75,7 @@ export default function UsersView({isLoading}) {
   };
 
   const handleNavigate = (user) => {
-    if(user.total===null||user.total===0) {
+    if(user.rq===null||user.total===0) {
       toast.error("ไม่สามารถดูผลได้ เนื่องจากไม่มีข้อมูลการประเมิน")
       return;
     }
@@ -70,11 +86,12 @@ export default function UsersView({isLoading}) {
 
   return (
     <div>
-      <div className="flex flex-col   h-[400px]">
+      <div className="flex flex-col   h-[300px]">
         <div className="flex justify-between  w-full ">
           <h1 className="text-2xl ">ผู้ใช้งาน</h1>
+          
           <div className="flex items-center">
-            <Link href={'homepage/allusers'} className="text-2xl text-[#F26522]">ดูทั้งหมด </Link>
+            <Link href={'homepage/allusers'} className="text-2xl text-blue-500">ดูทั้งหมด </Link>
             <span>
               <ChevronRight size={30} />
             </span>
@@ -83,25 +100,39 @@ export default function UsersView({isLoading}) {
         <div className="flex flex-wrap ">
           {isLoading ? (
             <div className="w-full h-40 flex items-center justify-center">
-              <span className="loading loading-dots loading-lg text-[#F26522]"></span>
+              <span className="loading loading-dots loading-lg text-blue-500"></span>
             </div>
           ) : (
-            users.length > 0 &&
-            users.slice(0,4).map((user) => (
+            usersReduce.length > 0 &&
+            usersReduce.sort((a, b) => (a.status === "follow" ? -1 : 1)) .slice(0,4).map((user) => (
               <div
                 className={`flex flex-col shadow-2xl  rounded-2xl  w-60 h-60 m-8 p-2 relative 
-                  ${user.total >0 && user.total < 50 ? "bg-green-200": user.total ==null ? "bg-white" : "bg-white"}`}
+                  ${ user.preQuiz && !user.postQuiz && (user.mayBeRisk === "high" ? "bg-red-200": user.mayBeRisk === "medium" ? "bg-yellow-100" : "bg-white")} ${ user.preQuiz && user.postQuiz && (user.realRisk === "high" ? "bg-red-400": user.realRisk === "medium" ? "bg-yellow-200" : "bg-white")}`}
                 key={user.id}
               >
                 
 
-                <img src={user.image} className=" absolute -top-8 left-20 rounded-full w-16 h-16 border-2 " />
+                <img src={user.image} className=" absolute -top-8 left-20 rounded-full w-20 h-20 border-2 " />
                 
-                {user.total >0 && user.total < 50 && <div className="absolute top-4 right-2  badge  border border-neutral-300">ผู้มีความเสี่ยงน้อย</div>}
-                {user.total === null || user.total===0 && <div className="absolute top-4 right-2  badge  border border-neutral-300">ยังไม่ได้ประเมิน</div>}
+                {user.postQuiz &&  (
+                <>
+               { user.realRisk === "high"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">เป็นผู้มีความเสี่ยงสูง</span>}
+               { user.realRisk === "medium"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">เป็นผู้มีความเสี่ยงปานกลาง</span>}
+               { user.realRisk === "low"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">เป็นผู้มีความเสี่ยงต่ํา</span>}
+                </>
+                
+              )}
+              {!user.postQuiz &&  (
+                <>
+                 {user.mayBeRisk === "high"  && (<span className="absolute top-8 right-2  badge  border border-neutral-300">อาจจะมีความเสี่ยงสูง</span>)}
+              {user.mayBeRisk === "medium"  && (<span className="absolute top-8 right-2  badge  border border-neutral-300">อาจจะมีความเสี่ยงปานกลาง</span>)}
+              {user.mayBeRisk === "low"  && (<span className="absolute top-8 right-2  badge  border border-neutral-300 ">อาจจะมีความเสี่ยงต่ํา</span>)}    
+                </>
+              )}               
+               {user.preRq20 === 0 && user.preRq3===0 && user.postRq3===0 && user.postRq20===0 && <div className="absolute top-8 right-2  badge  border border-neutral-300">ยังไม่ได้ประเมิน</div>}
                 
                 <div className="flex flex-col items-center w-full mt-12">
-                  <h1 >{user.name}</h1>
+                  <h1 className="text-lg">{user.name}</h1>
                   <h1>{user.email}</h1>
                 </div>
                 <div className="flex flex-col items-center w-full space-y-2 mt-2 p-2">
@@ -118,14 +149,14 @@ export default function UsersView({isLoading}) {
                         : "btn text-black"
                     }`}
                     onClick={() => handleUpdateStatus(user.id)}
-                    disabled={user.total===null||user.total===0}
+                   
                   >
                     {user.status === "follow" ? "ติดตามแล้ว" : "ติดตาม"}
                   </button>
                 </div>
               </div>
-            ))
-          )}
+            )
+          ))}
         </div>
       </div>
 

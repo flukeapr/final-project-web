@@ -18,6 +18,7 @@ export default function Support() {
   const [unreadMessage, setUnreadMessage] = useState([]);
   const [dot, setDot] = useState(true);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const getUsers = async () => {
     try {
@@ -51,17 +52,18 @@ export default function Support() {
     }
   };
   useEffect(() => {
-    getUnreadMessage();
-    getUsers();
+    Promise.all([getUsers(), getUnreadMessage()]).then(() => {
+      setLoading(false);
+    })
   }, []);
 
   return (
     <>
       <Navbar />
       <main className="max-w-7xl mx-auto h-[calc(100vh-80px)] px-6 flex  flex-wrap">
-        <div className="w-1/4 lg:h-[calc(100vh-80px)] flex flex-col bg-white  p-2 overflow-y-scroll shadow-md border">
+        <div className="w-1/4 lg:h-[calc(100vh-80px)] flex flex-col bg-white  p-2 overflow-y-scroll shadow-md border no-scrollbar">
           <input
-            className="p-2 border rounded-md"
+            className="p-2 rounded-md shadow-sm border-2 my-2"
             type="text"
             placeholder="ค้นหาผู้ใช้..."
             value={search}
@@ -69,7 +71,9 @@ export default function Support() {
               setSearch(e.target.value);
             }}
           />
-          {users.length > 0 &&
+          {loading ? (
+            <div className="flex justify-center items-center h-full"> <span className="loading loading-dots loading-lg text-blue-500"></span></div>
+          ) :( users.length > 0 &&
             users
               .sort((a, b) => {
                 const unreadA = unreadMessage.some(
@@ -117,13 +121,13 @@ export default function Support() {
                     ) : null}
                   </div>
                 </div>
-              ))}
+              )))}
               
         </div>
 
         {selectUser.length === 0 ? (
-          <div className="w-3/4 h-full flex flex-col bg-white shadow-md justify-center items-center">
-            <h1 className="text-4xl font-bold">เลือกบทสนทนากับผู้ใช้งาน</h1>
+          <div className="w-3/4 h-full flex flex-col bg-gradient-to-r from-blue-500 to-sky-400 shadow-md justify-center items-center">
+            <h1 className="text-4xl font-bold text-white tracking-wide">เลือกบทสนทนากับผู้ใช้งาน</h1>
           </div>
         ) : (
           <div className="w-3/4 h-full flex flex-col bg-white shadow-md">
