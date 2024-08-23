@@ -6,6 +6,7 @@ import {SquarePen,Trash2 } from 'lucide-react'
 import Link from "next/link";
 import { getServerSession } from 'next-auth'
 import EditMedia from '../components/EditMedia'
+import "react-toastify/dist/ReactToastify.css";
 
 
 async function getMedia() {

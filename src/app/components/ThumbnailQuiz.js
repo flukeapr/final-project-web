@@ -1,9 +1,10 @@
+'use client'
 import React from 'react'
 import { FileMinus } from 'lucide-react'
 import { useState } from 'react'
 
 
-export default function ThumbnailQuiz({quiz,onQuizSelected}) {
+export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
     const [selectQuiz , setSelectQuiz] = useState(null)
     const preQuizRq29 = quiz.find(quiz => quiz.quizId === 6 && quiz.quizType === "PRE")
     const preQuizRq20 = quiz.find(quiz => quiz.quizId === 7 && quiz.quizType === "PRE")
@@ -12,18 +13,20 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
     const postQuizRq20 = quiz.find(quiz => quiz.quizId === 7 && quiz.quizType === "POST")
     const postQuizRq3 = quiz.find(quiz => quiz.quizId === 8 && quiz.quizType === "POST")
    
-    
+  
 
     const handleClick = (id) => {
         setSelectQuiz(id)
     }
+
+   
 
   return (
     <>
     {quiz?.length > 0 ? (
       <>
       <div className='my-2 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1  className='font-semibold text-lg'>แบบทดสอบก่อน</h1>
+    <h1  className='font-semibold text-lg'>แบบทดสอบก่อนกิจกรรม</h1>
     <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
     </div>
     {/* <div className='flex flex-wrap items-center gap-2 w-10/12 p-4'> */}
@@ -50,11 +53,12 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
 
 
             </div>
-            <div className='rounded-full bg-gray-100 p-2 w-14 h-14 flex items-center justify-center'>
+            <div className=' tooltip' data-tip="ดาวน์โหลดข้อมูล" >
+            <div className='rounded-full bg-gray-100 p-2 w-14 h-14 flex items-center justify-center' onClick={() => exportExcel(quiz.id)}>
             <FileMinus size={35} color={selectQuiz === quiz.id ? '#3b82f6' : '#111827'} />
 
             </div>
-            
+            </div>
         </div>
     </div>
     
@@ -62,7 +66,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
         
     ))}
   <div className='my-4 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1 className='font-semibold text-lg'>แบบทดสอบหลัง</h1>
+    <h1 className='font-semibold text-lg'>แบบทดสอบหลังกิจกรรม</h1>
     <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
     </div>
     <div>
@@ -82,9 +86,11 @@ export default function ThumbnailQuiz({quiz,onQuizSelected}) {
             {quiz.quizId === 7 && (<span className="badge border-2  ">• {quiz.total >69  ? "คะแนนรวมสูงกว่าปกติ" : quiz.total >= 55 && quiz.total <= 69 ? "คะแนนรวมปกติ" : "คะแนนรวมต่ำกว่าปกติ"}</span>)}
             {quiz.quizId === 6 && (<span className="badge border-2  ">• {quiz.total >=3.68 && quiz.total < 5  ? "ความรอบรู้ด้านสุภาพจิตมาก" : quiz.total <= 3.67 && quiz.total >= 2.34 ? "ความรอบรู้ด้านสุภาพจิตปกติ" : "ความรอบรู้ด้านสุภาพจิตน้อย"}</span>)}
             </div>
-            <div className='rounded-full bg-gray-100 p-2 w-14 h-14 flex items-center justify-center'>
+            <div className=' tooltip' data-tip="ดาวน์โหลดข้อมูล" >
+            <div className='rounded-full bg-gray-100 p-2 w-14 h-14 flex items-center justify-center' onClick={() => exportExcel(quiz.id)}>
             <FileMinus size={35} color={selectQuiz === quiz.id ? '#3b82f6' : 'black'} />
 
+            </div>
             </div>
         </div>
          

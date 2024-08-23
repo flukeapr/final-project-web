@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const { data: session } = useSession();
+  const { data: session ,update :updateSession } = useSession();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
@@ -22,31 +22,51 @@ export default function Navbar() {
     if (session?.user) {
       setName(session.user.name);
       setEmail(session.user.email);
+     
     }
   }, [session]);
 
   const handleChangeProfile = async () => {
     try {
-      if (!image) {
-        toast.error("กรุณาเลือกรูปภาพ");
-        return;
-      }
 
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append("name", name);
-      formData.append("email", email);
-      const res = await fetch(`/api/updateuser/profile/image/${session?.user?.id}`, {
+      const res = await fetch(process.env.NEXT_PUBLIC_serverURL + `/api/updateuser/profile/data/${session?.user?.id}`, {
         method: "PUT",
-        body: formData,
-      });
-      const data = await res.json();
-      if (data.message === "success") {
-        toast.success("อัพโหลดรูปภาพสําเร็จ")
-      setTimeout(() => {
-          document.getElementById("profile_modal").close();
-        }, 2000);
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, name }),
+      })
+      
+      if(image){
+        try {
+          const formData = new FormData();
+          formData.append("image", image);
+         
+          const res = await fetch(process.env.NEXT_PUBLIC_serverURL +`/api/updateuser/profile/image/${session?.user?.id}`, {
+            method: "PUT",
+            body: formData,
+          });
+  
+          if (!res.ok) {
+            toast.error("อัพโหลดรูปภาพไม่สําเร็จ");
+          }
+        } catch (error) {
+          toast.error("อัพโหลดรูปภาพไม่สําเร็จ");
+        }
+       
       }
+      if(res.ok){
+        await updateSession();
+        document.getElementById("profile_modal").close();
+        toast.success("อัพเดทข้อมูลสําเร็จ");
+        
+      }
+     
+     
+      
+     
+      
+      
     } catch (error) {
       console.log(error);
     }

@@ -6,7 +6,7 @@ import { UserRoundPen, UserX,Crown } from "lucide-react";
 import Swal from "sweetalert2";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useSession } from "next-auth/react";
-
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EditUserModal({ initialUser }) {
   const [userId, setUserId] = useState(0);

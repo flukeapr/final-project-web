@@ -5,7 +5,7 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import PostComponent from "../components/PostComponent";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-
+import "react-toastify/dist/ReactToastify.css";
 const getPost = async () => {
   try {
     const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/post");

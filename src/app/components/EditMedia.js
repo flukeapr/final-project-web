@@ -3,7 +3,7 @@ import { useState , useEffect ,useRef } from "react";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import { SquarePen, Trash2,ArrowBigUp } from "lucide-react";
 import Swal from "sweetalert2";
-
+import "react-toastify/dist/ReactToastify.css";
 export default function EditMedia({ initialMedia }) {
   const [isLoading, setIsLoading] = useState(true);
   const [media, setMedia] = useState(initialMedia);

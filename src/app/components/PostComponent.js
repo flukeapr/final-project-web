@@ -7,6 +7,7 @@ import { toast, ToastContainer, Bounce } from "react-toastify";
 import Swal from "sweetalert2";
 import {FaTrash} from "react-icons/fa";
 import { ArrowBigUp } from "lucide-react";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export default function PostComponent({initialPosts}) {
@@ -374,7 +375,7 @@ export default function PostComponent({initialPosts}) {
                 .map((post, index) => (
                   <div
                     key={index}
-                    className="mb-8 p-4 flex flex-col bg-white w-auto rounded-lg shadow-xl "
+                    className="mb-8 p-4 flex flex-col bg-white w-auto rounded-lg drop-shadow-lg shadow-xl "
                   >
                     <div className="flex items-center mb-2">
                       <img

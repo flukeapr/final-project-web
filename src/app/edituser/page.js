@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import EditUserModal from "../components/EditUserModal";
-
+import "react-toastify/dist/ReactToastify.css";
 async function fetchUsers() {
   try {
     const result = await fetch(process.env.NEXT_PUBLIC_serverURL+"/api/users");

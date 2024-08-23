@@ -177,7 +177,7 @@ export default function LoginPage() {
           </form>
           <div className="flex flex-col items-center space-y-2 justify-center m-2">
             {/* <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span> */}
-            <Link href="#" className="text-[#3b82f6] underline ml-2 ">
+            <Link href="/forget-password" className="text-[#3b82f6] underline ml-2 ">
               Forgot Password
             </Link>
             <Link href={'/'}>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../../../../../lib/ConnectDb";
 import fs from 'node:fs/promises'
+import sharp from "sharp";
 
 
 export async function PUT(req,{params}) {
@@ -22,16 +23,29 @@ export async function PUT(req,{params}) {
             throw Error("The file must be a .jpg or .png")
             }
 
-         let isJpg = false
-
-        image.type === 'image/jpeg' ? isJpg = true : isJpg = false
-        const fileName = `user-${id}.${isJpg ? 'jpg' : 'png'}`;
+        
+       
 
         
         const imageBuffer = await image.arrayBuffer();
         const buffer = new Buffer.from(imageBuffer);
+        const fileName = `user-${id}.jpg`;
+
+
+        let finalBuffer
+        if(image.type === 'image/png'){
+            finalBuffer = await sharp(buffer).jpeg({quality: 90}).toBuffer();
+        }else{
+            finalBuffer = buffer;
+        }
+
+
+
+
+
+
         
-        await fs.writeFile(`./public/profile/uploads/${fileName}`, buffer);
+        await fs.writeFile(`./public/profile/uploads/${fileName}`, finalBuffer);
         const imageURL = `/profile/uploads/${fileName}`
         await query(`UPDATE users SET image = ? WHERE id = ?`, [imageURL, id]);
         return NextResponse.json({ message: "success" }, { status: 200 });
@@ -49,21 +63,16 @@ export async function DELETE(req,{params}) {
     try {
         const {id} = params;
         const pathJpg = `./public/profile/uploads/user-${id}.jpg`
-        const pathPng = `./public/profile/uploads/user-${id}.png`
         try {
             await fs.access(pathJpg);
             await fs.unlink(pathJpg);
         } catch (err) {
-            
-            try {
-                await fs.access(pathPng);
-                await fs.unlink(pathPng);
-            } catch (err) {
-               
-                return NextResponse.json({ message: "success" }, { status: 200 });
-            }
+            return NextResponse.json({ message: "success" }, { status: 200 });
+           
+        }finally{
+            return NextResponse.json({ message: "success" }, { status: 200 });
         }
-        return NextResponse.json({ message: "success" }, { status: 200 });
+       
         
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 })

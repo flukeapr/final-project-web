@@ -279,16 +279,16 @@ export default function AllUsers() {
                 <img src={user.image} className="w-14 h-14" />
                 <div className="flex flex-col ml-4">
                 <h1 className="text-xl">{user.name}</h1>
-                <h1>{user.email}</h1>
+                <h1 className=" w-24 truncate">{user.email}</h1>
                 </div>
                
               </div>
-              <div className="flex flex-wrap flex-col w-1/4 p-4 space-y-2">
+              <div className="flex  flex-wrap flex-col w-1/4 p-4 space-y-2">
               {user.postQuiz &&  (
                 <>
-               { user.realRisk === "high"  && <span className="badge border-2  p-2 ">• เป็นผู้มีความเสี่ยงสูง</span>}
-               { user.realRisk === "medium"  && <span className="badge border-2  p-2 ">• เป็นผู้มีความเสี่ยงปานกลาง</span>}
-               { user.realRisk === "low"  && <span className="badge border-2  p-2 ">• เป็นผู้มีความเสี่ยงต่ํา</span>}
+               { user.realRisk === "high"  && <span className="badge border-2  p-2 ">• ผู้มีความเสี่ยงสูง</span>}
+               { user.realRisk === "medium"  && <span className="badge border-2  p-2 ">• ผู้มีความเสี่ยงปานกลาง</span>}
+               { user.realRisk === "low"  && <span className="badge border-2  p-2 ">• ผู้มีความเสี่ยงต่ํา</span>}
                 </>
                 
               )}

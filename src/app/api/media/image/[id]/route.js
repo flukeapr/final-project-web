@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../../../../lib/ConnectDb";
 import fs from 'node:fs/promises'
+import sharp from "sharp";
 
 
 export async function PUT(req,{params}) {
@@ -24,17 +25,24 @@ export async function PUT(req,{params}) {
                 throw Error("The file must be a .jpg or .png")
             }
 
-         let isJpg = false
-
-        image.type === 'image/jpeg' ? isJpg = true : isJpg = false
-        const fileName = `media-${id}.${isJpg ? 'jpg' : 'png'}`;
+       
+        const fileName = `media-${id}.jpg`;
 
 
         
         const imageBuffer = await image.arrayBuffer();
         const buffer = Buffer.from(imageBuffer);
+
+        let finalBuffer
+        if(image.type === 'image/png'){
+            finalBuffer = await sharp(buffer).jpeg({quality: 90}).toBuffer();
+        }else{
+            finalBuffer = buffer
+        }
+            
+
         
-        await fs.writeFile(`./public/media/uploads/${fileName}`, buffer);
+        await fs.writeFile(`./public/media/uploads/${fileName}`, finalBuffer);
         const imageUrl = `/media/uploads/${fileName}`
 
         await query(`UPDATE media SET image = ? WHERE id = ?`, [imageUrl, id]);
@@ -55,7 +63,7 @@ export async function DELETE(req,{params}) {
         
 
         const pathJpg = `./public/media/uploads/media-${id}.jpg`;
-        const pathPng = `./public/media/uploads/media-${id}.png`;
+        
 
         
         try {
@@ -63,16 +71,14 @@ export async function DELETE(req,{params}) {
             await fs.unlink(pathJpg);
         } catch (err) {
             
-            try {
-                await fs.access(pathPng);
-                await fs.unlink(pathPng);
-            } catch (err) {
-               
+            
                 return NextResponse.json({ message: "success" }, { status: 200 });
-            }
+            
+        }finally{
+            return NextResponse.json({ message: "success" }, { status: 200 });
+
         }
 
-        return NextResponse.json({ message: "success" }, { status: 200 });
         
         
        
