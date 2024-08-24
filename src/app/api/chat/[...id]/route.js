@@ -9,15 +9,17 @@ export async function GET(req,{params}) {
         const from = string.split(',')[0];
         const to = string.split(',')[1];
 
-       const result = await query(`SELECT * FROM chat WHERE (user_from = ? AND user_to = ?) OR (user_from = ? AND user_to = ?) ORDER BY create_at ASC`, [from, to,to,from]);
+       const result = await query(`SELECT * FROM chat_view WHERE (user_from = ? AND user_to = ?) OR (user_from = ? AND user_to = ?) ORDER BY create_at ASC`, [from, to,to,from]);
        if(result.length == 0) return NextResponse.json({message: "No messages found"},{status: 400});
-
+       
        const message = result.map((item) => {
             return {
                 id: item.id,
                 message: item.message,
+                sender:item.sender,
                 fromSelf:  item.user_from.toString() == from,
-                createAt : item.create_at
+                createAt : item.create_at,
+                image: item.image
             }
         })
 

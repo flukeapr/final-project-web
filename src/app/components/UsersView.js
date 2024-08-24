@@ -7,7 +7,7 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUserContext } from "../context/UsersContext";
 
-export default function UsersView({isLoading}) {
+export default function UsersView() {
   const { users, setUsers, fetchUsers, fetchUserQuiz } = useUserContext();
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
@@ -29,13 +29,15 @@ export default function UsersView({isLoading}) {
     
     return acc;
   },[])
+
+  useEffect(() => {
+    if(session){
+      Promise.all([fetchUsers(),fetchUserQuiz()])
+    }
    
-  // useEffect(() => {
-  //   fetchUsers().then(() => {
-  //     setLoading(isLoading);
-  //   });
-  //   fetchUserQuiz();
-  // }, []);
+    
+  },[]);
+
 
   const handleUpdateStatus = async (id) => {
     try {
@@ -75,12 +77,13 @@ export default function UsersView({isLoading}) {
   };
 
   const handleNavigate = (user) => {
-    if(user.rq===null||user.total===0) {
+    if(user.preRq20===0&&user.preRq3===0&&user.postRq20===0&&user.postRq3===0) {
       toast.error("ไม่สามารถดูผลได้ เนื่องจากไม่มีข้อมูลการประเมิน")
       return;
     }
     router.push(`/resultuser/${user.id}`);
   };
+
 
 
 
@@ -98,11 +101,7 @@ export default function UsersView({isLoading}) {
           </div>
         </div>
         <div className="flex flex-wrap ">
-          {isLoading ? (
-            <div className="w-full h-40 flex items-center justify-center">
-              <span className="loading loading-dots loading-lg text-blue-500"></span>
-            </div>
-          ) : (
+          {
             usersReduce.length > 0 &&
             usersReduce.sort((a, b) => (a.status === "follow" ? -1 : 1)) .slice(0,4).map((user) => (
               <div
@@ -156,7 +155,7 @@ export default function UsersView({isLoading}) {
                 </div>
               </div>
             )
-          ))}
+          )}
         </div>
       </div>
 

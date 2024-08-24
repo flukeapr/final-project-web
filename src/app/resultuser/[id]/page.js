@@ -14,6 +14,7 @@ import GraphModal from "@/app/components/GraphModal";
 import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import { FaFileExcel } from "react-icons/fa";
+import PersonalModal from "@/app/components/PersonalModal";
 
 export default function ResultUser({ params }) {
   const { id } = params;
@@ -24,6 +25,20 @@ export default function ResultUser({ params }) {
   const { users, setUsers, allQuiz, fetchUserQuiz } = useUserContext();
   const user = users.find((user) => user.id === Number(id));
   const usersQuiz = allQuiz.filter((quiz) => quiz.userId === Number(id));
+  const userId = user.id;
+  const [personalData , setPersonalData] = useState({});
+
+  const getPersonalData = async () => {
+    const response = await fetch(`/api/user-data/${userId}`);
+    const data = await response.json();
+    if(response.ok){
+      
+      setPersonalData(data[0])
+    }
+  };
+  useEffect(()=>{
+    getPersonalData()
+  },[user])
 
   // const fetchUsersQuizAndUserScoreView = async () => {
   //     const response = await fetch(`/api/userquizView/${id}`)
@@ -211,13 +226,21 @@ export default function ResultUser({ params }) {
       <Navbar />
       <div className="max-w-7xl mx-auto  px-6 flex flex-row max-sm:flex-col  shadow-sm   lg:h-[calc(100vh-90px)]">
         <div className="w-2/5 max-sm:w-full  bg-white h-full mb-4 overflow-y-scroll no-scrollbar">
-          <div className="flex flex-col items-center">
-            <div className="flex flex-col items-center h-80 pt-8">
-              <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center  w-full">
+            <div className="flex flex-col items-center h-80 pt-8 mb-6 w-full">
+              <div className="flex flex-col items-center w-full">
                 <img src={user?.image} className="w-20 h-20 rounded-full" />
                 <h1 className="text-md mt-2">{user?.name}</h1>
                 <h1 className="text-md mt-2">{user?.email}</h1>
-                <div className="space-y-2">
+                <div className="space-y-2 flex flex-col items-center w-1/2">
+                <button
+                    className="btn border-2 border-neutral-300 w-full"
+                    onClick={() =>
+                      document.getElementById("personalModal").showModal()
+                    }
+                  >
+                    ข้อมูลส่วนบุคคล
+                  </button>
                   <button
                     className="btn border-2 border-neutral-300 w-full"
                     onClick={() =>
@@ -275,6 +298,7 @@ export default function ResultUser({ params }) {
         </div>
 
         <GraphModal userQuiz={usersQuiz} />
+        <PersonalModal data={personalData} />
       </div>
 
       <ToastContainer

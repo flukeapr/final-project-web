@@ -56,6 +56,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
     }
   };
   const markMessagesAsRead = async () => {
+    if(dataMessage.length===0) return
     try {
       const res = await fetch(`/api/chat/${session.user.id}/${user.id}`, {
         method: "PUT",
@@ -72,10 +73,13 @@ export default function ChatElement({ user,getUnreadMessage }) {
   };
   
   useEffect(() => {
-    getMessage();
+    getMessage().then(() => {
+      markMessagesAsRead();
+      getUnreadMessage();
+    })
     setMessage("");
-    markMessagesAsRead();
-    getUnreadMessage();
+   
+    
   }, [user]);
   
 

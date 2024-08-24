@@ -5,6 +5,7 @@ import {useState} from "react";
 import Link from "next/link";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 export default function AllUsers() {
   const { users,setUsers } = useUserContext();
@@ -19,6 +20,7 @@ export default function AllUsers() {
   const [userPreQuiz , setUserPreQuiz] = useState(false);
   const [userPostQuiz , setUserPostQuiz] = useState(false);
   const [userUnCompleteQuiz , setUserUnCompleteQuiz] = useState(false);
+  const router = useRouter();
 
   const usersReduce = users.reduce((acc, item) => {
     let user = acc.find((user) => user.id === item.id);
@@ -80,10 +82,19 @@ export default function AllUsers() {
       console.log(error);
     }
   };
+
+  const handleNavigate = (user) => {
+    if(user.preRq20===0&&user.preRq3===0&&user.postRq20===0&&user.postRq3===0) {
+      toast.error("ไม่สามารถดูผลได้ เนื่องจากไม่มีข้อมูลการประเมิน")
+      return;
+    }
+    router.push(`/resultuser/${user.id}`);
+  };
+
   return (
     <>
       {/* <Navbar /> */}
-      <main className="max-w-7xl mx-auto pt-20 px-6 flex flex-col items-center p-4">
+      <main className="max-w-7xl mx-auto pt-10 px-6 flex flex-col items-center p-4">
         
         <h1 className=" text-3xl font-semibold text-center text-blue-500 mb-2">ผู้ใช้งานทั้งหมด</h1>
         <div className="flex flex-row w-full h-auto">
@@ -201,7 +212,7 @@ export default function AllUsers() {
             >
               <div tabIndex={0} className="card-body">
                 <h2 className="card-title">คำอธิบาย</h2>
-                <p>Admin คือ ผู้ใช้ที่มีสิทธิ์สูงสุดในการใช้งานระบบ สามารถเข้าสู่ระบบบนเว็บไซต์ได้<br />User คือ ผู้ใช้งานบนแอพลิเคชั่นมือถือไม่มีสิทธิ์เข้าถึงข้อมลต่างๆบนเว็บไซต์ได้</p>
+                <p><strong className="font-semibold">ผู้มีความเสี่ยง</strong> คือผู้ที่ทำแบบทดก่อนและหลังกิจกรรมเสร็จแล้วและคะแนนถูกประเมินมาตามเกณฑ์ที่กำหนดไว้<br/><strong  className="font-semibold">เฝ้าระวังอาจมีความเสี่ยง</strong> คือผู้ที่ทำแบบทดสอบก่อนกิจกรรมเสร็จแล้วและคะแนนถูกประเมินมาตามเกณฑ์ที่กำหนดไว้ และบ่งบอกถึงความเสี่ยงที่คาดว่าจะตามมา<br/></p>
               </div>
             </div>
           </div>
@@ -276,7 +287,7 @@ export default function AllUsers() {
               className={` flex flex-row w-full items-center  ${ user.preQuiz && !user.postQuiz && (user.mayBeRisk === "high" ? "bg-red-200": user.mayBeRisk === "medium" ? "bg-yellow-100" : "bg-white")} ${ user.preQuiz && user.postQuiz && (user.realRisk === "high" ? "bg-red-400": user.realRisk === "medium" ? "bg-yellow-200" : "bg-white")} shadow-xl rounded-2xl my-2 h-28 max-sm:flex-col max-sm:h-1/2 max-sm:items-start`}
             >
               <div className="flex w-1/4 p-12 max-sm:p-8 ">
-                <img src={user.image} className="w-14 h-14" />
+                <img src={user.image} className="w-14 h-14 border-2  rounded-full" />
                 <div className="flex flex-col ml-4">
                 <h1 className="text-xl">{user.name}</h1>
                 <h1 className=" w-24 truncate">{user.email}</h1>
@@ -307,12 +318,12 @@ export default function AllUsers() {
 
               </div>
               <div className="flex justify-end space-x-4 w-1/2 p-10 max-sm:w-full max-sm:-mt-6">
-                <Link
-                  href={`/resultuser/${user.id}`}
+                <button 
+                  onClick={()=>handleNavigate(user)}
                   className="btn border-2 border-neutral-300 w-2/6 max-sm:w-1/2"
                 >
                   ผลลัพธ์แบบทดสอบ
-                </Link>
+                </button>
                 <button
                   className={`btn w-2/6 max-sm:w-1/2 ${
                     user.status === "follow"

@@ -6,6 +6,8 @@ import PostComponent from "../components/PostComponent";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import { GetPost } from "../components/action/PostAction";
+
 const getPost = async () => {
   try {
     const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/post");
@@ -55,18 +57,18 @@ const getPost = async () => {
 export default async function Community() {
   const session = await getServerSession();
  if(!session) redirect("/");
-  const posts = await getPost();
+  const posts = await GetPost();
 
  
 
   return (
     <>
       <Navbar />
-      <main className="max-w-7xl mx-auto pt-20 px-6">
+      <main className="max-w-7xl mx-auto pt-10 px-6">
         <h1 className="text-3xl font-bold text-center text-blue-500 my-2 tracking-wide">
           โพสต์ทั้งหมด
         </h1>
-        <PostComponent initialPosts={posts} />
+        <PostComponent initialPosts={posts.data} />
       </main>
       <ToastContainer
         position="bottom-right"

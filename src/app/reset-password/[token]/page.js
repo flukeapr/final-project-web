@@ -84,8 +84,8 @@ export default function ResetPasswordPage({params}) {
             </div>
           ) : (
             exp ? (
-                <div className="flex flex-col justify-center items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
-                  <div className="h-full ">
+                <div className="flex flex-col justify-center items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl  max-sm:w-full max-sm:h-full">
+                  <div className="h-full   max-sm:flex-col max-sm:items-center ">
                     <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
                     <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
                       Happy{" "}
@@ -191,8 +191,8 @@ export default function ResetPasswordPage({params}) {
               )
           )
       ):(
-        <div className="flex flex-col justify-center items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
-        <div className="h-full ">
+        <div className="flex flex-col justify-center items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl  max-sm:w-full max-sm:h-full">
+        <div className="h-full max-sm:flex-col max-sm:items-center ">
           <img src="/images/logo/smile-logo-bg-blue.png" width={500} />
           <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
             Happy{" "}

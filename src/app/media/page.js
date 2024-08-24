@@ -7,7 +7,7 @@ import Link from "next/link";
 import { getServerSession } from 'next-auth'
 import EditMedia from '../components/EditMedia'
 import "react-toastify/dist/ReactToastify.css";
-
+import { GetMediaData } from '../components/action/MediaAction'
 
 async function getMedia() {
   try {
@@ -32,17 +32,17 @@ export default async function Media() {
   if(!session) redirect("/")
   
 
-    const media = await getMedia()
+    const media = await GetMediaData()
 
   return (
     <>
     <Navbar/>
-    <main className='max-w-7xl mx-auto pt-20 px-6'>
+    <main className='max-w-7xl mx-auto pt-10 px-6'>
     <h1 className='text-2xl text-blue-500 font-semibold text-center'>จัดการสื่อเนื้อหาความรู้</h1>
     
       
     <div className='flex'>
-   <EditMedia initialMedia ={media} />
+   <EditMedia initialMedia ={media.data} />
     </div>
 
     </main>

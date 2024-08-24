@@ -446,7 +446,7 @@ export default function EditUserModal({ initialUser }) {
           <span className="loading loading-dots loading-lg bg-blue-500"></span>
         </div>
       </dialog>
-      {/* modal insert newProfile */}
+      {/* modal insert newProfile  */} 
       <dialog id="newProfileModal" className="modal">
         <div className="modal-box">
           <form method="dialog">

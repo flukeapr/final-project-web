@@ -9,41 +9,24 @@ import { redirect } from "next/navigation";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import EditUserModal from "../components/EditUserModal";
 import "react-toastify/dist/ReactToastify.css";
-async function fetchUsers() {
-  try {
-    const result = await fetch(process.env.NEXT_PUBLIC_serverURL+"/api/users");
-    const data = await result.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+import { GetUserData } from "../components/action/UserAction";
+
 
 export default async function EditUser() {
-  
 
   const session = await getServerSession();
   if (!session) redirect("/");
-
-  const users = await fetchUsers();
- 
-
-  
-
-  
-  
-
-  
-
- 
+  const users = await GetUserData();
 
   return (
     <>
       <h1 className="text-3xl font-semibold text-center text-blue-500 mb-2">
         จัดการผู้ใช้
       </h1>
-    <EditUserModal initialUser={users}/>
-     
+    <EditUserModal initialUser={users.data}/>
+    {users.error && (
+      <div className="text-red-500">{users.error}</div>
+    )}
 
     <ToastContainer
         position="bottom-right"

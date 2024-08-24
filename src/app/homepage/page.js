@@ -20,16 +20,7 @@ export default function page() {
     console.log(session)
     if (!session) redirect("/");
 
-    useEffect(() => {
-      if(session){
-        Promise.all([fetchUsers(),fetchUserQuiz()]).then(()=>{
-          setIsLoading(false)
-        })
-      }
-     
-      
-    },[]);
-  
+   
 
  
 
@@ -53,7 +44,7 @@ export default function page() {
     <Graph/>
   
     <main  className="max-w-7xl mx-auto pt-20 px-6">
-      <UsersView isLoading={isLoading}/>
+      <UsersView/>
     </main>
     
     </>

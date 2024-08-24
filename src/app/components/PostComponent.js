@@ -10,6 +10,7 @@ import { ArrowBigUp } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 
 
+
 export default function PostComponent({initialPosts}) {
     const [posts, setPosts] = useState(initialPosts);
     const [commentText, setCommentText] = useState({});
