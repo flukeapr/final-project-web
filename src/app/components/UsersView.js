@@ -115,9 +115,9 @@ export default function UsersView() {
                 
                 {user.postQuiz &&  (
                 <>
-               { user.realRisk === "high"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">เป็นผู้มีความเสี่ยงสูง</span>}
-               { user.realRisk === "medium"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">เป็นผู้มีความเสี่ยงปานกลาง</span>}
-               { user.realRisk === "low"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">เป็นผู้มีความเสี่ยงต่ํา</span>}
+               { user.realRisk === "high"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">ผู้มีความเสี่ยงสูง</span>}
+               { user.realRisk === "medium"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">ผู้มีความเสี่ยงปานกลาง</span>}
+               { user.realRisk === "low"  && <span className="absolute top-8 right-2  badge  border border-neutral-300">ผู้มีความเสี่ยงต่ํา</span>}
                 </>
                 
               )}

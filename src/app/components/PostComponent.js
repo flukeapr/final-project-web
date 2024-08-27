@@ -86,6 +86,7 @@ export default function PostComponent({initialPosts}) {
     
       const handleWriteComment = (postId, text) => {
         setCommentText((prev) => ({ ...prev, [postId]: text }));
+        
       };
 
       const getPost = async () => {
@@ -104,7 +105,6 @@ export default function PostComponent({initialPosts}) {
                   postUserId: item.post_userId,
                   postUserName: item.post_user_name,
                   postUserImage: item.post_user_image,
-                  postLikes: item.count_likes,
                   postCreateAt: item.post_create_at,
                   comments: [],
                   showComments: false,
@@ -297,6 +297,7 @@ export default function PostComponent({initialPosts}) {
           </div>
           </div>
             <input
+              type="search"
               className="w-full h-12 bg-white rounded-md shadow-md p-2"
               placeholder="ค้นหาโพสต์"
               value={search}
@@ -368,10 +369,10 @@ export default function PostComponent({initialPosts}) {
                   if (topComment) {
                     return b.comments.length - a.comments.length;
                   }
-                  if (topLikes) {
-                    return b.postLikes - a.postLikes;
-                  }
-                  return new Date(b.postCreateAt) - new Date(a.postCreateAt);
+                    return new Date(b.postCreateAt) - new Date(a.postCreateAt);
+                  
+                  
+                  
                 })
                 .map((post, index) => (
                   <div
@@ -418,10 +419,7 @@ export default function PostComponent({initialPosts}) {
                     </span>
                     <hr />
                     <div className="flex my-2">
-                      <p className="ml-4 flex items-center">
-                        <FaHeart className="text-red-500 mr-2" />
-                        {post?.postLikes}
-                      </p>
+                      
                       <div
                         className="ml-4 flex items-center cursor-pointer"
                         onClick={() => toggleComments(post?.postId)}

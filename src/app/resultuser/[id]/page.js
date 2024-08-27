@@ -25,7 +25,7 @@ export default function ResultUser({ params }) {
   const { users, setUsers, allQuiz, fetchUserQuiz } = useUserContext();
   const user = users.find((user) => user.id === Number(id));
   const usersQuiz = allQuiz.filter((quiz) => quiz.userId === Number(id));
-  const userId = user.id;
+  const userId = id;
   const [personalData , setPersonalData] = useState({});
 
   const getPersonalData = async () => {

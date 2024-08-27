@@ -7,6 +7,8 @@ export default function AnswerQuiz({quiz}) {
   return (
     <div className='w-full flex flex-col items-center h-full overflow-y-scroll   p-4'>
         <h1 className='text-3xl text-slate-900 font-semibold '>{quiz?.name}</h1>
+        <h1 className='text-xl text-slate-700 font-semibold my-2'>คะแนนรวม {quiz.total} คะแนน</h1>
+
         {quiz?.answers?.length > 0 && quiz?.question?.length > 0 && (
         <>
           
@@ -36,7 +38,7 @@ export default function AnswerQuiz({quiz}) {
                   );
                 })}
               </div>
-              
+             
 
               
             </div>
@@ -44,8 +46,8 @@ export default function AnswerQuiz({quiz}) {
           
         </>
       )}
-      
-     
+       
+
     </div>
   )
 }

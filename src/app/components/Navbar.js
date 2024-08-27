@@ -111,26 +111,8 @@ export default function Navbar() {
 
           {session?.user ? (
             <div className="hidden lg:flex w-1/5 md:w-1/4 items-center justify-end space-x-4 ">
-              {/* Notification bell */}
-              <button className="btn btn-ghost btn-circle">
-                <div className="indicator">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    />
-                  </svg>
-                  <span className="badge badge-xs bg-blue-500 indicator-item"></span>
-                </div>
-              </button>
+             
+             
               {/* dropdown menu profile */}
               <div className="dropdown dropdown-end">
                 <div
@@ -270,7 +252,7 @@ export default function Navbar() {
             </button>
           </form>
           {/* bg top */}
-          <div className="bg-neutral-200 w-full h-1/6 absolute top-0 left-0 -z-10"></div>
+          <div className="bg-gradient-to-r from-blue-500 via-sky-400 to-emerald-500 w-full h-1/6 absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 ">
             <div className="flex flex-col space-y-1 mb-4">
@@ -319,7 +301,7 @@ export default function Navbar() {
                       const src = URL.createObjectURL(e.target.files[0])
                       setPreview(src)
                     }}
-                    className="file-input input-xs  input-bordered w-36 "
+                    className="file-input input-xs  input-bordered w-32 "
                   />
                 </div>
               </div>
@@ -334,13 +316,13 @@ export default function Navbar() {
                 setPreview(null)
               }}
             >
-              Cancel
+              ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline bg-gradient-to-r from-blue-500 to-sky-400 text-white text-lg"
               onClick={() => handleChangeProfile()}
             >
-              Save Changes
+              บันทึก
             </button>
           </div>
         </div>

@@ -197,7 +197,7 @@ export default function EditUserModal({ initialUser }) {
         }}>สร้างบัญชีใหม่</button> */}
           <h1 className="text-lg text-white my-2">ค้นหาผู้ใช้</h1>
           <input
-            type="text"
+            type="search"
             className="w-full border-2 border-white rounded-lg p-4 "
             placeholder="ค้นหาผู้ใช้"
             onChange={(e) => setSearch(e.target.value)}
@@ -351,7 +351,7 @@ export default function EditUserModal({ initialUser }) {
             </button>
           </form>
           {/* bg top */}
-          <div className="bg-blue-500 bg-opacity-50 w-full h-[15%] absolute top-0 left-0 -z-10"></div>
+          <div className=" bg-gradient-to-r from-blue-500 via-sky-400 to-emerald-500 w-full h-[15%] absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 mt-4 ">
             <div className="flex flex-col space-y-1 mb-4">
@@ -432,7 +432,7 @@ export default function EditUserModal({ initialUser }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-gradient-to-r from-blue-500 to-sky-400 text-white text-lg"
               onClick={handleUpdate}
             >
               บันทึก

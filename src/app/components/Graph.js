@@ -35,24 +35,24 @@ export default function Graph() {
         averageRq20.pressure /= userQuizRq20Count;
         averageRq20.encouragement /= userQuizRq20Count;
         averageRq20.obstacle /= userQuizRq20Count;
-        setPressure(averageRq20.pressure);
-        setEncouragement(averageRq20.encouragement);
-        setObstacle(averageRq20.obstacle);
+        setPressure(averageRq20.pressure.toFixed(2));
+        setEncouragement(averageRq20.encouragement.toFixed(2));
+        setObstacle(averageRq20.obstacle.toFixed(2));
         const dataAverageRq20 = [
           {
             id: 1,
             name: "ความทนต่อแรงกดดัน",
-            value: averageRq20.pressure,
+            value: averageRq20.pressure.toFixed(2),
           },
           {
             id: 2,
             name: "การมีความหวังและกำลังใจ",
-            value: averageRq20.encouragement,
+            value: averageRq20.encouragement.toFixed(2),
           },
           {
             id: 3,
             name: "การต่อสู้เอาชนะอุปสรรค",
-            value: averageRq20.obstacle,
+            value: averageRq20.obstacle.toFixed(2),
           },
         ];
         const averageRq3 = data
@@ -67,7 +67,7 @@ export default function Graph() {
           (quiz) => quiz.quizId === 8
         ).length;
         averageRq3.total /= userQuizRq3Count;
-        const dataAverageRq3 = { name: "พลังใจ", value: averageRq3.total };
+        const dataAverageRq3 = { name: "พลังใจ", value: averageRq3.total.toFixed(2) };
 
         const averageRq29 = data
           .filter((quiz) => quiz.quizId === 6)
@@ -83,7 +83,7 @@ export default function Graph() {
         averageRq29.total /= userQuizRq29Count;
         const dataAverageRq29 = {
           name: "ความรอบรู้ทางสุขภาพจิต",
-          value: averageRq29.total,
+          value: averageRq29.total.toFixed(2),
         };
 
         setAverageRq29(dataAverageRq29);
@@ -115,7 +115,7 @@ export default function Graph() {
 
   return (
     <div className="flex items-center justify-evenly w-screen h-96 bg-gradient-to-r from-blue-500 via-sky-400 to-green-400 p-2">
-      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center">
+      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center ">
         <PieChart
           series={[
             {
@@ -141,7 +141,7 @@ export default function Graph() {
           
         ></PieChart>
       </div>
-      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center">
+      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center ">
       <BarChart
       xAxis={[{ scaleType: 'band', data: ['ความทนต่อแรงกดดัน', 'การมีความหวังและกำลังใจ', 'การต่อสู้เอาชนะอุปสรรค'] }]}
       series={[{ data: [pressure, encouragement, obstacle]  }]}

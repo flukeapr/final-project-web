@@ -57,6 +57,7 @@ const getPost = async () => {
 export default async function Community() {
   const session = await getServerSession();
  if(!session) redirect("/");
+ 
   const posts = await GetPost();
 
  

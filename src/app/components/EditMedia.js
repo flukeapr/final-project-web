@@ -210,7 +210,7 @@ export default function EditMedia({ initialMedia }) {
         <button className="btn bg-white w-full text-blue-500 tracking-wider text-lg" onClick={()=> document.getElementById("newMedia").showModal()}>เพิ่มสื่อใหม่</button>
       <div className="space-y-2 mt-4">
           <h1 className="text-lg text-white">ค้นหาสื่อความรู้</h1>
-          <input type="text" placeholder="ค้นหาสื่อความรู้" className="input input-bordered w-full max-w-xs" onChange={(e)=> setSearch(e.target.value)}/>
+          <input type="search" placeholder="ค้นหาสื่อความรู้" className="input input-bordered w-full max-w-xs" onChange={(e)=> setSearch(e.target.value)}/>
       </div>
       </div>
     </div>

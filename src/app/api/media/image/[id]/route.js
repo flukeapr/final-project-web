@@ -16,13 +16,13 @@ export async function PUT(req,{params}) {
 
         if(image.size > 2621440){
             // size less than 2.5MB
-            throw Error("The file must be less than 2.5MB")
+            throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB")
         }
        
         const allowedTypes = ['image/jpeg', 'image/png'];
 
         if (!allowedTypes.includes(image.type)) {
-                throw Error("The file must be a .jpg or .png")
+                throw Error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
             }
 
        
