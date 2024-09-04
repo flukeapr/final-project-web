@@ -32,8 +32,8 @@ export default function Result() {
   const [lowestRiskUserRq20, setLowestRiskUserRq20] = useState({});
   const [lowestRiskUserRq29, setLowestRiskUserRq29] = useState({});
   const [lowestRiskUserRq3, setLowestRiskUserRq3] = useState({});
-  const [startDate , setStartDate] = useState(new Date());
-  const [endDate , setEndDate] = useState(new Date());
+  const [startDate , setStartDate] = useState(null);
+  const [endDate , setEndDate] = useState(null);
   const [filterRq20 , setFilterRq20] = useState([]);
   const [filterRq29 , setFilterRq29] = useState([]);
   const [filterRq3 , setFilterRq3] = useState([]);
@@ -57,6 +57,7 @@ export default function Result() {
           }, { pressure: 0, encouragement: 0, obstacle: 0 });
           
           const userQuizRq20Count = data.filter((quiz)=>quiz.pressure && quiz.encouragement && quiz.obstacle > 0).length;
+          console.log(userQuizRq20Count)
           averageRq20.pressure /= userQuizRq20Count;
           averageRq20.encouragement /= userQuizRq20Count;
           averageRq20.obstacle /= userQuizRq20Count;
@@ -177,9 +178,9 @@ export default function Result() {
         start = end = today.toISOString().split('T')[0];
         break;
       case 'week':
-        start = new Date(today.setDate(today.getDate() - today.getDay())).toISOString().split('T')[0];
-        end = new Date(today.setDate(today.getDate() - today.getDay() + 6)).toISOString().split('T')[0];
-        break;
+          start = new Date(today.setDate(today.getDate() -7)).toISOString().split('T')[0];
+          end = new Date().toISOString().split('T')[0];
+        break;         
       case 'month':
         start = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
         end = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
@@ -245,14 +246,14 @@ export default function Result() {
          },{total:0})
          const userQuizRq3Count = dataRange.filter((quiz)=>quiz.quizId === 8).length;
          averageRq3.total /= userQuizRq3Count;
-         const dataAverageRq3 = {name:"พลังใจ",value:averageRq3.total.toFixed(2)|| 0}
+         const dataAverageRq3 = {name:"พลังใจ",value:averageRq3.total ? averageRq3.total.toFixed(2) : 0}
 
          const averageRq29 = dataRange.filter((quiz)=>quiz.quizId === 6).reduce((acc, quiz) => {
           return { total: acc.total + quiz.total };
          },{total:0})
          const userQuizRq29Count = dataRange.filter((quiz)=>quiz.quizId === 6).length;
          averageRq29.total /= userQuizRq29Count;
-         const dataAverageRq29 = {name:"ความรอบรู้ทางสุขภาพจิต",value:averageRq29.total.toFixed(2)|| 0}
+         const dataAverageRq29 = {name:"ความรอบรู้ทางสุขภาพจิต",value:averageRq29.total ? averageRq29.total.toFixed(2) : 0}
          setFilterRq29(dataAverageRq29)
          setFilterRq3(dataAverageRq3)
          setFilterRq20(dataAverageRq20)
@@ -283,7 +284,7 @@ export default function Result() {
          <div className='flex flex-col  items-center justify-center w-full bg-white p-10 rounded-2xl shadow-xl'>
          <div className='flex p-4 max-w-6xl justify-around w-full'>
           <Link href={`/resultuser/${lowestRiskUserRq29 && lowestRiskUserRq29.userId}`} className='flex flex-col items-center space-y-3 cursor-pointer '>
-          <h1>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 29</h1>
+          <h1>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน MHL 29</h1>
             <div className='flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl '>
               
               <img src={lowestRiskUserRq29 && lowestRiskUserRq29.image} className='w-14 h-14 rounded-full' />
@@ -322,7 +323,7 @@ export default function Result() {
          </div>
         <div className="flex justify-around p-6 mt-6 space-x-8 w-full max-sm:flex-col">
         <div className='flex flex-col items-center space-y-3' >
-            <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ RQ 29 ก่อนและหลัง</h1>
+            <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ MHL 29 ก่อนและหลัง</h1>
             <span className='badge badge-lg p-4 border-2 border-sky-400 text-2xl font-semibold w-28 h-28 rounded-full '>{averageRq29.value}</span>
             <h1>อยู่ในระดับ : มีความรอบรู้ด้านสุขภาพจิต<span className=' font-semibold ml-2 '>{averageRq29.value >=3.68 ? "มาก" : averageRq29.value >= 2.34 ? "ปานกลาง" : "น้อย"}</span></h1>
             
@@ -412,8 +413,8 @@ export default function Result() {
           series={[
             {
               data: [
-                { id:0, value: filterRq29.value || 0, label: "ความรอบรู้ทางสุขภาพจิต"  },
-                { id:1 , value: filterRq3.value || 0, label: "พลังใจ"  },
+                { id:0, value: filterRq29.value ? filterRq29.value : 0, label: "ความรอบรู้ทางสุขภาพจิต"  },
+                { id:1 , value: filterRq3.value ? filterRq3.value : 0, label: "พลังใจ"  },
               ],
               arcLabel:( data ) => `${data.value}`,
               

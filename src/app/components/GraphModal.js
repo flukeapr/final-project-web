@@ -85,11 +85,11 @@ export default function GraphModal({ userQuiz }) {
           </button>
         </form>
         <h3 className="font-bold text-lg p-4">ผลลัพธ์แบบทดสอบเเปรียบเทียบระหว่างการทำแบบทดสอบก่อนและหลัง</h3>
-        <h1 className="font-bold text-lg">แบบประเมิน RQ 29</h1>
+        <h1 className="font-bold text-lg">แบบประเมิน MHL 29</h1>
         <div className="flex justify-evenly">
            
             <div className='flex flex-col items-center space-y-3' >
-            <h1>คะแนนของแบบประเมิน RQ 29 ก่อนกิจกรรม</h1>
+            <h1>คะแนนของแบบประเมิน MHL 29 ก่อนกิจกรรม</h1>
             <span className='badge badge-lg p-4 border-2 border-sky-400 text-2xl font-semibold w-28 h-28 rounded-full '>{preQuizRq29?.total ? preQuizRq29?.total : 0}</span>
             {!preQuizRq29 && (<span className='badge border-2 badge-lg p-3'><h1>• ยังไม่ทำแบบประเมิน</h1></span>)}
             {preQuizRq29 && (<span className='badge border-2 badge-lg p-3'><h1>• ความรอบรู้ด้านสุภาพจิต : <span className="font-semibold">{preQuizRq29?.total >= 3.68 && preQuizRq29?.total <=5 ? "มาก" : preQuizRq29?.total <= 3.67 && preQuizRq29?.total >= 2.34 ? "ปกติ" : "น้อย"}</span></h1></span>)}

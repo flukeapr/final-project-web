@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { SendHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function ChatElement({ user,getUnreadMessage }) {
   const [message, setMessage] = React.useState("");
   const [dataMessage, setDataMessage] = React.useState([]);
+  const ScrollRef = useRef(null);
   
   const { data: session } = useSession();
 
@@ -33,8 +34,12 @@ export default function ChatElement({ user,getUnreadMessage }) {
       });
       const data = await res.json();
       if (res.ok) {
+        if(ScrollRef.current){
+          ScrollRef.current.scrollTop = ScrollRef.current.scrollHeight
+        }
         setMessage("");
         toast.success("ส่งข้อความสําเร็จ");
+        
       }
     } catch (error) {}
   };
@@ -75,12 +80,15 @@ export default function ChatElement({ user,getUnreadMessage }) {
   useEffect(() => {
     getMessage().then(() => {
       markMessagesAsRead();
-      getUnreadMessage();
+      getUnreadMessage();  
     })
     setMessage("");
-   
-    
   }, [user]);
+  useEffect(() => {
+    if (ScrollRef.current) {
+      ScrollRef.current.scrollTop = ScrollRef.current.scrollHeight;
+    }
+  }, [dataMessage]);
   
 
   function formatTime(createAt) {
@@ -90,7 +98,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
 
   return (
     <>
-      <div className="h-[90%] w-full p-4 overflow-y-scroll">
+      <div className="h-[90%] w-full p-4 overflow-y-scroll" ref={ScrollRef}>
         {dataMessage.length > 0 &&
           dataMessage.map((message, index) => (
             <>
@@ -144,6 +152,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
           placeholder="Type here"
           className="input input-bordered w-[90%]"
           value={message}
+          
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
         />

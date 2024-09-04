@@ -52,7 +52,7 @@ export default function ResetPasswordPage({params}) {
   
   
     return (
-      <div className="w-screen h-screen flex items-center justify-center">
+      <div className="w-screen h-screen flex items-center justify-center ">
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -68,7 +68,7 @@ export default function ResetPasswordPage({params}) {
       />
       {!success ? (
         loading ? (
-            <div className="flex flex-col justify-center items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
+            <div className="flex flex-col justify-center items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl max-sm:w-full max-sm:h-full">
               <div className="h-full ">
                 <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
                 <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
@@ -100,9 +100,9 @@ export default function ResetPasswordPage({params}) {
                   </div>
                 
               ) : (
-                <div className="flex  justify-around items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl max-sm:flex-wrap max-sm:w-full max-sm:h-full">
-                <div className="h-full max-sm:h-1/5 max-sm:flex max-sm:items-center ">
-                  <img src="/images/logo/smile-logo-bg-blue.png" className="lg:w-[400px] max-sm:w-1/4" />
+                <div className="lg:flex  lg:justify-around lg:items-center  lg:w-1/2 lg:h-3/4  border shadow-xl p-12  rounded-2xl max-sm:flex max-sm:flex-col max-sm:w-full max-sm:h-full max-sm:items-center max-sm:justify-center">
+                <div className="h-full max-sm:h-1/5 max-sm:flex max-sm:items-center  max-sm:justify-center ">
+                  <img src="/images/logo/smile-logo-bg-blue.png" className="lg:w-[400px] max-sm:w-1/5" />
                   <h1 className="text-4xl max-sm:text-3xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
                     Happy{" "}
                     <span className="bg-gradient-to-r from-blue-500 to-sky-400 text-transparent bg-clip-text">
@@ -110,7 +110,7 @@ export default function ResetPasswordPage({params}) {
                     </span>
                   </h1>
                 </div>
-                <div className="max-sm:-mt-24">
+                <div className="max-sm:-mt-48">
                   <h3 className="text-4xl text-center font-semibold mb-8">New Password</h3>
                   <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
                   <h1 className="text-center m-4 max-sm:text-sm">

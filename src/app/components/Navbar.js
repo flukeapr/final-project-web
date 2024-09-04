@@ -86,7 +86,7 @@ export default function Navbar() {
             </Link>
             
             <ul className="hidden lg:flex ml-14 space-x-10">
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/homepage/" ? "text-blue-500" : ""}`}>
+            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/homepage" ? "text-blue-500" : ""}`}>
                 <Link href={session ? "/homepage" : "/login"}>หน้าหลัก</Link>
             </li>
             <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/result" ? "text-blue-500" : ""}`}>
@@ -159,8 +159,8 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="hidden lg:flex justify-center space-x-12 items-center">
-              <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded-lg text-[18px] text-white">
-                Sign In
+              <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded-lg text-white">
+                เข้าสู่ระบบ
               </Link>
             
             </div>
@@ -173,7 +173,7 @@ export default function Navbar() {
           </div>
         </div>
         {mobileDrawerOpen && (
-          <div className="fixed right-0 z-20 bg-neutral-400 w-full p-12 flex flex-col justify-center items-center mt-3  lg:hidden">
+          <div className="fixed right-0 z-20 bg-gradient-to-b from-blue-500 from-70% to-white w-full p-12 flex flex-col justify-center items-center mt-3  lg:hidden">
             <ul className="flex flex-col space-y-4 my-3">
               <li>
                 <Link
@@ -234,7 +234,7 @@ export default function Navbar() {
             ) : (
               <div className="flex space-x-6">
                <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white">
-                Sign In
+                เข้าสู่ระบบ
               </Link>
             
                 

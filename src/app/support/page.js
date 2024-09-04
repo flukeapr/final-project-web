@@ -61,7 +61,7 @@ export default function Support() {
   return (
     <>
       <Navbar />
-      <main className="max-w-7xl mx-auto h-[calc(100vh-80px)] px-6 flex  flex-wrap">
+      <main className="max-w-7xl mx-auto h-[calc(100vh-80px)] px-6 flex  flex-wrap overflow-y-hidden">
         <div className="w-1/4 lg:h-[calc(100vh-80px)] flex flex-col bg-white  p-2 overflow-y-scroll shadow-md border no-scrollbar">
           <input
             className="p-2 rounded-md shadow-sm border-2 my-2"
@@ -136,7 +136,7 @@ export default function Support() {
               <h1 className="text-white text-xl">Chat with Us</h1>
               <h1 className="">{selectUser.name}</h1>
             </div>
-            <div className="w-full h-full">
+            <div className="w-full h-full overflow-y-hidden">
               <ChatElement
                 user={selectUser}
                 getUnreadMessage={getUnreadMessage}

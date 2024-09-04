@@ -147,7 +147,7 @@ export default function ResultUser({ params }) {
         data.push([" ", " ", " "]);
         data.push(["", "คะแนนเฉลี่ย", total]); 
         worksheetData = [headers, ...data];
-        sheetName = "Rq29";
+        sheetName = "MHL29";
       }
   
     
@@ -205,7 +205,7 @@ export default function ResultUser({ params }) {
         data.push([" ", " ", " "]);
         data.push(["", "คะแนนเฉลี่ย", total]); 
         worksheetData = [headers, ...data];
-        sheetName = `${prePost}Rq29`;
+        sheetName = `${prePost}MHL29`;
       }
   
      

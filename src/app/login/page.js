@@ -94,7 +94,7 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-500 via-sky-400 to-white">
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -108,9 +108,9 @@ export default function LoginPage() {
         theme="light"
         transition={Bounce}
       />
-      <div className="flex  justify-around items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
-        <div className="h-full ">
-          <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
+      <div className="lg:flex  lg:justify-around lg:items-center  lg:w-1/2 lg:h-3/4 bg-white  border shadow-xl p-10 rounded-2xl max-sm:flex max-sm:flex-col max-sm:justify-center max-sm:w-full max-sm:h-full max-md:flex max-md:flex-col max-md:justify-center">
+        <div className="h-full max-sm:hidden max-md:hidden max-lg:hidden lg:block">
+          <img src="/images/logo/smile-logo-bg-blue.png" className="w-[400px] max-sm:w-[200px]" />
           <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
             Happy{" "}
             <span className="bg-gradient-to-r from-blue-500 to-sky-400 text-transparent bg-clip-text">
@@ -118,11 +118,11 @@ export default function LoginPage() {
             </span>
           </h1>
         </div>
-        <div className="">
+        <div className="lg:w-2/5">
           <h3 className="text-4xl text-center font-semibold mb-8">LOGIN</h3>
           <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
           <h1 className="text-center m-4">
-            Please enter your email and password
+            กรุณากรอก อีเมล์ และ รหัสผ่าน
           </h1>
           <form onSubmit={handleLogin} className="flex flex-col gap-6">
             <label className="input input-bordered flex items-center gap-2">
@@ -172,16 +172,16 @@ export default function LoginPage() {
               type="submit"
               className="w-full h-12 bg-gradient-to-r from-blue-500 to-green-400 p-2 my-2 rounded-md text-white font-semibold text-xl"
             >
-              LOGIN
+              เข้าสู่ระบบ
             </button>
           </form>
           <div className="flex flex-col items-center space-y-2 justify-center m-2">
             {/* <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span> */}
             <Link href="/forget-password" className="text-[#3b82f6] underline ml-2 ">
-              Forgot Password
+              ลืมรหัสผ่าน
             </Link>
             <Link href={'/'}>
-             back to main
+             กลับหน้าหลัก
             </Link>
           </div>
           {/* <div className="flex items-center space-x-1 m-2 ">

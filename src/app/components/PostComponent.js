@@ -169,8 +169,17 @@ export default function PostComponent({initialPosts}) {
                 method: "PUT",
                 body: formData
               })
+              const data = await res.json();
               if(!res.ok){
-                toast.error("เกิดข้อผิดพลาด");
+                if(data.error === "ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB"){
+                  toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB");
+                }else if(data.error === "ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png"){
+                  toast.error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
+                }
+                document.getElementById("loadingModal").close();
+                document.getElementById("newPost").close();
+                return;
+
               }
              
             } catch (error) {
@@ -393,7 +402,7 @@ export default function PostComponent({initialPosts}) {
                           {formatTime(post?.postCreateAt)}
                         </span>
                       </div>
-                      {session?.user?.id === post?.postUserId && (
+                      
                         <div className="ml-auto">
                           <button
                             className="ml-auto"
@@ -402,7 +411,7 @@ export default function PostComponent({initialPosts}) {
                             <FaTrash className="text-blue-500" />
                           </button>
                         </div>
-                      )}
+                      
                     </div>
                     <p className="p-2">{post?.postText}</p>
                     

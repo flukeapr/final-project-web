@@ -19,7 +19,7 @@ export async function PUT(req,{params}) {
             throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB")
         }
        
-        const allowedTypes = ['image/jpeg', 'image/png'];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
         if (!allowedTypes.includes(image.type)) {
                 throw Error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
@@ -42,8 +42,8 @@ export async function PUT(req,{params}) {
             
 
         
-        await fs.writeFile(`./public/media/uploads/${fileName}`, finalBuffer);
-        const imageUrl = `/media/uploads/${fileName}`
+        await fs.writeFile(`./public/media/uploads/image/${fileName}`, finalBuffer);
+        const imageUrl = `/media/uploads/image/${fileName}`
 
         await query(`UPDATE media SET image = ? WHERE id = ?`, [imageUrl, id]);
         return NextResponse.json({ message: "success" }, { status: 200 });
@@ -62,7 +62,7 @@ export async function DELETE(req,{params}) {
         const {id} = params;
         
 
-        const pathJpg = `./public/media/uploads/media-${id}.jpg`;
+        const pathJpg = `./public/media/uploads/image/media-${id}.jpg`;
         
 
         

@@ -19,8 +19,8 @@ export const metadata = {
   description: "Mental Health",
 };
 
-export default function RootLayout({ children }) {
-  const session = getServerSession();
+export default async function RootLayout({ children }) {
+  const session = await getServerSession();
   return (
     <html lang="en" className={kanit.className}>
       <head>

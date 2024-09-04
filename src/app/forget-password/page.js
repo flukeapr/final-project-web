@@ -31,7 +31,7 @@ export default function ForgetPassword() {
 
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-500 via-sky-400 to-white">
     <ToastContainer
       position="bottom-right"
       autoClose={5000}
@@ -45,7 +45,7 @@ export default function ForgetPassword() {
       theme="light"
       transition={Bounce}
     />
-    <div className="flex  justify-around items-center  w-1/2 h-3/4  border shadow-xl p-10 rounded-2xl">
+    <div className="flex  justify-around items-center  w-1/2 h-3/4 bg-white  border shadow-xl p-10 rounded-2xl">
       <div className="h-full ">
         <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
         <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
@@ -55,11 +55,11 @@ export default function ForgetPassword() {
           </span>
         </h1>
       </div>
-      <div className="">
+      <div className="lg:w-2/5">
         <h3 className="text-4xl text-center font-semibold mb-8">Reset Password</h3>
         <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
         <h1 className="text-center m-4">
-          Please enter your email to reset your password
+          กรุณากรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน
         </h1>
         <form onSubmit={handleResetPassword} className="flex flex-col gap-6">
          
@@ -88,14 +88,14 @@ export default function ForgetPassword() {
             type="submit"
             className="w-full h-12 bg-gradient-to-r from-blue-500 to-green-400 p-2 my-2 rounded-md text-white font-semibold text-xl"
           >
-           send Email
+            Send Email
           </button>
         </form>
         <div className="flex flex-col items-center space-y-2 justify-center m-2">
           {/* <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span> */}
           
           <Link href={'/'}>
-           back to main
+           กลับหน้าหลัก
           </Link>
         </div>
         {/* <div className="flex items-center space-x-1 m-2 ">

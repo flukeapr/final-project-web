@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/app/components/Navbar";
 import { useUserContext } from "../../context/UsersContext";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,16 +21,17 @@ export default function AllUsers() {
   const [userPostQuiz , setUserPostQuiz] = useState(false);
   const [userUnCompleteQuiz , setUserUnCompleteQuiz] = useState(false);
   const router = useRouter();
+  
 
   const usersReduce = users.reduce((acc, item) => {
     let user = acc.find((user) => user.id === item.id);
     if (!user) {
       user = {
         ...item,
-        preQuiz:item.preRq3>0 && item.preRq20>0 ? true:false,
-        postQuiz:item.postRq3>0 && item.postRq20>0 ? true:false,
-        mayBeRisk: item.preRq20 && item.preRq3  > 0 ? item.preRq20 < 55 && item.preRq20 > 0 || item.preRq3 <= 4 && item.preRq3 > 0 ?  "high" : item.preRq20 <= 69 && item.preRq20 > 55 || item.preRq3  <=6 && item.preRq3 > 0 ? "medium" : "low" :null,
-        realRisk: item.postRq20 && item.postRq3 > 0 ? item.postRq20 < 55 && item.postRq20 > 0 || item.postRq3 <= 4 && item.postRq3 > 0 ?  "high" : item.postRq20 <= 69 && item.postRq20 > 55 || item.postRq3  <=6 && item.postRq3 > 0 ? "medium" : "low" :null,
+        preQuiz:item.preRq3>0 || item.preRq20>0 ? true:false,
+        postQuiz:item.postRq3>0 || item.postRq20>0 ? true:false,
+        mayBeRisk: item.preRq20 || item.preRq3  > 0 ? item.preRq20 < 55 && item.preRq20 > 0 || item.preRq3 <= 4 && item.preRq3 > 0 ?  "high" : item.preRq20 <= 69 && item.preRq20 > 55 || item.preRq3  <=6 && item.preRq3 > 0 ? "medium" : "low" :null,
+        realRisk: item.postRq20 || item.postRq3 > 0 ? item.postRq20 < 55 && item.postRq20 > 0 || item.postRq3 <= 4 && item.postRq3 > 0 ?  "high" : item.postRq20 <= 69 && item.postRq20 > 55 || item.postRq3  <=6 && item.postRq3 > 0 ? "medium" : "low" :null,
         changeRisk: item.preRq20 && item.preRq3 && item.postRq20 && item.postRq3 > 0 ?  item.postRq3 > item.preRq3  && item.postRq20 > item.preRq20 ? "ดีขึ้นมาก" : item.postRq3 > item.preRq3  || item.postRq20 > item.preRq20 ? "ดีขึ้น" : "แย่ลง" : null,
       };
       acc.push(user);
@@ -39,7 +40,8 @@ export default function AllUsers() {
     return acc;
   },[])
   console.log(usersReduce)
- 
+
+
   
   
   const handleUpdateStatus = async (id) => {
@@ -284,7 +286,7 @@ export default function AllUsers() {
           }).map((user) => (
             <div
               key={user.id}
-              className={` flex flex-row w-full items-center  ${ user.preQuiz && !user.postQuiz && (user.mayBeRisk === "high" ? "bg-red-200": user.mayBeRisk === "medium" ? "bg-yellow-100" : "bg-white")} ${ user.preQuiz && user.postQuiz && (user.realRisk === "high" ? "bg-red-400": user.realRisk === "medium" ? "bg-yellow-200" : "bg-white")} shadow-xl rounded-2xl my-2 h-28 max-sm:flex-col max-sm:h-1/2 max-sm:items-start`}
+              className={` flex flex-row w-full items-center border-2  ${ user.preQuiz && !user.postQuiz && (user.mayBeRisk === "high" ? "bg-red-300": user.mayBeRisk === "medium" ? "bg-yellow-100" : "bg-white")} ${ user.preQuiz && user.postQuiz && (user.realRisk === "high" ? "bg-red-300": user.realRisk === "medium" ? "bg-yellow-100" : "bg-white")} shadow-lg rounded-2xl my-4 h-28 max-sm:flex-col max-sm:h-1/2 max-sm:items-start`}
             >
               <div className="flex w-1/4 p-12 max-sm:p-8 ">
                 <img src={user.image} className="w-14 h-14 border-2  rounded-full" />

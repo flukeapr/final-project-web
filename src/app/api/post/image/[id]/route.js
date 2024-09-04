@@ -36,8 +36,8 @@ export async function PUT(req, { params }) {
       finalBuffer = buffer;
     }
 
-    await fs.writeFile(`./public/post/uploads/posts/${fileName}`, finalBuffer);
-    const imageUrl = `/post/uploads/posts/${fileName}`;
+    await fs.writeFile(`./public/post/uploads/posts/image/${fileName}`, finalBuffer);
+    const imageUrl = `/post/uploads/posts/image/${fileName}`;
 
     await query(`UPDATE post SET image = ? WHERE post_id = ?`, [imageUrl, id]);
     return NextResponse.json({ message: "success" }, { status: 200 });
@@ -51,7 +51,7 @@ export async function DELETE(req, { params }) {
   try {
     const { id } = params;
 
-    const pathJpg = `./public/post/uploads/posts/post-${id}.jpg`;
+    const pathJpg = `./public/post/uploads/posts/image/post-${id}.jpg`;
 
     try {
       await fs.access(pathJpg);

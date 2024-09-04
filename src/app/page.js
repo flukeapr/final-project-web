@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 
 
 
+
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -20,12 +21,12 @@ export default function Home() {
   return (
     <>
     
-
+    
     
     <Navbar/>
     
     <main  className="max-w-7xl mx-auto pt-20 px-6">
-  
+    
     <HeroSection/>
     <SecondSection/>
     <CareSection/>

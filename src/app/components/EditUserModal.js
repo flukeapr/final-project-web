@@ -82,8 +82,17 @@ export default function EditUserModal({ initialUser }) {
               method: "PUT",
               body: formData,
             })
+            const data = await res.json();
             if(!res.ok){
-                toast.error("อัพโหลดรูปภาพไม่สําเร็จ")
+              if(data.error=== "The file must be less than 2.5MB"){
+                toast.error("อัพโหลดรูปภาพไม่สําเร็จ : ขนาดไฟล์ต้องไม่เกิน 2.5 MB")
+              }else if(data.error=== "The file must be a .jpg or .png"){
+                toast.error("อัพโหลดรูปภาพไม่สําเร็จ : ไฟล์ต้องเป็น .jpg หรือ .png")
+              }
+              document.getElementById("loadingModal").close();
+              document.getElementById("edit_modal").close();
+              return
+
             }
           } catch (error) {
             console.log(error);
