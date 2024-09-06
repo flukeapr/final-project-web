@@ -18,7 +18,7 @@ export default function page() {
     const [isLoading, setIsLoading] = useState(true)
     const router = useRouter();
     console.log(session)
-    if (!session) redirect("/");
+    // if (!session) redirect("/");
 
    
 

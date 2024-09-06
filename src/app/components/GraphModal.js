@@ -84,7 +84,7 @@ export default function GraphModal({ userQuiz }) {
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-lg p-4">ผลลัพธ์แบบทดสอบเเปรียบเทียบระหว่างการทำแบบทดสอบก่อนและหลัง</h3>
+        <h3 className="font-bold text-lg p-4">ผลลัพธ์แบบประเมินเปรียบเทียบระหว่างการทำแบบประเมินก่อนและหลัง</h3>
         <h1 className="font-bold text-lg">แบบประเมิน MHL 29</h1>
         <div className="flex justify-evenly">
            
@@ -129,7 +129,7 @@ export default function GraphModal({ userQuiz }) {
             <Legend  />
             <Bar
               dataKey="value"
-              name="แบบทดสอบก่อนกิจกรรม"
+              name="แบบประเมินก่อนกิจกรรม"
               fill="#10b981"
               label={{ fill: 'white', fontSize: 20 }}
               activeBar={<Rectangle fill="#38bdf8" stroke="white" />}
@@ -157,7 +157,7 @@ export default function GraphModal({ userQuiz }) {
             <Legend />
             <Bar
               dataKey="value"
-              name="แบบทดสอบหลังกิจกรรม"
+              name="แบบประเมินหลังกิจกรรม"
               
               fill="#3b82f6"
               

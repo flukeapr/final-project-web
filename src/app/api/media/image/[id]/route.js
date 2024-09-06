@@ -3,6 +3,51 @@ import { query } from "../../../../../../lib/ConnectDb";
 import fs from 'node:fs/promises'
 import sharp from "sharp";
 
+/**
+ * @swagger
+ * /api/media/image/{id}:
+ *   put:
+ *     summary: เพิ่มรูปภาพสื่อ
+ *     tags:
+ *         - Media
+ *     description: บันทึกรูปภาพสื่อลงเครื่อง sever
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: multipart/form-data
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               video:
+ *                 type: string
+ *                 format: binary
+ *                 description: ไฟล์
+ *                 default:
+ *                   filename: video.mp4
+ *                   mimetype: video/mp4
+ *                   encoding: "7bit"
+ *                   size: 104857600
+ *                   data: ArrayBuffer
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *          
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
 
 export async function PUT(req,{params}) {
     try {
@@ -14,9 +59,9 @@ export async function PUT(req,{params}) {
         const file = await req.formData();
         const image = file.get('image');
 
-        if(image.size > 2621440){
+        if(image.size > 5242880){
             // size less than 2.5MB
-            throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB")
+            throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 5 MB")
         }
        
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];

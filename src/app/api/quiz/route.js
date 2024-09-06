@@ -1,19 +1,95 @@
 import { query } from "../../../../lib/ConnectDb";
 import {NextResponse} from "next/server";
 
+
+/**
+ * @swagger
+ * /api/quiz:
+ *   get:
+ *     summary: ดึงข้อมูลแบบประเมิน
+ *     tags:
+ *         - Quiz
+ *     description: ดึงข้อมูลแบบประเมินจาก database.
+ *     responses:
+ *        201:
+ *          description: สำเร็จ
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
 export async function GET(req){
     try {
     const result = await query(`SELECT * FROM quiz`);
 
    
 
-    return NextResponse.json(result);
+    return NextResponse.json(result,{status: 200});
 
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
     
 }
+
+
+
+/**
+ * @swagger
+ * /api/post:
+ *   post:
+ *     summary: บันทึกข้อมูลแบบประเมิน
+ *     tags:
+ *         - Quiz
+ *     description: บันทึกข้อมูลแบบประเมินลง database.
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: application/json
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               quizId:
+ *                 type: string
+ *               quizType:
+ *                 type: string
+ *               answers:
+ *                 type: array
+ *               pressure:
+ *                 type: number
+ *               encouragement:
+ *                 type: number
+ *               obstacle:
+ *                 type: number
+ *               total:
+ *                 type: number
+ *               risk:
+ *                 type: string
+ * 
+ * 
+ * 
+ *     responses:
+ *        201:
+ *          description: สำเร็จ
+ *          content:
+ *                application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      message:
+ *                        type: string
+ *                        example: Success
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
 
 export async function POST(req) {
     try {

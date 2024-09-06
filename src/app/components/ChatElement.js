@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function ChatElement({ user,getUnreadMessage }) {
-  const [message, setMessage] = React.useState("");
+  const [message, setMessage] = React.useState(""); 
   const [dataMessage, setDataMessage] = React.useState([]);
   const ScrollRef = useRef(null);
   

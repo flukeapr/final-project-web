@@ -25,6 +25,7 @@ export default function PostComponent({initialPosts}) {
     const [preview, setPreview] = useState(null);
     const [isScrolled, setIsScrolled ] = useState(false);
     const scrollDivRef = useRef(null);
+    const [commentImage , setCommentImage] = useState(null);
 
     function formatDay(createAt) {
         const date = new Date(createAt);
@@ -442,7 +443,7 @@ export default function PostComponent({initialPosts}) {
                       <div className="mt-4">
                         {post.comments.length > 0 &&
                           post.comments.map((comment, idx) => (
-                            <div key={idx} className="mt-2 pl-4">
+                            <div key={idx} className="mt-2 pl-4 ">
                               <div className="flex items-center mb-2">
                                 <img
                                   src={comment?.commentUserImage}
@@ -458,7 +459,7 @@ export default function PostComponent({initialPosts}) {
                                   </span>
                                 </div>
                               </div>
-                              <p>{comment?.commentText}</p>
+                              <p className="">{comment?.commentText}</p>
                               {comment?.commentImage && (
                                 <img
                                   src={comment?.commentImage}

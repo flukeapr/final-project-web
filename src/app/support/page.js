@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Support() {
   const { data: session } = useSession();
-  if (!session) redirect("/");
+  // if (!session) redirect("/");
   const [users, setUser] = useState([]);
   const [isSelected, setIsSelected] = useState(0);
   const [selectUser, setSelectUser] = useState([]);

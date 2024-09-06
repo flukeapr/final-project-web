@@ -19,7 +19,7 @@ import PersonalModal from "@/app/components/PersonalModal";
 export default function ResultUser({ params }) {
   const { id } = params;
   const { data: session } = useSession();
-  if (!session) redirect("/");
+  // if (!session) redirect("/");
   const router = useRouter();
   const [selectedQuiz, setSelectedQuiz] = useState([]);
   const { users, setUsers, allQuiz, fetchUserQuiz } = useUserContext();

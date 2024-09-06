@@ -8,65 +8,64 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const { data: session ,update :updateSession } = useSession();
+  const { data: session, update: updateSession } = useSession();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
-  const [preview , setPreview] = useState(null)
-  const pathname = usePathname()
+  const [preview, setPreview] = useState(null);
+  const pathname = usePathname();
+ 
   useEffect(() => {
     if (session?.user) {
       setName(session.user.name);
       setEmail(session.user.email);
-     
     }
   }, [session]);
 
   const handleChangeProfile = async () => {
     try {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_serverURL +
+          `/api/updateuser/profile/data/${session?.user?.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, name }),
+        }
+      );
 
-      const res = await fetch(process.env.NEXT_PUBLIC_serverURL + `/api/updateuser/profile/data/${session?.user?.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, name }),
-      })
-      
-      if(image){
+      if (image) {
         try {
           const formData = new FormData();
           formData.append("image", image);
-         
-          const res = await fetch(process.env.NEXT_PUBLIC_serverURL +`/api/updateuser/profile/image/${session?.user?.id}`, {
-            method: "PUT",
-            body: formData,
-          });
-  
+
+          const res = await fetch(
+            process.env.NEXT_PUBLIC_serverURL +
+              `/api/updateuser/profile/image/${session?.user?.id}`,
+            {
+              method: "PUT",
+              body: formData,
+            }
+          );
+
           if (!res.ok) {
             toast.error("อัพโหลดรูปภาพไม่สําเร็จ");
           }
         } catch (error) {
           toast.error("อัพโหลดรูปภาพไม่สําเร็จ");
         }
-       
       }
-      if(res.ok){
+      if (res.ok) {
         await updateSession();
         document.getElementById("profile_modal").close();
         toast.success("อัพเดทข้อมูลสําเร็จ");
-        
       }
-     
-     
-      
-     
-      
-      
     } catch (error) {
       console.log(error);
     }
@@ -75,6 +74,9 @@ export default function Navbar() {
   const toggleMobileDrawer = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
+  
+
+  
   return (
     <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-300/80">
       <div className="container px-4 mx-auto relative text-sm">
@@ -84,35 +86,59 @@ export default function Navbar() {
             <Link href={session ? "/homepage" : "/"}>
               <span className="text-xl tracking-tight">Happy Mind</span>
             </Link>
-            
-            <ul className="hidden lg:flex ml-14 space-x-10">
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/homepage" ? "text-blue-500" : ""}`}>
-                <Link href={session ? "/homepage" : "/login"}>หน้าหลัก</Link>
-            </li>
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/result" ? "text-blue-500" : ""}`}>
-                <Link href={session ? "/result" : "/login"}>ผลลัพธ์</Link>
-            </li>
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/edituser" ? "text-blue-500" : ""}`}>
-                <Link href={session ? "/edituser" : "/login"}>จัดการผู้ใช้</Link>
-            </li>
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/media" ? "text-blue-500" : ""}`}>
-                <Link href={session ? "/media" : "/login"}>สื่อความรู้</Link>
-            </li>
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/community" ? "text-blue-500" : ""}`}>
-                <Link href={session ? "/community" : "/login"}>โพสต์ชุมชน</Link>
-            </li>
-            <li className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${pathname === "/support" ? "text-blue-500" : ""}`}>
-                <Link href={session ? "/support" : "/login"}>ศูนย์การช่วยเหลือ</Link>
-            </li>
-          </ul>
-           
+            {session?.user && (
+              <ul className="hidden lg:flex ml-14 space-x-10">
+              <li
+                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/homepage" ? "text-blue-500" : ""
+                }`}
+              >
+                <Link href={"/homepage"}>หน้าหลัก</Link>
+              </li>
+              <li
+                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/result" ? "text-blue-500" : ""
+                }`}
+              >
+                <Link href={"/result"}>ผลลัพธ์</Link>
+              </li>
+              <li
+                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/edituser" ? "text-blue-500" : ""
+                }`}
+              >
+                <Link href={"/edituser"}>จัดการผู้ใช้</Link>
+              </li>
+              <li
+                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/media" ? "text-blue-500" : ""
+                }`}
+              >
+                <Link href={"/media"}>สื่อความรู้</Link>
+              </li>
+              <li
+                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/community" ? "text-blue-500" : ""
+                }`}
+              >
+                <Link href={"/community"}>โพสต์ชุมชน</Link>
+              </li>
+              <li
+                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/support" ? "text-blue-500" : ""
+                }`}
+              >
+                <Link href={"/support"}>ศูนย์การช่วยเหลือ</Link>
+              </li>
+            </ul>
+            )}
             
           </div>
+          
 
           {session?.user ? (
+            
             <div className="hidden lg:flex w-1/5 md:w-1/4 items-center justify-end space-x-4 ">
-             
-             
               {/* dropdown menu profile */}
               <div className="dropdown dropdown-end">
                 <div
@@ -120,13 +146,11 @@ export default function Navbar() {
                   role="button"
                   className="btn btn-ghost btn-circle avatar online"
                 >
-                  
                   <div className="w-10 rounded-full">
                     {/* image profile */}
-                    
-                      <img src={session?.user?.image} className="w-12 h-12" />                  
+
+                    <img src={session?.user?.image} className="w-12 h-12" />
                   </div>
-                  
                 </div>
                 <ul
                   tabIndex={0}
@@ -159,61 +183,87 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="hidden lg:flex justify-center space-x-12 items-center">
-              <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded-lg text-white">
+              <Link
+                href="/login"
+                className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded-lg text-white"
+              >
                 เข้าสู่ระบบ
               </Link>
-            
             </div>
           )}
 
           <div className="lg:hidden md:flex flex-col justify-end">
-            <button onClick={toggleMobileDrawer}>
-              {mobileDrawerOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            {session?.user ?(
+               <button onClick={toggleMobileDrawer}>
+               {mobileDrawerOpen ? <X size={20} /> : <Menu size={20} />}
+             </button>
+             
+            ):(
+              <Link
+              href="/login"
+              className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white"
+            >
+              เข้าสู่ระบบ
+            </Link>
+            )}
+           
           </div>
         </div>
         {mobileDrawerOpen && (
           <div className="fixed right-0 z-20 bg-gradient-to-b from-blue-500 from-70% to-white w-full p-12 flex flex-col justify-center items-center mt-3  lg:hidden">
-            <ul className="flex flex-col space-y-4 my-3">
-              <li>
-                <Link
-                  href={session ? "/homepage" : "/login"}
-                  className="text-white"
-                >
-                  หน้าหลัก
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={session ? "/result" : "/login"}
-                  className="text-white"
-                >
-                  ผลลัพธ์
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={session ? "/edituser" : "/login"}
-                  className="text-white"
-                >
-                  จัดการผู้ใช้
-                </Link>
-              </li>
-              <li >
-                <Link  className="text-white" href={session ? "/media" : "/login"}>สื่อความรู้</Link>
-            </li>
-            <li >
-                <Link  className="text-white" href={session ? "/community" : "/login"}>โพสต์ชุมชน</Link>
-            </li>
-              <li>
-                <Link
-                  href={session ? "/support" : "/login"}
-                  className="text-white"
-                >
-                  ศูนย์การช่วยเหลือ
-                </Link>
-              </li>
-            </ul>
+            {session?.user && (
+               <ul className="flex flex-col space-y-4 my-3">
+               <li>
+                 <Link
+                   href={"/homepage"}
+                   className="text-white"
+                 >
+                   หน้าหลัก
+                 </Link>
+               </li>
+               <li>
+                 <Link
+                   href={"/result"}
+                   className="text-white"
+                 >
+                   ผลลัพธ์
+                 </Link>
+               </li>
+               <li>
+                 <Link
+                   href={"/edituser"}
+                   className="text-white"
+                 >
+                   จัดการผู้ใช้
+                 </Link>
+               </li>
+               <li>
+                 <Link
+                   className="text-white"
+                   href={"/media"}
+                 >
+                   สื่อความรู้
+                 </Link>
+               </li>
+               <li>
+                 <Link
+                   className="text-white"
+                   href={"/community"}
+                 >
+                   โพสต์ชุมชน
+                 </Link>
+               </li>
+               <li>
+                 <Link
+                   href={"/support"}
+                   className="text-white"
+                 >
+                   ศูนย์การช่วยเหลือ
+                 </Link>
+               </li>
+             </ul>
+            )}
+           
             {session?.user ? (
               <div className="flex w-1/5 max-sm:w-full sm:w-full items-center justify-around">
                 <img
@@ -233,11 +283,12 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex space-x-6">
-               <Link href="/login" className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white">
-                เข้าสู่ระบบ
-              </Link>
-            
-                
+                <Link
+                  href="/login"
+                  className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white"
+                >
+                  เข้าสู่ระบบ
+                </Link>
               </div>
             )}
           </div>
@@ -289,17 +340,22 @@ export default function Navbar() {
               <div className="flex flex-row justify-between py-2">
                 <h1>Profile</h1>
                 <div className="flex justify-end space-x-4">
-                  {preview ? <img src={preview} className="w-12 h-12 rounded-full" /> : <img
-                    src={session?.user?.image}
-                    className="w-12 h-12 rounded-full"
-                  />}
-                 
+                  {preview ? (
+                    <img src={preview} className="w-12 h-12 rounded-full" />
+                  ) : (
+                    <img
+                      src={session?.user?.image}
+                      className="w-12 h-12 rounded-full"
+                    />
+                  )}
+
                   <input
                     type="file"
                     id="imageProfile"
-                    onChange={(e) => {setImage(e.target.files[0])
-                      const src = URL.createObjectURL(e.target.files[0])
-                      setPreview(src)
+                    onChange={(e) => {
+                      setImage(e.target.files[0]);
+                      const src = URL.createObjectURL(e.target.files[0]);
+                      setPreview(src);
                     }}
                     className="file-input input-xs  input-bordered w-32 "
                   />
@@ -312,8 +368,9 @@ export default function Navbar() {
           <div className="flex justify-end space-x-2">
             <button
               className="btn btn-sm btn-outline text-lg"
-              onClick={() => {document.getElementById("profile_modal").close()
-                setPreview(null)
+              onClick={() => {
+                document.getElementById("profile_modal").close();
+                setPreview(null);
               }}
             >
               ยกเลิก

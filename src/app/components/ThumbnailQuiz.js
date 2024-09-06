@@ -26,7 +26,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
     {quiz?.length > 0 ? (
       <>
       <div className='my-2 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1  className='font-semibold text-lg'>แบบทดสอบก่อนกิจกรรม</h1>
+    <h1  className='font-semibold text-lg'>แบบประเมินก่อนกิจกรรม</h1>
     <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
     </div>
     {/* <div className='flex flex-wrap items-center gap-2 w-10/12 p-4'> */}
@@ -66,7 +66,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
         
     ))}
   <div className='my-4 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1 className='font-semibold text-lg'>แบบทดสอบหลังกิจกรรม</h1>
+    <h1 className='font-semibold text-lg'>แบบประเมินหลังกิจกรรม</h1>
     <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
     </div>
     <div>

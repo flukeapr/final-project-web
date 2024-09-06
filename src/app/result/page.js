@@ -38,7 +38,7 @@ export default function Result() {
   const [filterRq29 , setFilterRq29] = useState([]);
   const [filterRq3 , setFilterRq3] = useState([]);
   const { data: session } = useSession();
-  if(!session)  redirect('/')
+  // if(!session)  redirect('/')
 
 
     const getData = async ()=>{
@@ -342,7 +342,7 @@ export default function Result() {
           <div className='flex flex-col items-center space-y-3'>
             <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ RQ 3 ก่อนและหลัง</h1>
             <span className='badge badge-lg p-4 border-2 border-blue-500 text-2xl font-semibold w-28 h-28 rounded-full'>{averageRq3.value}</span>
-            <h1>อยู่ในระดับ : พลังใจ<span className=' font-semibold ml-2'>{averageRq3.value > 7 ? "มาก" : averageRq3.value <= 6 && averageRq3.value >= 5 ? "ปานกลาง" : "น้อย"}</span></h1>
+            <h1>อยู่ในระดับ : พลังใจ<span className=' font-semibold ml-2'>{averageRq3.value > 7 ? "มาก" :  averageRq3.value >= 5 ? "ปานกลาง" : "น้อย"}</span></h1>
            
             
 
@@ -361,7 +361,7 @@ export default function Result() {
             <Legend  />
             <Bar
               dataKey="value"
-              name="คะแนนเฉลี่ยของแบบทดสอบ RQ 20 ก่อนและหลัง"
+              name="คะแนนเฉลี่ยของแบบประเมิน RQ 20 ก่อนและหลัง"
               fill="#10b981"
               label={{ fill: 'white', fontSize: 20 }}
               activeBar={<Rectangle fill="#38bdf8" stroke="white" />}

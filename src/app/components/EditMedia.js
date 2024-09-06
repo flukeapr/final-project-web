@@ -338,7 +338,7 @@ export default function EditMedia({ initialMedia }) {
               <div className="form-control rounded-md bg-white p-2">
                 <label className="label cursor-pointer ">
                   <span className="label-text  text-md">
-                    ที่มีรูปภาพ
+                    ที่เป็นรูปภาพ
                   </span>
                   <input
                     type="checkbox"
@@ -351,7 +351,7 @@ export default function EditMedia({ initialMedia }) {
               <div className="form-control rounded-md bg-white p-2">
                 <label className="label cursor-pointer ">
                   <span className="label-text  text-md">
-                    ที่มีวิดีโอ
+                    ที่เป็นวิดีโอ
                   </span>
                   <input
                     type="checkbox"
@@ -406,7 +406,7 @@ export default function EditMedia({ initialMedia }) {
                   {item.title}
                 </h1>
                 <div className="lg:w-full max-sm:w-full lg:flex lg:items-center lg:justify-center">
-                  <a href={item.url ? item.url : ""} target="_blank">
+                  <a href={item.url && item.url} target="_blank">
                     {item.image && (
                       <img
                         src={item.image}
@@ -418,6 +418,9 @@ export default function EditMedia({ initialMedia }) {
                         <source src={item.video} type="video/mp4" />
                       </video>
                     )}
+                    {!item.image && !item.video && (
+                      <img src="/media/default.png" className=" rounded-md shadow-sm " />
+                    )}
                   </a>
                 </div>
                 {item.content && (
@@ -425,6 +428,7 @@ export default function EditMedia({ initialMedia }) {
                    {item.content}
                  </h1>
                 )}
+                
                
                 <div className="flex flex-col justify-center p-4  w-3/4">
                   <div className="flex flex-row justify-around mt-6">
@@ -452,6 +456,7 @@ export default function EditMedia({ initialMedia }) {
                 </div>
               </div>
             ))}
+             
       </div>
       {/* edit modal */}
       <dialog id="edit_modal" className="modal">
@@ -601,45 +606,55 @@ export default function EditMedia({ initialMedia }) {
           <div className="flex flex-col p-4 mt-4 ">
             {/* form group detail */}
             <div className="flex flex-col space-y-2">
-              <h1>สื่อให้ความรู้</h1>
+              <h1 className="text-xl">สื่อให้ความรู้</h1>
               <hr />
               <div className="flex flex-row justify-between py-2">
-                <h1>หัวข้อ</h1>
+                <h1 className="text-lg">หัวข้อ</h1>
                 <input
+                  type="text"
                   className=" input input-bordered w-4/5  "
                   value={title}
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
+                  required
+                  
                 />
               </div>
 
               <hr />
               <div className="flex flex-row justify-between py-2">
                 <div className="flex flex-col">
-                  <h1>ลิ้งค์</h1>
-                  <p className="text-sm">*ถ้ามี หากเป็นบทความภาพนอก*</p>
+                  <h1 className="text-lg">ลิ้งค์</h1>
+                  <p className="text-sm">*ถ้ามี*</p>
+                  <p className="text-sm">*หากเป็นบทความภาพนอก*</p>
                 </div>
 
                 <input
+                  type="text"
                   className=" input input-bordered w-4/5 "
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
+                  
                 />
               </div>
               <hr />
               <div className="flex flex-row justify-between py-2">
-                <h1>บทความ</h1>
+              <div className="flex flex-col">
+                <h1 className="text-lg">บทความ</h1>
+                <p className="text-sm">*ถ้ามี*</p>
+              </div>
                 <textarea
                   className=" input input-bordered w-4/5 "
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
+                  
                 />
               </div>
               <hr />
 
               <div className="flex flex-row justify-between py-2">
-                <h1>รูปประกอบ หรือ วิดีโอ</h1>
+                <h1 className="text-lg">รูปประกอบ หรือ วิดีโอ</h1>
                 <div className="flex flex-col items-center justify-center space-x-4">
                   {previewVideo && (
                     <video

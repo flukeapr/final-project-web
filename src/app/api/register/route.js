@@ -2,6 +2,59 @@ import { NextResponse } from "next/server";
 import { query } from "../../../../lib/ConnectDb";
 import bcrypt from "bcrypt";
 
+
+/**
+ * @swagger
+ * /api/register:
+ *   post:
+ *     summary: สมัครสมาชิก
+ *     tags:
+ *         - Register
+ *     description: สมัครสมาชิก.
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: application/json
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               role:
+ *                 type: string
+ * 
+ *               
+ *     responses:
+ *        201:
+ *          description: สำเร็จ
+ *          content:
+ *                application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      message:
+ *                        type: string
+ *                        example: User created successfully
+ *                      id:
+ *                        type: string
+ *                        example: 1
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
+
+
 const avatars = [
    "/images/avatars/avatar1.png",
    "/images/avatars/avatar2.png",

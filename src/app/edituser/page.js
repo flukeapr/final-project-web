@@ -15,7 +15,7 @@ import { GetUserData } from "../components/action/UserAction";
 export default async function EditUser() {
 
   const session = await getServerSession();
-  if (!session) redirect("/");
+  // if (!session) redirect("/");
   const users = await GetUserData();
 
   return (

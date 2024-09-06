@@ -34,13 +34,11 @@ export default function LoginPage() {
         password,
         redirect: false,
       });
-
-      if (res.error) {
-        setError(res.error);
-        throw new Error(res.error);
+      if(!res.ok){
+        toast.error(res.error);
       }
       if (res.ok) {
-        try {
+        try { 
           const resSession = await fetch("/api/auth/session");
           const data = await resSession.json();
           if (data.user) {
@@ -48,7 +46,7 @@ export default function LoginPage() {
               toast.success("เข้าสู่ระบบสําเร็จ");
               setTimeout(() => {
                 router.replace("/homepage");
-              }, 1500);
+              }, 1000);
             } else {
               toast.error("คุณไม่มีสิทธิ์เข้าใช้งาน");
               setTimeout(async() => {

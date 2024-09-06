@@ -29,7 +29,7 @@ async function getMedia() {
 
 export default async function Media() {
  const session = await getServerSession()
-  if(!session) redirect("/")
+  // if(!session) redirect("/")
   
 
     const media = await GetMediaData()

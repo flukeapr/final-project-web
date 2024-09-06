@@ -26,7 +26,7 @@ export async function MailAction({ email }) {
               const htmlBody = `<div>
               <h1>HappyMind App Reset Password</h1>
               <h4>Please click on the link below to reset your password</h4>
-              <a href= "https://9ae3-2405-9800-bc20-5d14-2360-1240-ff96-9e71.ngrok-free.app/reset-password/${token}">Reset Password</a>
+              <a href= "${process.env.NEXT_PUBLIC_serverURL}/reset-password/${token}">Reset Password</a>
               </div>`
               const info = await transport.sendMail({
                 from: "Admin <admin@example.com>",
