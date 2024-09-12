@@ -90,7 +90,7 @@ export default function GraphModal({ userQuiz }) {
            
             <div className='flex flex-col items-center space-y-3' >
             <h1>คะแนนของแบบประเมิน MHL 29 ก่อนกิจกรรม</h1>
-            <span className='badge badge-lg p-4 border-2 border-sky-400 text-2xl font-semibold w-28 h-28 rounded-full '>{preQuizRq29?.total ? preQuizRq29?.total : 0}</span>
+            <span className='badge badge-lg p-4 border-2 border-DB text-2xl font-semibold w-28 h-28 rounded-full '>{preQuizRq29?.total ? preQuizRq29?.total : 0}</span>
             {!preQuizRq29 && (<span className='badge border-2 badge-lg p-3'><h1>• ยังไม่ทำแบบประเมิน</h1></span>)}
             {preQuizRq29 && (<span className='badge border-2 badge-lg p-3'><h1>• ความรอบรู้ด้านสุภาพจิต : <span className="font-semibold">{preQuizRq29?.total >= 3.68 && preQuizRq29?.total <=5 ? "มาก" : preQuizRq29?.total <= 3.67 && preQuizRq29?.total >= 2.34 ? "ปกติ" : "น้อย"}</span></h1></span>)}
 
@@ -98,7 +98,7 @@ export default function GraphModal({ userQuiz }) {
           </div>
           <div className='flex flex-col items-center space-y-3' >
             <h1>คะแนนของแบบประเมิน RQ 29 หลังกิจกรรม</h1>
-            <span className='badge badge-lg p-4 border-2 border-sky-400 text-2xl font-semibold w-28 h-28 rounded-full '>{postQuizRq29?.total ? postQuizRq29?.total : 0}</span>
+            <span className='badge badge-lg p-4 border-2 border-DB text-2xl font-semibold w-28 h-28 rounded-full '>{postQuizRq29?.total ? postQuizRq29?.total : 0}</span>
             {!postQuizRq29 && (<span className='badge border-2 badge-lg p-3'><h1>• ยังไม่ทำแบบประเมิน</h1></span>)}
             {postQuizRq29 && (<span className='badge border-2 badge-lg p-3'><h1>• ความรอบรู้ด้านสุภาพจิต : <span className="font-semibold">{preQuizRq29?.total >= 3.68 && preQuizRq29?.total <=5 ? "มาก" : preQuizRq29?.total <= 3.67 && preQuizRq29?.total >= 2.34 ? "ปกติ" : "น้อย"}</span></h1></span>)}
 
@@ -130,7 +130,7 @@ export default function GraphModal({ userQuiz }) {
             <Bar
               dataKey="value"
               name="แบบประเมินก่อนกิจกรรม"
-              fill="#10b981"
+              fill="#0078b7"
               label={{ fill: 'white', fontSize: 20 }}
               activeBar={<Rectangle fill="#38bdf8" stroke="white" />}
             />
@@ -159,10 +159,10 @@ export default function GraphModal({ userQuiz }) {
               dataKey="value"
               name="แบบประเมินหลังกิจกรรม"
               
-              fill="#3b82f6"
+              fill="#38bdf8"
               
               label={{ fill: 'white', fontSize: 20 }}
-              activeBar={<Rectangle fill="#38bdf8" stroke="white" />}
+              activeBar={<Rectangle fill="#0078b7" stroke="white" />}
             />
           </BarChart >
           
@@ -173,7 +173,7 @@ export default function GraphModal({ userQuiz }) {
            
             <div className='flex flex-col items-center space-y-3' >
             <h1>คะแนนของแบบประเมิน RQ 3 ก่อนกิจกรรม</h1>
-            <span className='badge badge-lg p-4 border-2 border-blue-500 text-2xl font-semibold w-28 h-28 rounded-full '>{preQuizRq3?.total ? preQuizRq3?.total : 0}</span>
+            <span className='badge badge-lg p-4 border-2 border-LB text-2xl font-semibold w-28 h-28 rounded-full '>{preQuizRq3?.total ? preQuizRq3?.total : 0}</span>
             
   {!preQuizRq3 && (<span className='badge border-2 badge-lg p-3'><h1>• ยังไม่ทำแบบประเมิน</h1></span>)}
   {preQuizRq3 && (<span className="badge border-2 badge-lg    p-3"><h1>• พลังใจ : <span className="font-semibold">{preQuizRq3.total >=7 ? "มาก" : preQuizRq3.total >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span></h1></span>)}
@@ -182,7 +182,7 @@ export default function GraphModal({ userQuiz }) {
           </div>
           <div className='flex flex-col items-center space-y-3' >
             <h1>คะแนนของแบบประเมิน RQ 3 หลังกิจกรรม</h1>
-            <span className='badge badge-lg p-4 border-2 border-blue-500 text-2xl font-semibold w-28 h-28 rounded-full '>{postQuizRq3?.total ? postQuizRq3?.total : 0}</span>
+            <span className='badge badge-lg p-4 border-2 border-LB text-2xl font-semibold w-28 h-28 rounded-full '>{postQuizRq3?.total ? postQuizRq3?.total : 0}</span>
             
   {!postQuizRq3 && (<span className='badge border-2 badge-lg p-3'><h1>• ยังไม่ทำแบบประเมิน</h1></span>)}
   {postQuizRq3 && (<span className="badge border-2 badge-lg    p-3"><h1>• พลังใจ : <span className="font-semibold">{postQuizRq3.total >=7 ? "มาก" : postQuizRq3.total >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span></h1></span>)}

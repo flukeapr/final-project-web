@@ -316,10 +316,10 @@ export default function EditMedia({ initialMedia }) {
 
   return (
     <>
-      <div className="w-1/4 h-[500px] bg-gradient-to-r from-blue-500 to-sky-400 rounded-md shadow-md p-6 mt-4 max-sm:hidden sm:hidden lg:block">
+      <div className="w-1/4 h-[500px] bg-gradient-to-br from-DB via-B to-LB rounded-md shadow-md p-6 mt-4 max-sm:hidden sm:hidden lg:block">
         <div className="w-full flex flex-col ">
           <button
-            className="btn bg-white w-full text-blue-500 tracking-wider text-lg"
+            className="btn bg-white w-full text-B tracking-wider text-lg"
             onClick={() => document.getElementById("newMedia").showModal()}
           >
             เพิ่มสื่อใหม่
@@ -434,7 +434,7 @@ export default function EditMedia({ initialMedia }) {
                   <div className="flex flex-row justify-around mt-6">
                     <div className="tooltip w-2/4" data-tip="แก้ไข">
                       <button
-                        className="btn w-full bg-gradient-to-r from-blue-500 to-sky-400"
+                        className="btn w-full bg-gradient-to-r from-DB via-B to-LB"
                         onClick={() => {
                           SelectMedia(item);
                           document.getElementById("edit_modal").showModal();
@@ -576,7 +576,7 @@ export default function EditMedia({ initialMedia }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
               onClick={handleUpdate}
             >
               บันทึก
@@ -587,7 +587,7 @@ export default function EditMedia({ initialMedia }) {
       {/* loading */}
       <dialog id="loadingModal" className="modal">
         <div className="modal-box w-auto flex items-center justify-center">
-          <span className="loading loading-dots loading-lg bg-blue-500"></span>
+          <span className="loading loading-dots loading-lg bg-DB"></span>
         </div>
       </dialog>
       {/* new media */}
@@ -711,7 +711,7 @@ export default function EditMedia({ initialMedia }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
               onClick={handleCreate}
             >
               บันทึก
@@ -722,7 +722,7 @@ export default function EditMedia({ initialMedia }) {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 p-2 bg-blue-500 text-white rounded-full shadow-lg"
+          className="fixed bottom-4 right-4 p-2 bg-DB text-white rounded-full shadow-lg"
         >
           <ArrowBigUp size={30} />
         </button>

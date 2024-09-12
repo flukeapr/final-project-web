@@ -94,7 +94,7 @@ export default function UsersView() {
           <h1 className="text-2xl ">ผู้ใช้งาน</h1>
           
           <div className="flex items-center">
-            <Link href={'homepage/allusers'} className="text-2xl text-blue-500">ดูทั้งหมด </Link>
+            <Link href={'homepage/allusers'} className="text-2xl text-DB">ดูทั้งหมด </Link>
             <span>
               <ChevronRight size={30} />
             </span>

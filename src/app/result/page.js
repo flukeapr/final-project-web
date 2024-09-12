@@ -272,10 +272,10 @@ export default function Result() {
         <Navbar/>
         <main  className="max-w-7xl mx-auto pt-10 px-6">
           <div className='flex flex-rows w-full items-center justify-evenly'>
-        <div className={`flex items-center justify-center p-4 rounded-lg shadow-md cursor-pointer ${selected==="all" ? "bg-gradient-to-r from-blue-500 to-sky-400 text-white" : "bg-white text-black"}`} onClick={()=>{setSelected('all')}}  >
+        <div className={`flex items-center justify-center p-4 rounded-lg shadow-md cursor-pointer ${selected==="all" ? "bg-gradient-to-r from-DB via-B to-LB text-white" : "bg-white text-black"}`} onClick={()=>{setSelected('all')}}  >
           <h1 className=' tracking-wide'>ผลลัพธ์ของผู้ใช้งานทั้งหมด</h1> 
         </div>
-        <div className={`flex items-center justify-center  p-4 rounded-lg shadow-md cursor-pointer ${selected==="day" ? "bg-gradient-to-r from-blue-500 to-sky-400 text-white" : "bg-white text-black"}`} onClick={()=>{setSelected('day')}} >
+        <div className={`flex items-center justify-center  p-4 rounded-lg shadow-md cursor-pointer ${selected==="day" ? "bg-gradient-to-r from-DB via-B to-LB text-white" : "bg-white text-black"}`} onClick={()=>{setSelected('day')}} >
           <h1 className=' tracking-wide'>ผลลัพธ์ของผู้ใช้งานรายวัน</h1> 
         </div>
           </div>
@@ -324,7 +324,7 @@ export default function Result() {
         <div className="flex justify-around p-6 mt-6 space-x-8 w-full max-sm:flex-col">
         <div className='flex flex-col items-center space-y-3' >
             <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ MHL 29 ก่อนและหลัง</h1>
-            <span className='badge badge-lg p-4 border-2 border-sky-400 text-2xl font-semibold w-28 h-28 rounded-full '>{averageRq29.value}</span>
+            <span className='badge badge-lg p-4 border-2 border-DB text-2xl font-semibold w-28 h-28 rounded-full '>{averageRq29.value}</span>
             <h1>อยู่ในระดับ : มีความรอบรู้ด้านสุขภาพจิต<span className=' font-semibold ml-2 '>{averageRq29.value >=3.68 ? "มาก" : averageRq29.value >= 2.34 ? "ปานกลาง" : "น้อย"}</span></h1>
             
 
@@ -333,7 +333,7 @@ export default function Result() {
             <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ RQ 20 ก่อนและหลัง</h1>
            
 
-            <span className='badge badge-lg p-4 border-2 border-emerald-500 text-2xl font-semibold w-28 h-28 rounded-full'>{sumAverageRq20.toFixed(2)}</span>
+            <span className='badge badge-lg p-4 border-2 border-B text-2xl font-semibold w-28 h-28 rounded-full'>{sumAverageRq20.toFixed(2)}</span>
             <h1>อยู่ในระดับ : คะแนนรวม<span className=' font-semibold ml-2'>{sumAverageRq20  > 69 ? "สูง" : sumAverageRq20 <= 69 && sumAverageRq20 > 55 ? "ปกติ" : "ต่ํา"}</span></h1>
            
             
@@ -341,7 +341,7 @@ export default function Result() {
           </div>
           <div className='flex flex-col items-center space-y-3'>
             <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ RQ 3 ก่อนและหลัง</h1>
-            <span className='badge badge-lg p-4 border-2 border-blue-500 text-2xl font-semibold w-28 h-28 rounded-full'>{averageRq3.value}</span>
+            <span className='badge badge-lg p-4 border-2 border-LB text-2xl font-semibold w-28 h-28 rounded-full'>{averageRq3.value}</span>
             <h1>อยู่ในระดับ : พลังใจ<span className=' font-semibold ml-2'>{averageRq3.value > 7 ? "มาก" :  averageRq3.value >= 5 ? "ปานกลาง" : "น้อย"}</span></h1>
            
             
@@ -362,7 +362,7 @@ export default function Result() {
             <Bar
               dataKey="value"
               name="คะแนนเฉลี่ยของแบบประเมิน RQ 20 ก่อนและหลัง"
-              fill="#10b981"
+              fill="#0078b7"
               label={{ fill: 'white', fontSize: 20 }}
               activeBar={<Rectangle fill="#38bdf8" stroke="white" />}
             />
@@ -377,7 +377,7 @@ export default function Result() {
      {selected === 'day' && (
       <>
          <div className='flex items-center justify-center w-full bg-white p-10 rounded-2xl shadow-xl max-w-7xl'>
-         <div className="hidden  lg:w-1/4 h-[500px] bg-gradient-to-r from-blue-500 to-sky-400 rounded-md shadow-md drop-shadow-lg  space-y-4 lg:flex flex-col p-4">
+         <div className="hidden  lg:w-1/4 h-[500px] bg-gradient-to-br from-DB via-B to-LB rounded-md shadow-md drop-shadow-lg  space-y-4 lg:flex flex-col p-4">
 
           
            
@@ -413,8 +413,8 @@ export default function Result() {
           series={[
             {
               data: [
-                { id:0, value: filterRq29.value ? filterRq29.value : 0, label: "ความรอบรู้ทางสุขภาพจิต"  },
-                { id:1 , value: filterRq3.value ? filterRq3.value : 0, label: "พลังใจ"  },
+                { id:0, value: filterRq29.value ? filterRq29.value : 0, label: "ความรอบรู้ทางสุขภาพจิต" , color: "#023e8a" },
+                { id:1 , value: filterRq3.value ? filterRq3.value : 0, label: "พลังใจ" , color: "#afd7f6" },
               ],
               arcLabel:( data ) => `${data.value}`,
               
@@ -442,7 +442,7 @@ export default function Result() {
             <Bar
               dataKey="value"
               name="คะแนนเฉลี่ยของแบบทดสอบ RQ 20 ก่อนและหลัง"
-              fill="#10b981"
+              fill="#0078b7"
               label={{ fill: 'white', fontSize: 20 }}
               activeBar={<Rectangle fill="#38bdf8" stroke="white" />}
             />

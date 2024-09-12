@@ -218,8 +218,8 @@ export default function EditUserModal({ initialUser }) {
   return (
    <>
     <div className="flex flex-row w-full h-auto">
-        <div className="w-1/4 h-[500px] bg-gradient-to-r from-blue-500  to-sky-400 rounded-md shadow-md p-6">
-        <button className="btn bg-white w-full text-blue-500 text-lg" onClick={()=>{
+        <div className="w-1/4 h-[500px] bg-gradient-to-br from-DB  via-B to-LB rounded-md shadow-md p-6">
+        <button className="btn bg-white w-full text-B text-lg" onClick={()=>{
           document.getElementById("checkPassword").showModal()
         }}>สร้างบัญชีผู้ดูแลระบบ</button>
           <h1 className="text-lg text-white my-2">ค้นหาผู้ใช้</h1>
@@ -337,7 +337,7 @@ export default function EditUserModal({ initialUser }) {
 
                     <div className="tooltip" data-tip="แก้ไข">
                       <button
-                        className="btn bg-gradient-to-r from-blue-500 to-sky-400"
+                        className="btn bg-gradient-to-r from-DB via-B to-LB"
                         onClick={() => {
                           //document.getElementById("loadingModal").showModal();
                           document.getElementById("edit_modal").showModal();
@@ -378,7 +378,7 @@ export default function EditUserModal({ initialUser }) {
             </button>
           </form>
           {/* bg top */}
-          <div className=" bg-gradient-to-r from-blue-500 via-sky-400 to-emerald-500 w-full h-[15%] absolute top-0 left-0 -z-10"></div>
+          <div className=" bg-gradient-to-r from-DB via-B to-LB w-full h-[15%] absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 mt-4 ">
             <div className="flex flex-col space-y-1 mb-4">
@@ -459,7 +459,7 @@ export default function EditUserModal({ initialUser }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-gradient-to-r from-blue-500 to-sky-400 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-gradient-to-r from-DB to-B text-white text-lg"
               onClick={handleUpdate}
             >
               บันทึก
@@ -470,7 +470,7 @@ export default function EditUserModal({ initialUser }) {
       {/* loading modal */}
       <dialog id="loadingModal" className="modal">
         <div className="modal-box w-auto flex items-center justify-center">
-          <span className="loading loading-dots loading-lg bg-blue-500"></span>
+          <span className="loading loading-dots loading-lg bg-DB"></span>
         </div>
       </dialog>
       {/* modal insert newProfile  */} 
@@ -532,7 +532,7 @@ export default function EditUserModal({ initialUser }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
               onClick={handleCreate}
             >
               บันทึก
@@ -607,7 +607,7 @@ export default function EditUserModal({ initialUser }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
               onClick={handleCheckPassword}
             >
               ตกลง

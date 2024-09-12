@@ -89,43 +89,43 @@ export default function Navbar() {
             {session?.user && (
               <ul className="hidden lg:flex ml-14 space-x-10">
               <li
-                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
-                  pathname === "/homepage" ? "text-blue-500" : ""
+                className={`hover:decoration-DB hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/homepage" ? "text-DB" : ""
                 }`}
               >
                 <Link href={"/homepage"}>หน้าหลัก</Link>
               </li>
               <li
-                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
-                  pathname === "/result" ? "text-blue-500" : ""
+                className={`hover:decoration-DB hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/result" ? "text-DB" : ""
                 }`}
               >
                 <Link href={"/result"}>ผลลัพธ์</Link>
               </li>
               <li
-                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
-                  pathname === "/edituser" ? "text-blue-500" : ""
+                className={`hover:decoration-DB hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/edituser" ? "text-DB" : ""
                 }`}
               >
                 <Link href={"/edituser"}>จัดการผู้ใช้</Link>
               </li>
               <li
-                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
-                  pathname === "/media" ? "text-blue-500" : ""
+                className={`hover:decoration-DB hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/media" ? "text-DB" : ""
                 }`}
               >
                 <Link href={"/media"}>สื่อความรู้</Link>
               </li>
               <li
-                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
-                  pathname === "/community" ? "text-blue-500" : ""
+                className={`hover:decoration-DB hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/community" ? "text-DB" : ""
                 }`}
               >
                 <Link href={"/community"}>โพสต์ชุมชน</Link>
               </li>
               <li
-                className={`hover:decoration-blue-500 hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
-                  pathname === "/support" ? "text-blue-500" : ""
+                className={`hover:decoration-DB hover:underline hover:decoration-solid hover:decoration-2 hover:underline-offset-4 ${
+                  pathname === "/support" ? "text-DB" : ""
                 }`}
               >
                 <Link href={"/support"}>ศูนย์การช่วยเหลือ</Link>
@@ -170,7 +170,7 @@ export default function Navbar() {
                   <li>
                     <a
                       onClick={() => signOut()}
-                      className="bg-gradient-to-r from-blue-500 to-sky-400 text-white  "
+                      className="bg-gradient-to-r from-DB to-LB text-white"
                     >
                       <span className="mr-2  ">
                         <LogOut size={20} />
@@ -185,7 +185,7 @@ export default function Navbar() {
             <div className="hidden lg:flex justify-center space-x-12 items-center">
               <Link
                 href="/login"
-                className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded-lg text-white"
+                className="border bg-gradient-to-br from-DB to-LB  p-2 rounded-lg text-white w-28 flex justify-center"
               >
                 เข้าสู่ระบบ
               </Link>
@@ -201,7 +201,7 @@ export default function Navbar() {
             ):(
               <Link
               href="/login"
-              className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white"
+              className="border bg-DB  py-2 px-3 rounded  text-white"
             >
               เข้าสู่ระบบ
             </Link>
@@ -210,7 +210,7 @@ export default function Navbar() {
           </div>
         </div>
         {mobileDrawerOpen && (
-          <div className="fixed right-0 z-20 bg-gradient-to-b from-blue-500 from-70% to-white w-full p-12 flex flex-col justify-center items-center mt-3  lg:hidden">
+          <div className="fixed right-0 z-20 bg-gradient-to-b from-DB from-70% to-LB w-full p-12 flex flex-col justify-center items-center mt-3  lg:hidden">
             {session?.user && (
                <ul className="flex flex-col space-y-4 my-3">
                <li>
@@ -273,7 +273,7 @@ export default function Navbar() {
 
                 <button
                   onClick={() => signOut()}
-                  className="bg-gradient-to-r from-blue-500 to-sky-400 text-white  py-2 px-3 rounded flex"
+                  className="bg-DB text-white  py-2 px-3 rounded flex"
                 >
                   <span className="mr-2">
                     <LogOut size={20} />
@@ -285,7 +285,7 @@ export default function Navbar() {
               <div className="flex space-x-6">
                 <Link
                   href="/login"
-                  className="border bg-gradient-to-r from-blue-500 to-sky-400  py-2 px-3 rounded  text-white"
+                  className="border bg-DB  py-2 px-3 rounded  text-white"
                 >
                   เข้าสู่ระบบ
                 </Link>
@@ -303,7 +303,7 @@ export default function Navbar() {
             </button>
           </form>
           {/* bg top */}
-          <div className="bg-gradient-to-r from-blue-500 via-sky-400 to-emerald-500 w-full h-1/6 absolute top-0 left-0 -z-10"></div>
+          <div className="bg-gradient-to-r from-DB to-LB w-full h-1/6 absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 ">
             <div className="flex flex-col space-y-1 mb-4">
@@ -376,7 +376,7 @@ export default function Navbar() {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline bg-gradient-to-r from-blue-500 to-sky-400 text-white text-lg"
+              className="btn btn-sm btn-outline bg-gradient-to-r from-DB to-LB text-white text-lg"
               onClick={() => handleChangeProfile()}
             >
               บันทึก

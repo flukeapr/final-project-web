@@ -133,11 +133,11 @@ export default function AllUsers() {
     <>
       {/* <Navbar /> */}
       <main className="max-w-7xl mx-auto pt-10 px-6 flex flex-col items-center p-4">
-        <h1 className=" text-3xl font-semibold text-center text-blue-500 mb-2">
+        <h1 className=" text-3xl font-semibold text-center text-DB mb-2">
           ผู้ใช้งานทั้งหมด
         </h1>
         <div className="flex flex-row w-full h-auto">
-          <div className="w-1/4 h-[750px] bg-gradient-to-r from-blue-500  to-sky-400 rounded-md shadow-md p-6">
+          <div className="w-1/4 h-[750px] bg-gradient-to-br from-DB via-B  to-LB rounded-md shadow-md p-6">
             {/* <button className="btn bg-white w-full text-blue-500 text-lg" onClick={()=>{
           document.getElementById("newProfileModal").showModal()
         }}>สร้างบัญชีใหม่</button> */}

@@ -93,7 +93,7 @@ export default function Support() {
                 <div
                   className={`relative flex items-center justify-start p-4 shadow-md rounded-md mb-1  ${
                     isSelected === user.id
-                      ? "bg-gradient-to-r from-blue-500 to-sky-400"
+                      ? "bg-gradient-to-r from-DB to-LB"
                       : "bg-white"
                   }`}
                   onClick={() => {
@@ -127,14 +127,14 @@ export default function Support() {
         </div>
 
         {selectUser.length === 0 ? (
-          <div className="w-3/4 h-full flex flex-col bg-gradient-to-r from-blue-500 to-sky-400 shadow-md justify-center items-center">
+          <div className="w-3/4 h-full flex flex-col bg-gradient-to-r from-DB via-B to-LB shadow-md justify-center items-center">
             <h1 className="text-4xl font-bold text-white tracking-wide">เลือกบทสนทนากับผู้ใช้งาน</h1>
           </div>
         ) : (
           <div className="w-3/4 h-full flex flex-col bg-white shadow-md">
-            <div className="bg-sky-400  flex flex-col items-center justify-center w-full h-28 ">
+            <div className="bg-B  flex flex-col items-center justify-center w-full h-28 ">
               <h1 className="text-white text-xl">Chat with Us</h1>
-              <h1 className="">{selectUser.name}</h1>
+              <h1 className="text-white">{selectUser.name}</h1>
             </div>
             <div className="w-full h-full overflow-y-hidden">
               <ChatElement

@@ -66,7 +66,7 @@ export default async function Community() {
     <>
       <Navbar />
       <main className="max-w-7xl mx-auto pt-10 px-6">
-        <h1 className="text-3xl font-bold text-center text-blue-500 my-2 tracking-wide">
+        <h1 className="text-3xl font-bold text-center text-DB my-2 tracking-wide">
           โพสต์ทั้งหมด
         </h1>
         <PostComponent initialPosts={posts.data} />

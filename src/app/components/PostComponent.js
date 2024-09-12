@@ -268,7 +268,7 @@ export default function PostComponent({initialPosts}) {
   return (
     <>
      <div className="w-full flex justify-around ">
-          <div className="hidden  lg:w-1/4 h-[500px] bg-gradient-to-r from-blue-500 to-sky-400 rounded-md shadow-md drop-shadow-lg  space-y-4 lg:flex flex-col p-4">
+          <div className="hidden  lg:w-1/4 h-[500px] bg-gradient-to-br from-DB via-B to-LB rounded-md shadow-md drop-shadow-lg  space-y-4 lg:flex flex-col p-4">
           <button className="btn bg-white w-full text-blue-500 tracking-wider text-lg" onClick={()=> document.getElementById("newPost").showModal()}>เพิ่มโพสต์ใหม่</button>
 
             <div className="flex items-end justify-start">

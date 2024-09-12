@@ -31,7 +31,7 @@ export default function ForgetPassword() {
 
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-500 via-sky-400 to-white">
+    <div className="w-screen h-screen flex items-center justify-center bg-SLB to-white">
     <ToastContainer
       position="bottom-right"
       autoClose={5000}
@@ -50,14 +50,14 @@ export default function ForgetPassword() {
         <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
         <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
           Happy{" "}
-          <span className="bg-gradient-to-r from-blue-500 to-sky-400 text-transparent bg-clip-text">
+          <span className="bg-gradient-to-r from-DB to-LB text-transparent bg-clip-text">
             Mind
           </span>
         </h1>
       </div>
       <div className="lg:w-2/5">
-        <h3 className="text-4xl text-center font-semibold mb-8">Reset Password</h3>
-        <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
+        <h3 className="text-4xl text-center font-semibold mb-8">รีเซ็ตรหัสผ่าน</h3>
+        <hr className="my-3 border-2 border-DB rounded-lg w-full" />
         <h1 className="text-center m-4">
           กรุณากรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน
         </h1>
@@ -86,9 +86,9 @@ export default function ForgetPassword() {
 
           <button
             type="submit"
-            className="w-full h-12 bg-gradient-to-r from-blue-500 to-green-400 p-2 my-2 rounded-md text-white font-semibold text-xl"
+            className="w-full h-12 bg-gradient-to-r from-DB to-LB p-2 my-2 rounded-md text-white text-xl"
           >
-            Send Email
+            ส่งอีเมลล์
           </button>
         </form>
         <div className="flex flex-col items-center space-y-2 justify-center m-2">

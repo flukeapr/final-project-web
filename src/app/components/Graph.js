@@ -114,14 +114,14 @@ export default function Graph() {
   };
 
   return (
-    <div className="flex items-center justify-evenly w-screen h-96 bg-gradient-to-r from-blue-500 via-sky-400 to-green-400 p-2">
+    <div className="flex items-center justify-evenly w-screen h-96 bg-SLB p-2">
       <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center ">
         <PieChart
           series={[
             {
               data: [
-                { id:0, value: averageRq29.value, label: "ความรอบรู้ทางสุขภาพจิต"  },
-                { id:1 , value: averageRq3.value, label: "พลังใจ"  },
+                { id:0, value: averageRq29.value, label: "ความรอบรู้ทางสุขภาพจิต" ,color:"#023e8a" },
+                { id:1 , value: averageRq3.value, label: "พลังใจ", color: "#afd7f6" },
               ],
               arcLabel:( data ) => `${data.value}`,
               
@@ -144,7 +144,7 @@ export default function Graph() {
       <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center ">
       <BarChart
       xAxis={[{ scaleType: 'band', data: ['ความทนต่อแรงกดดัน', 'การมีความหวังและกำลังใจ', 'การต่อสู้เอาชนะอุปสรรค'] }]}
-      series={[{ data: [pressure, encouragement, obstacle]  }]}
+      series={[{ data: [pressure, encouragement, obstacle] ,color:"#0078b7" }]}
       width={600}
       height={300}
       barLabel={( data ) => `${data.value}`}
