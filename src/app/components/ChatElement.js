@@ -3,8 +3,9 @@ import { SendHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default function ChatElement({ user,getUnreadMessage }) {
-  const [message, setMessage] = React.useState("");
+  const [message, setMessage] = React.useState(""); 
   const [dataMessage, setDataMessage] = React.useState([]);
   const ScrollRef = useRef(null);
   
@@ -41,7 +42,10 @@ export default function ChatElement({ user,getUnreadMessage }) {
         toast.success("ส่งข้อความสําเร็จ");
         
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
+     
   };
   const getMessage = async () => {
     try {
@@ -107,7 +111,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <img
-                      alt="Tailwind CSS chat bubble component"
+                      alt={user.image}
                       src={user.image}
                     />
                   </div>
@@ -124,7 +128,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
                 <div className="chat chat-end">
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
-                    <img src={session.user.image} />
+                    <img src={session.user.image} alt={session.user.image}/>
                   </div>
                 </div>
                
@@ -157,7 +161,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
         />
         <button className="btn bg-white w-[10%]">
-          <SendHorizontal color="#3b82f6" onClick={handleSendMessage} />
+          <SendHorizontal color="#3b82f6" onClick={(e)=>handleSendMessage(e)} />
         </button>
       </div>
     </>

@@ -3,6 +3,48 @@ import { query } from "../../../../../../../lib/ConnectDb";
 import fs from 'node:fs/promises'
 import sharp from "sharp";
 
+/**
+ * @swagger
+ * /api/updateuser/profile/image/{id}:
+ *   put:
+ *     summary: อัพเดตรูปภาพผู้ใช้ (ตัวเอง)
+ *     tags:
+ *         - Update-User
+ *     description: อัพเดตรุปภาพผู้ใช้.
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: multipart/form-data
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: รูปภาพ
+ * 
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *          content:
+ *                application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      message:
+ *                        type: string
+ *                        example: success
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
 
 export async function PUT(req,{params}) {
     try {
@@ -58,6 +100,10 @@ export async function PUT(req,{params}) {
         return NextResponse.json({ error: error.message }, { status: 500 })
     }
 }
+
+
+
+
 
 export async function DELETE(req,{params}) {
     try {

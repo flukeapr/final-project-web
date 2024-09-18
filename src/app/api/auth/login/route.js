@@ -13,11 +13,11 @@ export async function POST(req) {
     const result = await query(`SELECT * FROM users WHERE email = ?`, [email]);
     const user = result[0];
     if (!user) {
-       throw Error("Invalid email");
+       throw Error("อีเมลไม่ถูกต้อง");
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw Error("Invalid password");
+      throw Error("รหัสผ่านไม่ถูกต้อง");
     }
     
 

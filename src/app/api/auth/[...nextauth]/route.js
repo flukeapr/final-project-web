@@ -8,6 +8,129 @@ import GoogleProvider from "next-auth/providers/google";
 import { signIn, signOut } from 'next-auth/react'
 
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Authentication
+ *     description: การล็อกอิน
+ *   - name: Chat
+ *     description: แชท
+ *   - name: Media
+ *     description: สื่อ
+ *   - name: Post
+ *     description: โพสต์ชุมชน
+ *   - name: Quiz
+ *     description: แบบประเมิน
+ *   - name: Register
+ *     description: สมัครสมาชิก
+ *   - name: Reset-Password
+ *     description: เปลี่ยนหัสผ่าน
+ *   - name: Update-User
+ *     description: อัพเดตข้อมูลส่วนตัว
+ *   - name: User-Data
+ *     description: ข้อมูลแบบสอบถามส่วนบุคคล
+ *   - name: UserQuizView
+ *     description: ข้อมูลแบบประเมินที่ผู้ใช้ทำ
+ *  
+ */
+
+
+/**
+ * @swagger
+ * /api/auth/csrf: 
+ *   get:
+ *     summary: token csrf
+ *     tags:
+ *         - Authentication
+ *     description: ขอ token เพื่อยืนยันการการร้องขอ api มาจากเราอย่างถูกต้อง
+ *     responses:
+ *           200:
+ *            description: สำเร็จ
+ */
+
+/**
+ * @swagger
+ * /api/auth/session: 
+ *   get:
+ *     summary: ดึงข้อมูล session
+ *     tags:
+ *         - Authentication
+ *     description: ขอ session เพื่อดูว่า user อยู่ในระบบหรือยัง
+ *     responses:
+ *           200:
+ *            description: สำเร็จ
+ */
+
+/**
+ * @swagger
+ * /api/auth/signout: 
+ *   post:
+ *     summary: ออกจากระบบ
+ *     tags:
+ *         - Authentication
+ *     description: ออกจากระบบ
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: application/json
+ *      
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               csrfToken:
+ *                 type: string 
+ *     responses:
+ *           200:
+ *            description: สำเร็จ
+ */
+
+/**
+ * @swagger
+ * /api/auth/callback/credentials:
+ *   post:
+ *     summary: ล็อกอินเข้าส่ระบบ
+ *     tags:
+ *        - Authentication
+ *     description: ล็อกอินเข้าส่ระบบ.
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: application/json
+ *      
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               csrfToken:
+ *                 type: string  
+ *     responses:
+ *           200:
+ *            description: สำเร็จ
+ *           401:
+ *            description: ไม่สำเร็จ
+ *           500:
+ *            description: ไม่สำเร็จ
+ * 
+ */
+
+
 
 export const authOptions = {
   providers: [
@@ -16,6 +139,7 @@ export const authOptions = {
       credentials: {},
       async authorize(credentials, req) {
         try {
+
           const { email, password } = credentials
           const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/auth/login", {
             method: "POST",
@@ -27,7 +151,7 @@ export const authOptions = {
             throw new Error(data.error)
           }
           if (data.user) {
-            console.log(data.user)
+             console.log(data.user)
             return data.user
           }
 

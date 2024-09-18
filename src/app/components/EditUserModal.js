@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useSession } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
+import { CheckPasswordAction } from "./action/CheckPasswordAction";
 
 export default function EditUserModal({ initialUser }) {
   const [userId, setUserId] = useState(0);
@@ -14,6 +15,7 @@ export default function EditUserModal({ initialUser }) {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [pin , setPin] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(false);
@@ -144,10 +146,7 @@ export default function EditUserModal({ initialUser }) {
 
   const handleCreate = async () => {
     
-    if(pin.length > 6){
-      toast.error("รหัส PIN ต้องมีความยาวไม่เกิน 6 ตัวอักษร");
-      return
-    }
+    
     if(!name || !email || !password){
       toast.error("กรุณากรอกข้อมูลให้ครบ");
       return
@@ -164,27 +163,11 @@ export default function EditUserModal({ initialUser }) {
           name,
           email,
           password,
-          role,
+          role:1,
         })
       })
       const data = await res.json();
-      let id 
       if(res.ok){
-         id = data.id;
-      }
-
-      const resPin = await fetch(process.env.NEXT_PUBLIC_serverURL + `/api/pin/${id}`, {
-        method:"PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:JSON.stringify({
-          pin
-        })
-
-      })
-
-      if(res.ok && resPin.ok){
         document.getElementById("loadingModal").close();
         document.getElementById("newProfileModal").close();
         toast.success("สร้างบัญชีสําเร็จ");
@@ -197,13 +180,48 @@ export default function EditUserModal({ initialUser }) {
     }
   }
 
+
+  const handleCheckPassword = async () => {
+    if(password !== confirmPassword){
+      document.getElementById("checkPassword").close();
+      toast.error("รหัสผ่านไม่ตรงกัน");
+      return
+    }
+    try {
+      const email = session.user.email
+      const result = await CheckPasswordAction({ email, password });
+      
+      if(result.message === "ตรวจสอบรหัสผ่านสําเร็จ"){
+        document.getElementById("checkPassword").close();
+        setPassword('');
+        setConfirmPassword('');
+        toast.success("ตรวจสอบรหัสผ่านสําเร็จ");
+        setTimeout(() => {
+          document.getElementById("newProfileModal").showModal();
+        },1000)
+        
+      }else {
+        document.getElementById("checkPassword").close();
+        setPassword('');
+        setConfirmPassword('');
+        toast.error("รหัสผ่านไม่ถูกต้อง");
+        return
+      }
+      
+
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+
   return (
    <>
     <div className="flex flex-row w-full h-auto">
-        <div className="w-1/4 h-[500px] bg-gradient-to-r from-blue-500  to-sky-400 rounded-md shadow-md p-6">
-        {/* <button className="btn bg-white w-full text-blue-500 text-lg" onClick={()=>{
-          document.getElementById("newProfileModal").showModal()
-        }}>สร้างบัญชีใหม่</button> */}
+        <div className="w-1/4 h-[500px] bg-gradient-to-br from-DB  via-B to-LB rounded-md shadow-md p-6">
+        <button className="btn bg-white w-full text-B text-lg" onClick={()=>{
+          document.getElementById("checkPassword").showModal()
+        }}>สร้างบัญชีผู้ดูแลระบบ</button>
           <h1 className="text-lg text-white my-2">ค้นหาผู้ใช้</h1>
           <input
             type="search"
@@ -319,7 +337,7 @@ export default function EditUserModal({ initialUser }) {
 
                     <div className="tooltip" data-tip="แก้ไข">
                       <button
-                        className="btn bg-gradient-to-r from-blue-500 to-sky-400"
+                        className="btn bg-gradient-to-r from-DB via-B to-LB"
                         onClick={() => {
                           //document.getElementById("loadingModal").showModal();
                           document.getElementById("edit_modal").showModal();
@@ -360,7 +378,7 @@ export default function EditUserModal({ initialUser }) {
             </button>
           </form>
           {/* bg top */}
-          <div className=" bg-gradient-to-r from-blue-500 via-sky-400 to-emerald-500 w-full h-[15%] absolute top-0 left-0 -z-10"></div>
+          <div className=" bg-gradient-to-r from-DB via-B to-LB w-full h-[15%] absolute top-0 left-0 -z-10"></div>
           {/* detail profile */}
           <div className="flex flex-col p-4 mt-4 ">
             <div className="flex flex-col space-y-1 mb-4">
@@ -441,7 +459,7 @@ export default function EditUserModal({ initialUser }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-gradient-to-r from-blue-500 to-sky-400 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-gradient-to-r from-DB to-B text-white text-lg"
               onClick={handleUpdate}
             >
               บันทึก
@@ -452,7 +470,7 @@ export default function EditUserModal({ initialUser }) {
       {/* loading modal */}
       <dialog id="loadingModal" className="modal">
         <div className="modal-box w-auto flex items-center justify-center">
-          <span className="loading loading-dots loading-lg bg-blue-500"></span>
+          <span className="loading loading-dots loading-lg bg-DB"></span>
         </div>
       </dialog>
       {/* modal insert newProfile  */} 
@@ -498,32 +516,7 @@ export default function EditUserModal({ initialUser }) {
                 <input className=" input input-bordered w-1/2 " type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
               <hr />
-              <div className="flex flex-row justify-between py-2">
-                <div className="flex flex-col">
-                <h1>รหัสผ่าน PIN</h1>
-                <p className="text-sm">*ถ้าหากใช้บนแอพลิเคชั่น <br/> ตัวเลข 6 หลัก*</p>
-                </div>
-              
-                <input className=" input input-bordered w-1/2 " type="number"   value={pin} onChange={(e) => setPin(e.target.value)} />
-              </div>
-              <hr />
-              <div className="flex flex-row justify-between py-2">
-                <h1>กำหนดสิทธิ์</h1>
-                <select
-                  className="select select-bordered w-1/2 max-w-xs"
-                  onChange={(e) => setRole(e.target.value)}
-                >
-                  <option disabled selected>
-                    เลือกสิทธิ์ผู้ใช้
-                  </option>
-                  <option value={1}>Admin</option>
-                  <option value={2}>User</option>
-                </select>
-              </div>
 
-              
-             
-              <hr />
             </div>
           </div>
           {/* submit and cancel button */}
@@ -539,10 +532,85 @@ export default function EditUserModal({ initialUser }) {
               ยกเลิก
             </button>
             <button
-              className="btn btn-sm btn-outline tracking-wider bg-blue-500 text-white text-lg"
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
               onClick={handleCreate}
             >
               บันทึก
+            </button>
+          </div>
+        </div>
+      </dialog>
+      {/* check password modal */}
+      <dialog id="checkPassword" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={() => {
+                setPassword('');
+                setConfirmPassword('');
+              }}
+            >
+              ✕
+            </button>
+          </form>
+         
+          {/* detail profile */}
+          <div className="flex flex-col p-4 mt-4 ">
+           <h1 className="mb-2">กรอกรหัสผ่านของท่าน</h1>
+
+            {/* form group detail */}
+            <div className="flex flex-col space-y-2">
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1>รหัสผ่าน</h1>
+                <input
+                  type="password"
+                  className=" input input-bordered w-1/2 "
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  
+                />
+              </div>
+
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1>ยืนยันรหัสผ่าน</h1>
+                <input
+                 type="password"
+                  className=" input input-bordered w-1/2  "
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                  }}
+                />
+              </div>
+
+              <hr />
+             
+
+            </div>
+          </div>
+          {/* submit and cancel button */}
+          <div className="flex justify-end space-x-2">
+            <button
+              className="btn btn-sm btn-outline text-lg"
+              onClick={() => {
+                document.getElementById("checkPassword").close();
+                
+                setPassword('');
+                setConfirmPassword('');
+              }}
+            >
+              ยกเลิก
+            </button>
+            <button
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
+              onClick={handleCheckPassword}
+            >
+              ตกลง
             </button>
           </div>
         </div>

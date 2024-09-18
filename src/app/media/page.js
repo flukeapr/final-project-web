@@ -29,7 +29,7 @@ async function getMedia() {
 
 export default async function Media() {
  const session = await getServerSession()
-  if(!session) redirect("/")
+  // if(!session) redirect("/")
   
 
     const media = await GetMediaData()
@@ -38,7 +38,7 @@ export default async function Media() {
     <>
     <Navbar/>
     <main className='max-w-7xl mx-auto pt-10 px-6'>
-    <h1 className='text-2xl text-blue-500 font-semibold text-center'>จัดการสื่อเนื้อหาความรู้</h1>
+    <h1 className='text-2xl text-DB font-semibold text-center dark:text-white'>จัดการสื่อเนื้อหาความรู้</h1>
     
       
     <div className='flex'>

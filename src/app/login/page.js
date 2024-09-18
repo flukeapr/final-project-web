@@ -34,13 +34,11 @@ export default function LoginPage() {
         password,
         redirect: false,
       });
-
-      if (res.error) {
-        setError(res.error);
-        throw new Error(res.error);
+      if(!res.ok){
+        toast.error(res.error);
       }
       if (res.ok) {
-        try {
+        try { 
           const resSession = await fetch("/api/auth/session");
           const data = await resSession.json();
           if (data.user) {
@@ -48,12 +46,12 @@ export default function LoginPage() {
               toast.success("เข้าสู่ระบบสําเร็จ");
               setTimeout(() => {
                 router.replace("/homepage");
-              }, 1500);
+              }, 500);
             } else {
               toast.error("คุณไม่มีสิทธิ์เข้าใช้งาน");
               setTimeout(async() => {
                 await signOut();
-              }, 1500);
+              }, 500);
               
              
             }
@@ -94,7 +92,7 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-500 via-sky-400 to-white">
+    <div className="w-screen h-screen flex items-center justify-center bg-SLB to-white">
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -113,14 +111,14 @@ export default function LoginPage() {
           <img src="/images/logo/smile-logo-bg-blue.png" className="w-[400px] max-sm:w-[200px]" />
           <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
             Happy{" "}
-            <span className="bg-gradient-to-r from-blue-500 to-sky-400 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-DB to-LB text-transparent bg-clip-text">
               Mind
             </span>
           </h1>
         </div>
         <div className="lg:w-2/5">
-          <h3 className="text-4xl text-center font-semibold mb-8">LOGIN</h3>
-          <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
+          <h3 className="text-4xl text-center font-semibold mb-8">เข้าสู่ระบบ</h3>
+          <hr className="my-3 border-2 border-DB rounded-lg w-full" />
           <h1 className="text-center m-4">
             กรุณากรอก อีเมล์ และ รหัสผ่าน
           </h1>
@@ -170,14 +168,14 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-blue-500 to-green-400 p-2 my-2 rounded-md text-white font-semibold text-xl"
+              className="w-full h-12 bg-gradient-to-r from-DB to-LB p-2 my-2 rounded-md text-white font-semibold text-xl shadow-lg"
             >
               เข้าสู่ระบบ
             </button>
           </form>
           <div className="flex flex-col items-center space-y-2 justify-center m-2">
             {/* <span className="">Don't have an account?<Link href="/register" className="text-[#F26522] underline ml-2 ">Signup</Link></span> */}
-            <Link href="/forget-password" className="text-[#3b82f6] underline ml-2 ">
+            <Link href="/forget-password" className="text-DB underline ml-2 ">
               ลืมรหัสผ่าน
             </Link>
             <Link href={'/'}>

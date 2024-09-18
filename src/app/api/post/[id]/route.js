@@ -2,6 +2,20 @@
 import { query } from "../../../../../lib/ConnectDb";
 import { NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/post/{id}:
+ *   delete:
+ *     summary: ลบข้อมูลโพสต์
+ *     tags:
+ *         - Post
+ *     description: ลบโพสต์จาก database.
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
 
 export async function DELETE(req,{params}){
 

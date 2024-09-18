@@ -2,6 +2,23 @@ import { NextResponse } from "next/server";
 import { query } from "../../../../../lib/ConnectDb";
 
 
+/**
+ * @swagger
+ * /api/chat/{from}/{to}:
+ *   get:
+ *     summary: ดึงข้อความแชทของคนๆนั้น
+ *     tags:
+ *         - Chat
+ *     description: ดึงข้อความแชทของคนๆนั้นจาก database | ${from} คือ id คนส่งข้อความ,${to} คนรับข้อความ (admin) หรือใส่สลับกันได้ไม่มีปํญหา แต่หลักๆต้องมี id 9 คือแอดมิน.
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *          
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
+
 export async function GET(req,{params}) {
     try {
         const { id } = params;

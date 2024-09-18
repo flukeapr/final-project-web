@@ -25,6 +25,7 @@ export default function PostComponent({initialPosts}) {
     const [preview, setPreview] = useState(null);
     const [isScrolled, setIsScrolled ] = useState(false);
     const scrollDivRef = useRef(null);
+    const [commentImage , setCommentImage] = useState(null);
 
     function formatDay(createAt) {
         const date = new Date(createAt);
@@ -267,7 +268,7 @@ export default function PostComponent({initialPosts}) {
   return (
     <>
      <div className="w-full flex justify-around ">
-          <div className="hidden  lg:w-1/4 h-[500px] bg-gradient-to-r from-blue-500 to-sky-400 rounded-md shadow-md drop-shadow-lg  space-y-4 lg:flex flex-col p-4">
+          <div className="hidden  lg:w-1/4 h-[500px] bg-gradient-to-br from-DB via-B to-LB rounded-md shadow-md drop-shadow-lg  space-y-4 lg:flex flex-col p-4">
           <button className="btn bg-white w-full text-blue-500 tracking-wider text-lg" onClick={()=> document.getElementById("newPost").showModal()}>เพิ่มโพสต์ใหม่</button>
 
             <div className="flex items-end justify-start">
@@ -442,7 +443,7 @@ export default function PostComponent({initialPosts}) {
                       <div className="mt-4">
                         {post.comments.length > 0 &&
                           post.comments.map((comment, idx) => (
-                            <div key={idx} className="mt-2 pl-4">
+                            <div key={idx} className="mt-2 pl-4 ">
                               <div className="flex items-center mb-2">
                                 <img
                                   src={comment?.commentUserImage}
@@ -458,7 +459,7 @@ export default function PostComponent({initialPosts}) {
                                   </span>
                                 </div>
                               </div>
-                              <p>{comment?.commentText}</p>
+                              <p className="">{comment?.commentText}</p>
                               {comment?.commentImage && (
                                 <img
                                   src={comment?.commentImage}

@@ -15,12 +15,12 @@ import { GetUserData } from "../components/action/UserAction";
 export default async function EditUser() {
 
   const session = await getServerSession();
-  if (!session) redirect("/");
+  // if (!session) redirect("/");
   const users = await GetUserData();
 
   return (
     <>
-      <h1 className="text-3xl font-semibold text-center text-blue-500 mb-2">
+      <h1 className="text-3xl font-semibold text-center text-DB mb-2">
         จัดการผู้ใช้
       </h1>
     <EditUserModal initialUser={users.data}/>

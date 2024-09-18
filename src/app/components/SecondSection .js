@@ -30,7 +30,7 @@ export default function SecondSection (){
         <div className='mt-20'>
         <h2 className="text-3xl sm:text-5xl lg:text-6xl text-center mt-6 tracking-wide">
                 What 
-                <span className="bg-gradient-to-r from-blue-500 to-green-400 text-transparent bg-clip-text ">{" "}mental illnesses </span>
+                <span className="bg-gradient-to-r from-DB to-LB text-transparent bg-clip-text ">{" "}mental illnesses </span>
                 are found?
                 
           </h2>

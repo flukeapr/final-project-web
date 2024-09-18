@@ -18,8 +18,8 @@ export default function UsersView() {
     if (!user) {
       user = {
         ...item,
-        preQuiz:item.preRq3>0 || item.preRq20>0 ? true:false,
-        postQuiz:item.postRq3>0 || item.postRq20>0 ? true:false,
+        preQuiz:item.preRq3>0 && item.preRq20>0 ? true:false,
+        postQuiz:item.postRq3>0 && item.postRq20>0 ? true:false,
         mayBeRisk: item.preRq20 || item.preRq3  > 0 ? item.preRq20 < 55 && item.preRq20 > 0 || item.preRq3 <= 4 && item.preRq3 > 0 ?  "high" : item.preRq20 <= 69 && item.preRq20 > 55 || item.preRq3  <=6 && item.preRq3 > 0 ? "medium" : "low" :null,
         realRisk: item.postRq20 || item.postRq3 > 0 ? item.postRq20 < 55 && item.postRq20 > 0 || item.postRq3 <= 4 && item.postRq3 > 0 ?  "high" : item.postRq20 <= 69 && item.postRq20 > 55 || item.postRq3  <=6 && item.postRq3 > 0 ? "medium" : "low" :null,
         changeRisk: item.preRq20 && item.preRq3 && item.postRq20 && item.postRq3 > 0 ?  item.postRq3 > item.preRq3  && item.postRq20 > item.preRq20 ? "ดีขึ้นมาก" : item.postRq3 > item.preRq3  || item.postRq20 > item.preRq20 ? "ดีขึ้น" : "แย่ลง" : null,
@@ -94,7 +94,7 @@ export default function UsersView() {
           <h1 className="text-2xl ">ผู้ใช้งาน</h1>
           
           <div className="flex items-center">
-            <Link href={'homepage/allusers'} className="text-2xl text-blue-500">ดูทั้งหมด </Link>
+            <Link href={'homepage/allusers'} className="text-2xl text-DB">ดูทั้งหมด </Link>
             <span>
               <ChevronRight size={30} />
             </span>
@@ -106,7 +106,7 @@ export default function UsersView() {
             usersReduce.sort((a, b) => (a.status === "follow" ? -1 : 1)) .slice(0,4).map((user) => (
               <div
                 className={`flex flex-col shadow-2xl  rounded-2xl  w-60 h-60 m-8 p-2 relative border-2
-                  ${ user.preQuiz && !user.postQuiz && (user.mayBeRisk === "high" ? "bg-red-300": user.mayBeRisk === "medium" ? "bg-yellow-100" : "bg-white")} ${ user.preQuiz && user.postQuiz && (user.realRisk === "high" ? "bg-red-300 ": user.realRisk === "medium" ? "bg-yellow-100" : "bg-white")}`}
+                  ${ ((user.preQuiz && !user.postQuiz) || (!user.preQuiz && !user.postQuiz) && (user.mayBeRisk !== null)) && (user.mayBeRisk === "high" ? "bg-red-300": user.mayBeRisk === "medium" ? "bg-yellow-100" : "bg-green-200")} ${ user.preQuiz && user.postQuiz && (user.realRisk === "high" ? "bg-red-300": user.realRisk === "medium" ? "bg-yellow-100" : "bg-green-200")}`}
                 key={user.id}
               >
                 

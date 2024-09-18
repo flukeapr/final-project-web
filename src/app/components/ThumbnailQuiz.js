@@ -26,8 +26,8 @@ export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
     {quiz?.length > 0 ? (
       <>
       <div className='my-2 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1  className='font-semibold text-lg'>แบบทดสอบก่อนกิจกรรม</h1>
-    <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
+    <h1  className='font-semibold text-lg'>แบบประเมินก่อนกิจกรรม</h1>
+    <hr className="  border-2 border-DB rounded-lg w-1/2" />
     </div>
     {/* <div className='flex flex-wrap items-center gap-2 w-10/12 p-4'> */}
       {/* {preQuizRq3 && (<span className="badge border-2 badge-lg    p-3">• พลังใจ{preQuizRq3.total >=7 ? "มาก" : preQuizRq3.total >=5 ? "กลาง" : "น้อย"}</span>)} */}
@@ -43,7 +43,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
         return quiz.quizType==="PRE"
     }).map((quiz, index) => (
       
-      <div key={quiz.id} className={`w-10/12 p-4 mt-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-blue-500 via-sky-400 to-green-400 ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
+      <div key={quiz.id} className={`w-10/12 p-4 mt-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-DB via-B to-LB ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
         <div className='h-20 flex items-center justify-around '>
             <div className={`flex flex-col flex-wrap space-y-2 ${selectQuiz === quiz.id ? 'text-white text-lg' : 'text-black'}`}>
             <h1 className='text-md'>{quiz?.name} | {quiz.answers.length} คำถาม</h1>
@@ -66,19 +66,18 @@ export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
         
     ))}
   <div className='my-4 flex flex-col w-full space-y-2 items-center justify-center'>
-    <h1 className='font-semibold text-lg'>แบบทดสอบหลังกิจกรรม</h1>
-    <hr className="  border-2 border-blue-500 rounded-lg w-1/2" />
+    <h1 className='font-semibold text-lg'>แบบประเมินหลังกิจกรรม</h1>
+    <hr className="  border-2 border-DB rounded-lg w-1/2" />
     </div>
     <div>
-      {postQuizRq3 && (<span className="badge border-2 badge-lg">• {postQuizRq3.total/3<=10 && postQuizRq3.total/3 >=7 ? "พลังใจมาก" : postQuizRq3.total/3<=6 && postQuizRq3.total/3 >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span>
-)}
+      
      
     </div>
      {quiz.filter((quiz)=>{
         return quiz.quizType==="POST"
     }).map((quiz, index) => (
       
-      <div key={quiz.id} className={`w-10/12 p-4 mt-4 mb-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-blue-500 via-sky-400 to-green-400 ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
+      <div key={quiz.id} className={`w-10/12 p-4 mt-4 mb-4 ${selectQuiz === quiz.id ? 'bg-gradient-to-r from-DB via-B to-LB ' : "bg-white"}  rounded-2xl cursor-pointer shadow-xl `} onClick={() => {handleClick(quiz.id), onQuizSelected(quiz)}}>
         <div className='h-20 flex items-center justify-around '>
             <div className={`flex flex-col ${selectQuiz === quiz.id ? 'text-white text-lg' : 'text-black'}`}>
             <h1 className='text-md'>{quiz?.name} | {quiz.answers.length} คำถาม</h1>

@@ -3,6 +3,52 @@ import { NextResponse } from "next/server";
 import fs from 'fs/promises'
 import sharp from "sharp";
 
+/**
+ * @swagger
+ * /api/media/video/{id}:
+ *   put:
+ *     summary: เพิ่มวิดีโอสื่อ
+ *     tags:
+ *         - Media
+ *     description: บันทึกวิดีโอสื่อลงเครื่อง sever
+ *     parameters:
+ *       - in: header
+ *         name: Content-Type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: multipart/form-data
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               video:
+ *                 type: string
+ *                 format: binary
+ *                 description: ไฟล์
+ *                 default:
+ *                   filename: video.mp4
+ *                   mimetype: video/mp4
+ *                   encoding: "7bit"
+ *                   size: 104857600
+ *                   data: ArrayBuffer
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *          
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
 export async function PUT(req,{params}) {
     try {
         const {id} = params;
@@ -18,7 +64,7 @@ export async function PUT(req,{params}) {
             throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 100 MB")
         }
        
-        const allowedTypes = ['video/mp4'];
+        const allowedTypes = ['video/mp4','video/quicktime'];
 
         if (!allowedTypes.includes(video.type)) {
                 throw Error("ไฟล์ต้องเป็นนามสกุล .mp4");
@@ -43,6 +89,7 @@ export async function PUT(req,{params}) {
         return NextResponse.json({ message: "success" }, { status: 200 });
        
     } catch (error) {
+      console.log(error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
@@ -58,6 +105,7 @@ export async function DELETE(req, { params }) {
       try {
         await fs.access(pathMp4);
         await fs.unlink(pathMp4);
+        await query(`UPDATE media SET video = NULL WHERE id = ?`, [id]);
       } catch (err) {
         return NextResponse.json({ message: "success" }, { status: 200 });
       } finally {
