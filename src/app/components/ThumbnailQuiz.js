@@ -70,8 +70,7 @@ export default function ThumbnailQuiz({quiz,onQuizSelected,exportExcel}) {
     <hr className="  border-2 border-DB rounded-lg w-1/2" />
     </div>
     <div>
-      {postQuizRq3 && (<span className="badge border-2 badge-lg">• {postQuizRq3.total/3<=10 && postQuizRq3.total/3 >=7 ? "พลังใจมาก" : postQuizRq3.total/3<=6 && postQuizRq3.total/3 >=5 ? "พลังใจปานกลาง" : "พลังใจน้อย"}</span>
-)}
+      
      
     </div>
      {quiz.filter((quiz)=>{

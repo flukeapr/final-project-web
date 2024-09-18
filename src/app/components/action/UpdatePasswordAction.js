@@ -6,7 +6,7 @@ import { query } from "../../../../lib/ConnectDb";
 
 export async function UpdatePassword({password, token}) {
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
     const email = decoded.email;
 
     try {

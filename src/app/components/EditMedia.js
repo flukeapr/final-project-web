@@ -19,9 +19,9 @@ export default function EditMedia({ initialMedia }) {
   const [videoUpload, setVideoUpload] = useState(null);
   const [previewVideo, setPreviewVideo] = useState(null);
   const [content, setContent] = useState("");
-  const [categoryImage , setCategoryImage] = useState(false);
-  const [categoryVideo , setCategoryVideo] = useState(false);
+  const [categoryLink , setCategoryLink] = useState(false);
   const [categoryContent , setCategoryContent] = useState(false);
+  const [type , setType] = useState("");
 
   const SelectMedia = (media) => {
     setMediaId(media.id);
@@ -30,6 +30,7 @@ export default function EditMedia({ initialMedia }) {
     setImage(media.image);
     setContent(media.content);
     setVideo(media.video);
+    setType(media.type);
   };
   const clearSelectedMedia = () => {
     setTitle("");
@@ -55,6 +56,7 @@ export default function EditMedia({ initialMedia }) {
           body: JSON.stringify({
             title,
             url,
+            content
           }),
         }
       );
@@ -69,8 +71,11 @@ export default function EditMedia({ initialMedia }) {
                 method: "PUT",
                 body: formData,
               }
-            );
+            )
             const dataImage = await resImage.json();
+            await fetch(`/api/media/video/${mediaId} `, {
+              method: "DELETE",
+            })
             if (!resImage.ok) {
               if (dataImage.error === "ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB") {
                 toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB");
@@ -79,25 +84,60 @@ export default function EditMedia({ initialMedia }) {
               ) {
                 toast.error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
               }
-              document.getElementById("loadingModal").close();
-              document.getElementById("edit_modal").close();
+             
               return;
             }
           } catch (error) {
-            document.getElementById("loadingModal").close();
-            document.getElementById("edit_modal").close();
             toast.error("อัพเดตรูปภาพไม่สําเร็จ");
             return;
           }
+        }else if (videoUpload) {
+          if(videoUpload.size > 104857600){
+            toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 100 MB");
+            return;
+          }else if(videoUpload.type !== "video/mp4"){
+            toast.error("ไฟล์ต้องเป็นนามสกุล .mp4");
+            return;
+          }
+          try {
+            const formData = new FormData();
+            formData.append("video", videoUpload);
+            const resImage = await fetch(
+              `${process.env.NEXT_PUBLIC_serverURL}/api/media/video/${mediaId}`,
+              {
+                method: "PUT",
+                body: formData,
+              }
+            );
+            await fetch(`/api/media/image/${mediaId} `, {
+              method: "DELETE",
+            })
+            if (!resImage.ok) {
+              if (dataImage.error === "ไฟล์ต้องมีขนาดน้อยกว่า 100 MB") {
+                toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 100 MB");
+              } else if (
+                dataImage.error ===
+                "ไฟล์ต้องเป็นนามสกุล .mp4"
+              ) {
+                toast.error("ไฟล์ต้องเป็นนามสกุล .mp4");
+              }
+
+              return;
+            }
+          } catch (error) {
+            toast.error("เพิ่มสื่อวิดีโอไม่สําเร็จ");
+            return;
+          }
         }
-        document.getElementById("loadingModal").close();
-        document.getElementById("edit_modal").close();
         toast.success("อัพเดตสื่อเนื้อหาและรูปภาพสําเร็จ");
         clearSelectedMedia();
         refreshMediaData();
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      document.getElementById("loadingModal").close();
+      document.getElementById("edit_modal").close();
     }
   };
   const refreshMediaData = async () => {
@@ -163,7 +203,7 @@ export default function EditMedia({ initialMedia }) {
     });
   };
 
-  const handleCreate = async () => {
+  const handleCreate = async (type) => {
     document.getElementById("loadingModal").showModal();
     try {
       const resData = await fetch(
@@ -176,7 +216,8 @@ export default function EditMedia({ initialMedia }) {
           body: JSON.stringify({
             title,
             url,
-            content
+            content,
+            type:type === "IN"? "IN" : "OUT"
           }),
         }
       );
@@ -186,13 +227,9 @@ export default function EditMedia({ initialMedia }) {
 
         if (imgUpload) {
           if(imgUpload.size > 2621440){
-            document.getElementById("loadingModal").close();
-            document.getElementById("edit_modal").close();
             toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB");
             return;
-          }else if(imgUpload.type !== "image/jpeg" && imgUpload.type !== "image/png" && imgUpload.type !== "image/jpg"){   
-            document.getElementById("loadingModal").close();
-            document.getElementById("edit_modal").close();
+          }else if(imgUpload.type !== "image/jpeg" && imgUpload.type !== "image/png" && imgUpload.type !== "image/jpg"){          
             toast.error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
             return;
           }
@@ -220,26 +257,17 @@ export default function EditMedia({ initialMedia }) {
                   method: "DELETE",
                 }
               )
-              document.getElementById("loadingModal").close();
-              document.getElementById("newMedia").close();
-              return;
+              
             }
           } catch (error) {
-            document.getElementById("loadingModal").close();
-            document.getElementById("newMedia").close();
             toast.error("อัพเดตรูปภาพไม่สําเร็จ");
             return;
           }
         } else if (videoUpload) {
           if(videoUpload.size > 104857600){
-            document.getElementById("loadingModal").close();
-            document.getElementById("newMedia").close();
             toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 100 MB");
             return;
           }else if(videoUpload.type !== "video/mp4"){
-            
-            document.getElementById("loadingModal").close();
-            document.getElementById("newMedia").close();
             toast.error("ไฟล์ต้องเป็นนามสกุล .mp4");
             return;
           }
@@ -268,25 +296,28 @@ export default function EditMedia({ initialMedia }) {
                   method: "DELETE",
                 }
               )
-              document.getElementById("loadingModal").close();
-              document.getElementById("newMedia").close();
               return;
             }
           } catch (error) {
-            document.getElementById("loadingModal").close();
-            document.getElementById("newMedia").close();
-            toast.error("พิ่มสื่อวิดีโอไม่สําเร็จ");
+            toast.error("เพิ่มสื่อวิดีโอไม่สําเร็จ");
             return;
           }
         }
-        document.getElementById("loadingModal").close();
-        document.getElementById("newMedia").close();
         toast.success("เพิ่มสื่อเนื้อหาสำเร็จ");
         clearSelectedMedia();
         refreshMediaData();
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      if(type === "IN"){
+        document.getElementById("loadingModal").close();
+        document.getElementById("newMediaIn").close();
+      }else{
+        document.getElementById("loadingModal").close();
+        document.getElementById("newMediaOut").close();
+      }
+     
     }
   };
 
@@ -317,13 +348,20 @@ export default function EditMedia({ initialMedia }) {
   return (
     <>
       <div className="w-1/4 h-[500px] bg-gradient-to-br from-DB via-B to-LB rounded-md shadow-md p-6 mt-4 max-sm:hidden sm:hidden lg:block">
-        <div className="w-full flex flex-col ">
-          <button
-            className="btn bg-white w-full text-B tracking-wider text-lg"
-            onClick={() => document.getElementById("newMedia").showModal()}
+        <div className="w-full flex flex-col space-y-2 ">
+        <button
+            className="btn  w-full text-B tracking-wider text-lg"
+            onClick={() => document.getElementById("newMediaIn").showModal()}
           >
-            เพิ่มสื่อใหม่
+            เพิ่มบทความ
           </button>
+          <button
+            className="btn  w-full text-B tracking-wider text-lg "
+            onClick={() => document.getElementById("newMediaOut").showModal()}
+          >
+            เพิ่มสื่อภายนอก
+          </button>
+         
           <div className="space-y-2 mt-4">
             <h1 className="text-lg text-white">ค้นหาสื่อความรู้</h1>
             <input
@@ -335,37 +373,10 @@ export default function EditMedia({ initialMedia }) {
             
             <div className="mt-4 space-y-4">
               <h1 className="text-lg text-white">ค้นหาตามกลุ่ม</h1>
-              <div className="form-control rounded-md bg-white p-2">
+              <div className="form-control rounded-md bg-white  p-2  ">
                 <label className="label cursor-pointer ">
-                  <span className="label-text  text-md">
-                    ที่เป็นรูปภาพ
-                  </span>
-                  <input
-                    type="checkbox"
-                    className="checkbox bg-white"
-                    onChange={() => setCategoryImage(!categoryImage)}
-                  />
-                </label>
-              </div>
-              
-              <div className="form-control rounded-md bg-white p-2">
-                <label className="label cursor-pointer ">
-                  <span className="label-text  text-md">
-                    ที่เป็นวิดีโอ
-                  </span>
-                  <input
-                    type="checkbox"
-                    className="checkbox bg-white"
-                    onChange={() => setCategoryVideo(!categoryVideo)}
-                  />
-                </label>
-              </div>
-              
-             
-              <div className="form-control rounded-md bg-white p-2">
-                <label className="label cursor-pointer ">
-                  <span className="label-text  text-md">
-                    ที่เป็นบทความ
+                  <span className="label-text  text-md dark:text-black">
+                    บทความ
                   </span>
                   <input
                     type="checkbox"
@@ -375,6 +386,21 @@ export default function EditMedia({ initialMedia }) {
                 </label>
               </div>
               
+              <div className="form-control rounded-md bg-white p-2 ">
+                <label className="label cursor-pointer ">
+                  <span className="label-text  text-md dark:text-black">
+                    ลิ้งภายนอก
+                  </span>
+                  <input
+                    type="checkbox"
+                    className="checkbox bg-white"
+                    onChange={() => setCategoryLink(!categoryLink)}
+                  />
+                </label>
+              </div>
+              
+             
+             
               
               
             </div>
@@ -385,14 +411,12 @@ export default function EditMedia({ initialMedia }) {
         {media.length > 0 &&
           media
             .filter((item) => item.title.includes(search)).filter((item) => {
-              if(categoryImage && categoryVideo && categoryContent){
+              if(categoryLink && categoryContent){
                 return true
-              }else  if (categoryImage) {
-                return item.image;
-              } else if (categoryVideo) {
-                return item.video;
+              }else  if (categoryLink) {
+                return item.type=== "OUT";
               } else if (categoryContent) {
-                return item.content;
+                return item.type=== "IN";
               } else {
                 return item;
               }
@@ -491,7 +515,9 @@ export default function EditMedia({ initialMedia }) {
               </div>
 
               <hr />
-              <div className="flex flex-row justify-between py-2">
+              {type === "OUT" && (
+                <>
+                <div className="flex flex-row justify-between py-2">
                 <h1>ลิ้งค์</h1>
                 <input
                   className=" input input-bordered w-4/5 "
@@ -500,7 +526,11 @@ export default function EditMedia({ initialMedia }) {
                 />
               </div>
               <hr />
-              <div className="flex flex-row justify-between py-2">
+                </>
+              )} 
+              {type === "IN" && (
+                <>
+                <div className="flex flex-row justify-between py-2">
                 <h1>บทความ</h1>
                 <textarea
                   className=" input input-bordered w-4/5 "
@@ -509,32 +539,61 @@ export default function EditMedia({ initialMedia }) {
                 />
               </div>
               <hr />
+                </>
+              )}
+              
+              
 
               <div className="flex flex-row justify-between py-2">
                 <h1>รูปประกอบ หรือ วิดีโอ</h1>
                 <div className="flex flex-col items-center justify-center space-x-4">
-                {video && (
-                    <video
+                {previewVideo || preview ? (
+                  <>
+                  {
+                    previewVideo && (
+                      <video
+                      className="max-w-2xl rounded-md shadow-md max-sm:w-full"
+                      controls
+                    >
+                      <source src={previewVideo} type={previewVideo.type} />
+                    </video>
+                    )
+                  }
+                  {preview && (
+                     <img
+                     src={preview}
+                     className="max-w-2xl rounded-md shadow-md max-sm:w-full"
+                   />
+                  )}
+
+                  
+                  </>
+                    
+                    
+                    
+                  ): (
+                    <>
+                    { video && (
+                      <video
                       className="max-w-2xl rounded-md shadow-md max-sm:w-full"
                       controls
                     >
                       <source src={video}  />
                     </video>
+                    )}
+                    {image && (
+                       <img
+                       src={image}
+                       className=" max-w-2xl rounded-md shadow-md max-sm:w-full sm:w-full"
+                     />
+                    )}
+                    </>
+                   
+                    
                   )}
-                  {preview ? (
-                    <img
-                      src={preview}
-                      className="max-w-2xl rounded-md shadow-md max-sm:w-full"
-                    />
-                  ) : (
-                    image && (
-                      <img
-                        src={image}
-                        className=" max-w-2xl rounded-md shadow-md max-sm:w-full sm:w-full"
-                      />
-                    )
-                  )}
-                  <h1 className="py-2">เลือกรูปภาพใหม่</h1>
+               
+                  
+                  <h1 className="py-2">เลือกรูปภาพหรือวิดีโอ</h1>
                   <input
                     type="file"
                     id="imageProfile"
@@ -591,7 +650,7 @@ export default function EditMedia({ initialMedia }) {
         </div>
       </dialog>
       {/* new media */}
-      <dialog id="newMedia" className="modal">
+      <dialog id="newMediaIn" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
           <form method="dialog">
             <button
@@ -622,28 +681,10 @@ export default function EditMedia({ initialMedia }) {
                 />
               </div>
 
+              
               <hr />
               <div className="flex flex-row justify-between py-2">
-                <div className="flex flex-col">
-                  <h1 className="text-lg">ลิ้งค์</h1>
-                  <p className="text-sm">*ถ้ามี*</p>
-                  <p className="text-sm">*หากเป็นบทความภาพนอก*</p>
-                </div>
-
-                <input
-                  type="text"
-                  className=" input input-bordered w-4/5 "
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  
-                />
-              </div>
-              <hr />
-              <div className="flex flex-row justify-between py-2">
-              <div className="flex flex-col">
                 <h1 className="text-lg">บทความ</h1>
-                <p className="text-sm">*ถ้ามี*</p>
-              </div>
                 <textarea
                   className=" input input-bordered w-4/5 "
                   value={content}
@@ -704,7 +745,7 @@ export default function EditMedia({ initialMedia }) {
             <button
               className="btn btn-sm btn-outline text-lg"
               onClick={() => {
-                document.getElementById("newMedia").close();
+                document.getElementById("newMediaIn").close();
                 clearSelectedMedia();
               }}
             >
@@ -712,7 +753,119 @@ export default function EditMedia({ initialMedia }) {
             </button>
             <button
               className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
-              onClick={handleCreate}
+              onClick={()=>{handleAddMedia("IN")}}
+            >
+              บันทึก
+            </button>
+          </div>
+        </div>
+      </dialog>
+      {/* dialog new media OUT */}
+      <dialog id="newMediaOut" className="modal">
+        <div className="modal-box w-11/12 max-w-5xl">
+          <form method="dialog">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={() => {
+                clearSelectedMedia();
+              }}
+            >
+              ✕
+            </button>
+          </form>
+          <div className="flex flex-col p-4 mt-4 ">
+            {/* form group detail */}
+            <div className="flex flex-col space-y-2">
+              <h1 className="text-xl">สื่อให้ความรู้</h1>
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1 className="text-lg">หัวข้อ</h1>
+                <input
+                  type="text"
+                  className=" input input-bordered w-4/5  "
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
+                  required
+                  
+                />
+              </div>
+
+              <hr />
+              <div className="flex flex-row justify-between py-2">
+                <h1 className="text-lg">ลิงค์</h1>
+                <input
+                  type="text"
+                  className=" input input-bordered w-4/5 "
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  
+                />
+              </div>
+             
+              <hr />
+
+              <div className="flex flex-row justify-between py-2">
+                <h1 className="text-lg">รูปประกอบ หรือ วิดีโอ</h1>
+                <div className="flex flex-col items-center justify-center space-x-4">
+                  {previewVideo && (
+                    <video
+                      className="max-w-2xl rounded-md shadow-md max-sm:w-full"
+                      controls
+                    >
+                      <source src={previewVideo} type={previewVideo.type} />
+                    </video>
+                  )}
+                  {preview && (
+                    <img
+                      src={preview}
+                      className="max-w-2xl rounded-md shadow-md max-sm:w-full"
+                    />
+                  )}
+                  <h1 className="py-2">เลือกรูปภาพหรือวิดีโอ</h1>
+                  <input
+                    type="file"
+                    id="imageProfile"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      console.log(file);
+                      if (file.type === "video/mp4") {
+                        const src = URL.createObjectURL(e.target.files[0]);
+                        console.log(src);
+                        setPreviewVideo(src);
+                        setVideoUpload(file);
+                      } else if (
+                        file.type === "image/png" ||
+                        file.type === "image/jpg" ||
+                        file.type === "image/jpeg"
+                      ) {
+                        const src = URL.createObjectURL(e.target.files[0]);
+                        setPreview(src);
+                        setImgUpload(e.target.files[0]);
+                      } 
+                    }}
+                    className="file-input input-xs  input-bordered w-32 my-2"
+                  />
+                </div>
+              </div>
+              <hr />
+            </div>
+          </div>
+          {/* submit and cancel button */}
+          <div className="flex justify-end space-x-2">
+            <button
+              className="btn btn-sm btn-outline text-lg"
+              onClick={() => {
+                document.getElementById("newMediaOut").close();
+                clearSelectedMedia();
+              }}
+            >
+              ยกเลิก
+            </button>
+            <button
+              className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
+              onClick={()=>{handleCreate("OUT")}}
             >
               บันทึก
             </button>

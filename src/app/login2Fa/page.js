@@ -1,26 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import { signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import Swal from "sweetalert2";
 import Link from "next/link";
-
-import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { emailToLogin } from "../components/action/MailAction";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const router = useRouter();
-  const { data: session } = useSession();
-  //  if (session?.user) router.replace("/home");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,68 +17,25 @@ export default function LoginPage() {
       return
     }
     try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      if(!res.ok){
-        toast.error(res.error);
-      }
-      if (res.ok) {
-        try { 
-          const resSession = await fetch("/api/auth/session");
-          const data = await resSession.json();
-          if (data.user) {
-            if (data.user.role === 1) {
-              toast.success("เข้าสู่ระบบสําเร็จ");
-              setTimeout(() => {
-                router.replace("/homepage");
-              }, 500);
-            } else {
-              toast.error("คุณไม่มีสิทธิ์เข้าใช้งาน");
-              setTimeout(async() => {
-                await signOut();
-              }, 500);
-              
-             
-            }
-          }
-        } catch (error) {
-          toast.error("ไม่สามารถเข้าสู่ระบบได้");
-          console.log(error);
+        const res =  await emailToLogin({email,password})
+        if(res.message === "Email sent"){
+            toast.success("กรุณาตรวจสอบอีเมลของคุณ เพื่อเข้าสู่ระบบ");
+        }else if(res.message === "Error"){
+            toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        }else if(res.message === "User not found"){
+            toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
         }
-        
        
-        //  setTimeout(()=>{
-        //   router.replace("/homepage");
-        //  },2500)
-      }
+        
+      
     } catch (error) {
       toast.error(error.message);
       console.log(error);
     }
   };
-  // useEffect(() => {
-  //   if (session?.user) {
-  //     router.replace("/homepage");
-  //   }
-  // }, [session, router]);
+  
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const res = await signIn("google", { redirect: false });
-      if (res.ok) {
-        toast.success("Login Successful");
-        setTimeout(() => {
-          router.replace("/home");
-        }, 2500);
-      }
-    } catch (error) {
-      toast.success(error.message);
-      console.log(error);
-    }
-  };
+  
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-SLB to-white">
       <ToastContainer
@@ -182,21 +127,7 @@ export default function LoginPage() {
              กลับหน้าหลัก
             </Link>
           </div>
-          {/* <div className="flex items-center space-x-1 m-2 ">
-            <hr className=" border-2 border-[#F26522] rounded-lg w-full"></hr>
-            <span className="text-2xl text-[#F26522] font-semibold">Or</span>
-            <hr className="  border-2 border-[#F26522] rounded-lg w-1/2" />
-          </div> */}
-          <div className="flex justify-center space-x-4">
           
-          {/* <div className="w-[250px] bg-blue-400 h-16  rounded-lg flex items-center justify-start cursor-pointer" onClick={handleGoogleSignIn}>
-          <div className="bg-white h-12 w-12 rounded-lg flex items-center justify-center ml-2">
-            <FcGoogle color="white" size={40} />
-          </div>
-            <h1 className="text-white ml-2" >Sign in With Google</h1>
-          </div> */}
-          
-        </div>
 
         </div>
       </div>

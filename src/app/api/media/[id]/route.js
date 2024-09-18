@@ -45,9 +45,7 @@ export async function PUT(req,{params}){
        const {id} =params;
        const body = await req.json();
         const {title, url ,content} = body;
-        if(!title || !url){
-            throw Error("Missing title or url");
-        } 
+         
         await query(`UPDATE media SET title = ?, url = ? , content = ? WHERE id = ?`, [title, url ,content, id]);
 
         return NextResponse.json({ message: "Media updated successfully" }, { status: 200 });   

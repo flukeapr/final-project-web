@@ -52,8 +52,8 @@ export async function POST(req){
             return NextResponse.json({message: "Email not found"},{status: 404});
         }
         if(result){
-            const token = jwt.sign({email}, process.env.JWT_SECRET, { expiresIn: "30m" });
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const token = jwt.sign({email}, process.env.NEXT_PUBLIC_JWT_SECRET, { expiresIn: "30m" });
+            const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
             var transport = nodemailer.createTransport({
                 secure:true,
                 host:'smtp.gmail.com',

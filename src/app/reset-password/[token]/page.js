@@ -101,7 +101,7 @@ export default function ResetPasswordPage({params}) {
                 
               ) : (
                 <div className="lg:flex  lg:justify-around lg:items-center  lg:w-1/2 lg:h-3/4  border shadow-xl p-12  rounded-2xl max-sm:flex max-sm:flex-col max-sm:w-full max-sm:h-full max-sm:items-center max-sm:justify-center">
-                <div className="h-full max-sm:h-1/5 max-sm:flex max-sm:items-center  max-sm:justify-center ">
+                <div className="h-full max-sm:h-1/5 max-sm:flex max-sm:items-center  max-sm:justify-center">
                   <img src="/images/logo/smile-logo-bg-blue.png" className="lg:w-[400px] max-sm:w-1/5" />
                   <h1 className="text-4xl max-sm:text-3xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
                     Happy{" "}
@@ -110,7 +110,7 @@ export default function ResetPasswordPage({params}) {
                     </span>
                   </h1>
                 </div>
-                <div className="max-sm:-mt-48">
+                <div className="">
                   <h3 className="text-4xl text-center font-semibold mb-8">New Password</h3>
                   <hr className="my-3 border-2 border-[#3b82f6] rounded-lg w-full" />
                   <h1 className="text-center m-4 max-sm:text-sm">

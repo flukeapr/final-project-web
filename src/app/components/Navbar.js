@@ -18,6 +18,7 @@ export default function Navbar() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const pathname = usePathname();
+  
  
   useEffect(() => {
     if (session?.user) {
@@ -74,6 +75,7 @@ export default function Navbar() {
   const toggleMobileDrawer = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
+
   
 
   
@@ -137,8 +139,9 @@ export default function Navbar() {
           
 
           {session?.user ? (
-            
-            <div className="hidden lg:flex w-1/5 md:w-1/4 items-center justify-end space-x-4 ">
+           <>
+           
+<div className="hidden lg:flex w-1/5 md:w-1/4 items-center justify-end space-x-4 ">
               {/* dropdown menu profile */}
               <div className="dropdown dropdown-end">
                 <div
@@ -181,6 +184,8 @@ export default function Navbar() {
                 </ul>
               </div>
             </div>
+           </> 
+          
           ) : (
             <div className="hidden lg:flex justify-center space-x-12 items-center">
               <Link

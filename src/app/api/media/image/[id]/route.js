@@ -114,20 +114,13 @@ export async function DELETE(req,{params}) {
         try {
             await fs.access(pathJpg);
             await fs.unlink(pathJpg);
+            await query(`UPDATE media SET image = NULL WHERE id = ?`, [id]);
         } catch (err) {
-            
-            
-                return NextResponse.json({ message: "success" }, { status: 200 });
+            return NextResponse.json({ message: "success" }, { status: 200 });
             
         }finally{
             return NextResponse.json({ message: "success" }, { status: 200 });
-
-        }
-
-        
-        
-       
-         
+        }   
     } catch (error) {
         console.log(error)
         return NextResponse.json({ error: error.message }, { status: 500 })

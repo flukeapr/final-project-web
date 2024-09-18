@@ -105,6 +105,7 @@ export async function DELETE(req, { params }) {
       try {
         await fs.access(pathMp4);
         await fs.unlink(pathMp4);
+        await query(`UPDATE media SET video = NULL WHERE id = ?`, [id]);
       } catch (err) {
         return NextResponse.json({ message: "success" }, { status: 200 });
       } finally {

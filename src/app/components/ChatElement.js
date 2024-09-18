@@ -161,7 +161,7 @@ export default function ChatElement({ user,getUnreadMessage }) {
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
         />
         <button className="btn bg-white w-[10%]">
-          <SendHorizontal color="#3b82f6" onClick={handleSendMessage} />
+          <SendHorizontal color="#3b82f6" onClick={(e)=>handleSendMessage(e)} />
         </button>
       </div>
     </>
