@@ -60,6 +60,8 @@ const avatars = [
    "/images/avatars/avatar2.png",
    "/images/avatars/avatar3.png",
    "/images/avatars/avatar4.png",
+   "/images/avatars/avatar5.png",
+   "/images/avatars/avatar6.png",
 ];
 
 function getRandomItem(arr) {

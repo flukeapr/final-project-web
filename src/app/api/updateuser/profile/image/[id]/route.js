@@ -101,10 +101,23 @@ export async function PUT(req,{params}) {
     }
 }
 
+const avatars = [
+    "/images/avatars/avatar1.png",
+    "/images/avatars/avatar2.png",
+    "/images/avatars/avatar3.png",
+    "/images/avatars/avatar4.png",
+    "/images/avatars/avatar5.png",
+    "/images/avatars/avatar6.png",
+ ];
+ 
+ function getRandomItem(arr) {
+   const randomIndex = Math.floor(Math.random() * arr.length);
+   return arr[randomIndex];
+ }
 
 
 
-
+ ///profile/uploads/user-14.jpg
 export async function DELETE(req,{params}) {
     try {
         const {id} = params;
@@ -112,6 +125,10 @@ export async function DELETE(req,{params}) {
         try {
             await fs.access(pathJpg);
             await fs.unlink(pathJpg);
+
+            const avatar = getRandomItem(avatars);
+            await query(`UPDATE users SET image = ? WHERE id = ?`, [avatar, id]);
+
         } catch (err) {
             return NextResponse.json({ message: "success" }, { status: 200 });
            
