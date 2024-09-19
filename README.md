@@ -1,5 +1,6 @@
 ## วิธีลงโปรเจค 
 
+เอาไฟล์ happymind.sql ไป import เข้า database mysql เพื่อใช้ database ได้
 
 
 
