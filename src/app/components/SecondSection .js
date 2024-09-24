@@ -27,7 +27,7 @@ export default function SecondSection (){
         }
     ]
     return (
-        <div className='mt-20'>
+        <section className='mt-20'>
         <h2 className="text-3xl sm:text-5xl lg:text-6xl text-center mt-6 tracking-wide">
                 What 
                 <span className="bg-gradient-to-r from-DB to-LB text-transparent bg-clip-text ">{" "}mental illnesses </span>
@@ -36,7 +36,7 @@ export default function SecondSection (){
           </h2>
           <div className="flex flex-wrap justify-center mt-10">
             <motion.div whileInView={{opacity: 1,x:0}} initial={{opacity:0,x:-100}} transition={{duration:0.5}} className="p-2 w-full lg:w-1/2">
-                <img src='/images/slide/MH4.jpg' className='rounded-2xl border-4' alt="#"/>
+                <img src='/images/slide/MH4.jpg' className='rounded-2xl border-4' alt="/image/MH4"/>
             </motion.div>
             <div className="pt-8 w-full lg:w-1/2  ">
                 {MetalItems.map((item, index) => (
@@ -54,6 +54,6 @@ export default function SecondSection (){
             </div>
           </div>
           
-        </div>
+        </section>
     )
 }

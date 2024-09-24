@@ -115,8 +115,9 @@ export default function Graph() {
 
   return (
     <div className="flex items-center justify-evenly w-screen h-96 bg-SLB p-2">
-      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center ">
+      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center " id="Pie">
         <PieChart
+         
           series={[
             {
               data: [
@@ -141,7 +142,7 @@ export default function Graph() {
           
         ></PieChart>
       </div>
-      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center ">
+      <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center " id="Bar">
       <BarChart
       xAxis={[{ scaleType: 'band', data: ['ความทนต่อแรงกดดัน', 'การมีความหวังและกำลังใจ', 'การต่อสู้เอาชนะอุปสรรค'] }]}
       series={[{ data: [pressure, encouragement, obstacle] ,color:"#0078b7" }]}

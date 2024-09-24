@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
 import { CheckPasswordAction } from "./action/CheckPasswordAction";
 
-export default function EditUserModal({ initialUser }) {
+export default function EditUserComponent({ initialUser }) {
   const [userId, setUserId] = useState(0);
   const [users, setUsers] = useState(initialUser);
   const [loading, setLoading] = useState(true);

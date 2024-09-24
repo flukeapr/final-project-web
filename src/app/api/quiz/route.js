@@ -96,8 +96,10 @@ export async function POST(req) {
      
 
       const body = await req.json();
+      
+
       const {userId ,quizId ,quizType,answers,pressure,encouragement,obstacle,total,risk} = body;
-      // quiz 7 = rq20 and 8 = rq3 quiz 6 = mhl29
+      //quiz 7 = rq20 and 8 = rq3 quiz 6 = mhl29
       if(quizId==7){
         await query(`INSERT INTO userquiz (userId ,quizId ,quizType,answers,pressure,encouragement,obstacle,total,risk) VALUES (?,?,?,?,?,?,?,?,?)`,[userId,quizId,quizType,JSON.stringify(answers),pressure,encouragement,obstacle,total,risk])
         if(quizType=="PRE"){

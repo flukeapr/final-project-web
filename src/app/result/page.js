@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useUserContext } from '../context/UsersContext';
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import ChatAi from '../components/ChatAi';
 import {
   BarChart,
   Bar,

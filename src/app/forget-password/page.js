@@ -46,7 +46,7 @@ export default function ForgetPassword() {
       transition={Bounce}
     />
     <div className="flex  justify-around items-center  w-1/2 h-3/4 bg-white  border shadow-xl p-10 rounded-2xl">
-      <div className="h-full ">
+      <div className="h-full hidden lg:block">
         <img src="/images/logo/smile-logo-bg-blue.png" width={400} />
         <h1 className="text-4xl sm:text-6xl lg:text-6xl  text-center tracking-wide ">
           Happy{" "}

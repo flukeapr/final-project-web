@@ -34,7 +34,7 @@ export default function CareSection() {
    
   ];
     return (
-        <div className='mt-20'>
+        <section className='mt-20'>
     <motion.h2 whileInView={{opacity: 1,x:0}} initial={{opacity:0,x:-100}} transition={{duration:0.5}} className="text-3xl sm:text-5xl lg:text-6xl text-center mt-6 tracking-wide">
             How to  
             <span className="bg-gradient-to-r from-DB to-LB text-transparent bg-clip-text ">{" "}take care </span>
@@ -57,6 +57,6 @@ export default function CareSection() {
         ))}
       </div>
       
-    </div>
+    </section>
     )
 }

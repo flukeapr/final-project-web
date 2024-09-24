@@ -88,7 +88,7 @@ export default function ChatAi() {
                 <div className="chat chat-end">
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
-                    <img src={session.user.image} />
+                    <img  />
                   </div>
                 </div>
                

@@ -7,9 +7,9 @@ import Swal from "sweetalert2";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import EditUserModal from "../components/EditUserModal";
 import "react-toastify/dist/ReactToastify.css";
 import { GetUserData } from "../components/action/UserAction";
+import EditUserComponent from "../components/EditUserComponent";
 
 
 export default async function EditUser() {
@@ -23,7 +23,7 @@ export default async function EditUser() {
       <h1 className="text-3xl font-semibold text-center text-DB mb-2">
         จัดการผู้ใช้
       </h1>
-    <EditUserModal initialUser={users.data}/>
+    <EditUserComponent initialUser={users.data}/>
     {users.error && (
       <div className="text-red-500">{users.error}</div>
     )}

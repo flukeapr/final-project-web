@@ -2,6 +2,7 @@
 'use client'
 import { useState, createContext,useContext, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { GetUserQuiz, GetUserScore } from "../components/action/UserAction";
 
 const UserContext = createContext();
 
@@ -11,17 +12,11 @@ export function UserProvider({ children }) {
     const [allQuiz , setAllQuiz] = useState([])
 
     const fetchUsers = async () => {
-        console.log('Fetching Users'); 
+        
         try {
-            const result = await fetch('/api/userscoreView', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: session?.user?.email })
-            });
-            const data = await result.json();
-            setUsers(data);
+            const result = await GetUserScore({email: session?.user?.email})
+           
+            setUsers(result.data);
         } catch (error) {
             console.log(error)
         }
@@ -29,11 +24,11 @@ export function UserProvider({ children }) {
 
     }
     const fetchUserQuiz = async () => {
-        console.log('Fetching User Quiz');
+       
         try {
-            const result = await fetch('/api/userquizView')
-            const data = await result.json()
-            setAllQuiz(data)
+            const result = await GetUserQuiz()
+            
+            setAllQuiz(result.data)
         } catch (error) {
             console.log(error)
         }

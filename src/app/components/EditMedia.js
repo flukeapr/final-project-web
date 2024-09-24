@@ -753,7 +753,7 @@ export default function EditMedia({ initialMedia }) {
             </button>
             <button
               className="btn btn-sm btn-outline tracking-wider bg-DB text-white text-lg"
-              onClick={()=>{handleAddMedia("IN")}}
+              onClick={()=>{handleCreate("IN")}}
             >
               บันทึก
             </button>

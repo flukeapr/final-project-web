@@ -5,6 +5,8 @@ import { getToken } from 'next-auth/jwt'
 export async function middleware(request) {
   const token = await getToken({ req: request });
    console.log("middleware")
+
+   
    
    if(request.nextUrl.pathname === '/'){
     if(token){
@@ -13,6 +15,11 @@ export async function middleware(request) {
       return NextResponse.next()
     }
    }
+   if (request.nextUrl.pathname === '/allusers') {
+    return NextResponse.next();
+  }
+
+
   if(!token) {
     return NextResponse.redirect(new URL('/', request.url))
   }else {
