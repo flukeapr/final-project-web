@@ -1,6 +1,6 @@
 ## วิธีลงโปรเจค 
 
-เอาไฟล์ happymind.sql ไป import เข้า database mysql เพื่อใช้ database ได้
+เอาไฟล์ happymind.sql ไป import เข้า database mysql เพื่อใช้ database ได้ และเปลี่ยน DB_USER DB_PASSWORD ใน .env เป็นบัญชีที่ใช้เข้า phpmyadmin ของตัวเอง
 
 
 
