@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { useUserContext } from "../context/UsersContext";
 import ChatElement from "../components/ChatElement";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import DotIndicator from "../components/DotIndicator";
+
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Support() {

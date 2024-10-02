@@ -1,5 +1,5 @@
 
-export default function Footer() {
+export default function FooterComponent() {
      const resourcesLinks = [
         { href: "#", text: "Getting Started" },
         { href: "#", text: "Documentation" },

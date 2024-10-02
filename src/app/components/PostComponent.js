@@ -6,7 +6,7 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import Swal from "sweetalert2";
 import {FaTrash} from "react-icons/fa";
-import { ArrowBigUp } from "lucide-react";
+import { ArrowBigUp ,Heart ,MessageSquare } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -25,7 +25,7 @@ export default function PostComponent({initialPosts}) {
     const [preview, setPreview] = useState(null);
     const [isScrolled, setIsScrolled ] = useState(false);
     const scrollDivRef = useRef(null);
-    const [commentImage , setCommentImage] = useState(null);
+    const [isLiked, setIsLiked] = useState([]);
 
     function formatDay(createAt) {
         const date = new Date(createAt);
@@ -103,6 +103,7 @@ export default function PostComponent({initialPosts}) {
                   postId: item.post_id,
                   postText: item.post_text,
                   postImage: item.post_image,
+                  postLikes: item.post_likes,
                   postUserId: item.post_userId,
                   postUserName: item.post_user_name,
                   postUserImage: item.post_user_image,
@@ -237,6 +238,73 @@ export default function PostComponent({initialPosts}) {
             }
           }
         });
+      }
+
+      const getLikePost = async () => {
+        try {
+          const res = await fetch(`/api/post/like/${session.user.id}`)
+          const dataJson = await res.json();
+          if (res.ok ) {
+            console.log(dataJson.data);
+            setIsLiked(dataJson.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      useEffect(() => {
+        getLikePost();
+      }, [])
+
+
+      const handleLike = async (postId) => {
+        try {
+          const resCheck = await fetch("/api/post/like/check-like", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              postId,
+              userId: session.user.id,
+            }),
+          })
+
+          if(resCheck.status === 201){
+            setPosts((prev) => prev.map((post) => (post.postId === postId ? { ...post, postLikes: post.postLikes - 1 } : post)));
+            setIsLiked((prev) => prev.filter((like) => like.postId !== postId));
+            const res = await fetch("/api/post/like/un-like", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                postId,
+                userId: session.user.id,
+              }),
+            });
+          }else if(resCheck.status === 200){
+            setPosts((prev) => prev.map((post) => (post.postId === postId ? { ...post, postLikes: post.postLikes + 1 } : post)));
+            setIsLiked((prev) => [...prev, {postId, userId: session.user.id}]);
+            const res = await fetch("/api/post/like", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                postId,
+                userId: session.user.id,
+              }),
+            });
+          }
+          
+        } catch (error) {
+          console.log(error);
+        }finally{
+          getPost();
+          getLikePost();
+        }
       }
      
       const scrollToTop = () => {
@@ -431,11 +499,15 @@ export default function PostComponent({initialPosts}) {
                     <div className="flex my-2">
                       
                       <div
-                        className="ml-4 flex items-center cursor-pointer"
-                        onClick={() => toggleComments(post?.postId)}
+                        className="ml-4 flex items-center cursor-pointer space-x-2"
+                        
                       >
-                        <FaRegCommentAlt className="mr-2" />
-                        {post?.comments?.length} Comments
+                        <Heart color={isLiked?.find((like) => like.postId === post?.postId) && "red" } fill={isLiked?.find((like) => like.postId === post?.postId) ? "red" : "none" } onClick={() => handleLike(post?.postId)} /><h1>{post?.postLikes}</h1>
+                        <div className="flex items-center" onClick={() => toggleComments(post?.postId)}>
+                        <MessageSquare className="mr-2" />
+                        <h1>{post?.comments?.length} Comments</h1>
+                        </div>
+                        
                       </div>
                     </div>
                     <hr />

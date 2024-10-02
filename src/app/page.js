@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import HeroSection from "./components/HeroSection";
 import SecondSection from "./components/SecondSection ";
 import CareSection from "./components/CareSection";
-import Footer from "./components/Footer";
+import FooterComponent from "./components/FooterComponent";
 
 
 
@@ -31,7 +31,7 @@ export default function Home() {
     <SecondSection/>
     <CareSection/>
 
-    <Footer/>
+    <FooterComponent/>
     </main>
     
     

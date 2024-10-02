@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useUserContext } from '../context/UsersContext';
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import ChatAi from '../components/ChatAi';
 import {
   BarChart,
   Bar,
@@ -43,7 +42,7 @@ export default function Result() {
 
     const getData = async ()=>{
       try {
-        const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/result")
+        const res = await fetch("/api/result")
         const data = await res.json()
         
         setAllData(data)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParallax } from 'react-scroll-parallax'
 import { motion } from 'framer-motion'
+import ChatAi from './ChatAi';
 
 
 const container = (delay,x) => ({
@@ -20,7 +21,7 @@ export default function HeroSection() {
   
   return (
     <>
-    <div className="flex flex-col items-center mt-6 ">
+    <section className="flex flex-col items-center mt-6 ">
      
     <motion.h1  variants={container(0.5,-100)} initial="hidden" animate="visible" className="text-4xl sm:text-6xl lg:text-8xl text-center tracking-wide ">
         Happy Mind 
@@ -29,7 +30,7 @@ export default function HeroSection() {
     <motion.p  variants={container(1,-100)} initial="hidden" animate="visible" className='mt-10 text-lg text-center text-neutral-500 max-w-4xl'>Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act, and helps determine how we handle stress, relate to others, and make choices.</motion.p>
   <motion.img variants={container(1,100)} initial="hidden" animate="visible" src='images/slide/MH6.png' className="rounded-2xl max-w-5xl border-4 mt-20 " />
     
-   </div>
+   </section>
    
     
     
