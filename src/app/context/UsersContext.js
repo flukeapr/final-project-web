@@ -14,7 +14,7 @@ export function UserProvider({ children }) {
     const fetchUsers = async () => {
         
         try {
-            const result = await GetUserScore({email: session?.user?.email})
+            const result = await GetUserScore()
            
             setUsers(result.data);
         } catch (error) {

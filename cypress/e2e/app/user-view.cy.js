@@ -5,7 +5,7 @@ describe('User View', () => {
         cy.visit('http://localhost:3000/homepage')
       })
 
-    it('users thumbnail renders', () => {
+    it('header renders', () => {
         cy.get('.flex.flex-col.h-[300px]').should('be.visible');
         cy.get('.flex.justify-between.w-full').should('contain', 'ผู้ใช้งาน')
     })

@@ -1,7 +1,7 @@
 describe('Navigation', () => {
 
     beforeEach(() => {
-        cy.visit('http://localhost:3000/')
+        cy.visit('/')
     })
 
     it('should load the main page', () => {
@@ -24,9 +24,11 @@ describe('Navigation', () => {
         cy.get('img[src="images/slide/MH6.png"]').should('exist');
       })
 
-      it('details second section', () => {
+      it('details mental section', () => {
         cy.get('h2').contains('What mental illnesses are found?').should('be.visible');
         cy.get('img[src="/images/slide/MH4.jpg"]').should('exist');
+        cy.get('.flex.mb-12').should('have.length', 4);
+
       })
 
       

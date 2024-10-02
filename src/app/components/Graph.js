@@ -14,9 +14,7 @@ export default function Graph() {
 
   const getData = async () => {
     try {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_serverURL + "/api/result"
-      );
+      const res = await fetch("/api/result");
       const data = await res.json();
       if (res.ok) {
         const averageRq20 = data.reduce(

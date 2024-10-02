@@ -13,9 +13,9 @@ export async function GetUserData(){
 }
 
 
-export async function GetUserScore({email}) {
+export async function GetUserScore() {
     try {
-        const result = await query(`SELECT * FROM userscore_view WHERE email != ?`, [email])
+        const result = await query(`SELECT * FROM userscore_view WHERE role = 2`)
         return { data: result }
     } catch (error) {
         return { error: error.message }

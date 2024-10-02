@@ -15,9 +15,9 @@ export async function middleware(request) {
       return NextResponse.next()
     }
    }
-   if (request.nextUrl.pathname === '/allusers') {
-    return NextResponse.next();
-  }
+  //  if (request.nextUrl.pathname === '/allusers') {
+  //   return NextResponse.next();
+  // }
 
 
   if(!token) {

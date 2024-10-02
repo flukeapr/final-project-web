@@ -2,7 +2,7 @@
 
 describe('Login Page', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:3000/login'); 
+      cy.visit('/login'); 
     });
   
     it('displays the login form', () => {
@@ -55,7 +55,7 @@ describe('Login Page', () => {
   
     it('navigates back to main page', () => {
       cy.contains('กลับหน้าหลัก').click();
-      cy.url().should('eq',  '/');
+      cy.url().should('eq',  'http://localhost:3000/');
 
     });
   

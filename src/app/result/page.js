@@ -42,7 +42,7 @@ export default function Result() {
 
     const getData = async ()=>{
       try {
-        const res = await fetch(process.env.NEXT_PUBLIC_serverURL + "/api/result")
+        const res = await fetch("/api/result")
         const data = await res.json()
         
         setAllData(data)
