@@ -273,7 +273,7 @@ export default function PostComponent({initialPosts}) {
 
           if(resCheck.status === 201){
             setPosts((prev) => prev.map((post) => (post.postId === postId ? { ...post, postLikes: post.postLikes - 1 } : post)));
-            setIsLiked((prev) => prev.filter((like) => like.postId !== postId));
+            setIsLiked((prev) => (prev ? prev.filter((like) => like.postId !== postId) : []));
             const res = await fetch("/api/post/like/un-like", {
               method: "POST",
               headers: {
@@ -286,7 +286,7 @@ export default function PostComponent({initialPosts}) {
             });
           }else if(resCheck.status === 200){
             setPosts((prev) => prev.map((post) => (post.postId === postId ? { ...post, postLikes: post.postLikes + 1 } : post)));
-            setIsLiked((prev) => [...prev, {postId, userId: session.user.id}]);
+            setIsLiked((prev) => prev ? [...prev, {postId, userId: session.user.id}] : [{postId, userId: session.user.id}]);
             const res = await fetch("/api/post/like", {
               method: "POST",
               headers: {
@@ -397,7 +397,7 @@ export default function PostComponent({initialPosts}) {
                   />
                 </label>
               </div>
-              {/* <div className="form-control rounded-md bg-white p-2">
+              <div className="form-control rounded-md bg-white p-2">
                 <label className="label cursor-pointer">
                   <span className="label-text  text-md">
                     จำนวนไลค์มากที่สุด
@@ -408,7 +408,7 @@ export default function PostComponent({initialPosts}) {
                     onChange={() => setTopLikes(!topLikes)}
                   />
                 </label>
-              </div> */}
+              </div>
               <h1 className="text-lg text-white">เลือกช่วงเวลา</h1>
               <select
                 className="select select-bordered w-full"
@@ -446,6 +446,8 @@ export default function PostComponent({initialPosts}) {
                 .sort((a, b) => {
                   if (topComment) {
                     return b.comments.length - a.comments.length;
+                  }else if(topLikes){
+                    return b.postLikes - a.postLikes;
                   }
                     return new Date(b.postCreateAt) - new Date(a.postCreateAt);
                   
