@@ -64,11 +64,13 @@ export async function PUT(req,{params}) {
             throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 100 MB")
         }
        
-        const allowedTypes = ['video/mp4','video/quicktime'];
+        const allowedTypes = ['video/mp4','video/quicktime','video'];
 
         if (!allowedTypes.includes(video.type)) {
                 throw Error("ไฟล์ต้องเป็นนามสกุล .mp4");
             }
+
+       
 
        
         const fileName = `video-media-${id}.mp4`;

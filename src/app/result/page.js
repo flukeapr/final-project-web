@@ -281,9 +281,10 @@ export default function Result() {
       {selected === 'all' && (
         <>
          <div className='flex flex-col  items-center justify-center w-full bg-white p-10 rounded-2xl shadow-xl'>
+         <hr className='w-full m-2'/>
          <div className='flex p-4 max-w-6xl justify-around w-full'>
           <Link href={`/resultuser/${lowestRiskUserRq29 && lowestRiskUserRq29.userId}`} className='flex flex-col items-center space-y-3 cursor-pointer '>
-          <h1>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน MHL 29</h1>
+          <h1 className='text-xl'>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน MHL 29</h1>
             <div className='flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl '>
               
               <img src={lowestRiskUserRq29 && lowestRiskUserRq29.image} className='w-14 h-14 rounded-full' />
@@ -295,7 +296,7 @@ export default function Result() {
             </div>
           </Link>
           <Link href={`/resultuser/${lowestRiskUserRq20 && lowestRiskUserRq20.userId}`} className='flex flex-col items-center space-y-3 cursor-pointer '>
-          <h1>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 20</h1>
+          <h1 className='text-xl'>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 20</h1>
             <div className='flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl '>
               
               <img src={lowestRiskUserRq20 && lowestRiskUserRq20.image} className='w-14 h-14 rounded-full' />
@@ -307,7 +308,7 @@ export default function Result() {
             </div>
           </Link>
           <Link href={`/resultuser/${lowestRiskUserRq3 &&lowestRiskUserRq3.userId}`} className='flex flex-col items-center space-y-3 cursor-pointer '>
-          <h1>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 3</h1>
+          <h1 className='text-xl'>ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 3</h1>
             <div className='flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl '>
               
               <img src={lowestRiskUserRq3 &&lowestRiskUserRq3.image} className='w-14 h-14 rounded-full' />
@@ -320,16 +321,17 @@ export default function Result() {
           </Link>
            
          </div>
+         <hr className='w-full m-2'/>
         <div className="flex justify-around p-6 mt-6 space-x-8 w-full max-sm:flex-col">
         <div className='flex flex-col items-center space-y-3' >
-            <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ MHL 29 ก่อนและหลัง</h1>
+            <h1 className='text-xl text-center'>คะแนนโดยเฉลี่ย<br/> แบบประเมิน MHL 29 ก่อนและหลัง</h1>
             <span className='badge badge-lg p-4 border-2 border-DB text-2xl font-semibold w-28 h-28 rounded-full '>{averageRq29.value}</span>
             <h1>อยู่ในระดับ : มีความรอบรู้ด้านสุขภาพจิต<span className=' font-semibold ml-2 '>{averageRq29.value >=3.68 ? "มาก" : averageRq29.value >= 2.34 ? "ปานกลาง" : "น้อย"}</span></h1>
             
 
           </div>
           <div className='flex flex-col items-center space-y-3 '>
-            <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ RQ 20 ก่อนและหลัง</h1>
+            <h1 className='text-xl text-center'>คะแนนโดยเฉลี่ย<br/> แบบประเมิน RQ 20 ก่อนและหลัง</h1>
            
 
             <span className='badge badge-lg p-4 border-2 border-B text-2xl font-semibold w-28 h-28 rounded-full'>{sumAverageRq20.toFixed(2)}</span>
@@ -339,7 +341,7 @@ export default function Result() {
 
           </div>
           <div className='flex flex-col items-center space-y-3'>
-            <h1>โดยเฉลี่ยคะแนนของแบบทดสอบ RQ 3 ก่อนและหลัง</h1>
+            <h1 className='text-xl text-center'>คะแนนเฉลี่ยคะแนนของ<br/>แบบทดสอบ RQ 3 ก่อนและหลัง</h1>
             <span className='badge badge-lg p-4 border-2 border-LB text-2xl font-semibold w-28 h-28 rounded-full'>{averageRq3.value}</span>
             <h1>อยู่ในระดับ : พลังใจ<span className=' font-semibold ml-2'>{averageRq3.value > 7 ? "มาก" :  averageRq3.value >= 5 ? "ปานกลาง" : "น้อย"}</span></h1>
            

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 02, 2024 at 07:29 AM
+-- Generation Time: Oct 22, 2024 at 03:36 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -48,7 +48,7 @@ INSERT INTO `chat` (`id`, `user_from`, `user_to`, `sender`, `message`, `is_read`
 (4, 9, 5, 9, 'ss', 'true', '2024-08-15 22:19:42'),
 (5, 7, 9, 7, 'hello', 'true', '2024-08-15 22:32:51'),
 (6, 9, 5, 9, 'kub', 'true', '2024-08-15 23:28:41'),
-(7, 13, 9, 13, 'hi ser', 'true', '2024-08-15 23:50:08'),
+(7, 13, 9, 13, 'hi ser', 'false', '2024-08-15 23:50:08'),
 (8, 9, 5, 9, 'test', 'true', '2024-08-16 10:27:50'),
 (9, 9, 7, 9, 'hello', 'true', '2024-08-16 10:42:03'),
 (10, 7, 9, 7, 'สวัสดีครับ', 'true', '2024-08-24 21:48:03'),
@@ -72,12 +72,18 @@ INSERT INTO `chat` (`id`, `user_from`, `user_to`, `sender`, `message`, `is_read`
 (28, 9, 5, 9, 'hh', 'true', '2024-09-15 15:28:24'),
 (29, 7, 9, 7, 'ทดสอบครับ', 'true', '2024-09-29 15:56:26'),
 (30, 9, 7, 9, 'ว่าไงครับผม', 'true', '2024-09-29 15:56:45'),
-(43, 7, 9, 7, 'testAdmin', 'false', '2024-09-30 18:34:25'),
+(43, 7, 9, 7, 'testAdmin', 'true', '2024-09-30 18:34:25'),
 (44, 7, 20, 7, 'testAdmin', 'false', '2024-09-30 18:34:25'),
 (45, 7, 36, 7, 'testAdmin', 'false', '2024-09-30 18:34:25'),
-(46, 7, 9, 7, 'Gg', 'false', '2024-10-01 14:40:19'),
+(46, 7, 9, 7, 'Gg', 'true', '2024-10-01 14:40:19'),
 (47, 7, 20, 7, 'Gg', 'false', '2024-10-01 14:40:19'),
-(48, 7, 36, 7, 'Gg', 'false', '2024-10-01 14:40:19');
+(48, 7, 36, 7, 'Gg', 'false', '2024-10-01 14:40:19'),
+(49, 7, 9, 7, 'T', 'true', '2024-10-14 13:41:33'),
+(50, 7, 20, 7, 'T', 'false', '2024-10-14 13:41:33'),
+(51, 7, 36, 7, 'T', 'false', '2024-10-14 13:41:33'),
+(52, 7, 9, 7, 'G', 'false', '2024-10-14 13:44:04'),
+(53, 7, 20, 7, 'G', 'false', '2024-10-14 13:44:04'),
+(54, 7, 36, 7, 'G', 'false', '2024-10-14 13:44:04');
 
 -- --------------------------------------------------------
 
@@ -138,7 +144,8 @@ INSERT INTO `comments` (`id`, `postId`, `userId`, `text`, `image`, `create_at`) 
 (9, 36, 9, 'test', NULL, '2024-09-13 11:14:38'),
 (10, 52, 9, 'น่ากิน', NULL, '2024-09-15 13:39:12'),
 (11, 52, 9, 'น่าอร่อย', NULL, '2024-09-15 15:03:12'),
-(12, 1, 20, 'เทส', NULL, '2024-09-24 22:11:34');
+(12, 1, 20, 'เทส', NULL, '2024-09-24 22:11:34'),
+(13, 54, 9, 'Tets', NULL, '2024-10-14 14:22:52');
 
 -- --------------------------------------------------------
 
@@ -150,7 +157,6 @@ CREATE TABLE `fighting` (
   `id` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `text` varchar(400) NOT NULL,
-  `image` varchar(255) NOT NULL,
   `create_by` int NOT NULL,
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -159,9 +165,13 @@ CREATE TABLE `fighting` (
 -- Dumping data for table `fighting`
 --
 
-INSERT INTO `fighting` (`id`, `title`, `text`, `image`, `create_by`, `create_at`) VALUES
-(1, '“What doesn’t kill you, makes you stronger. ”', ' ปัญหาต่าง ๆ ที่เกิดขึ้นอาจจะทำให้เรารู้สึกท้อแท้และสิ้นหวัง แต่เราจะไม่มีวันรู้สึกเช่นนั้นอีกเป็นครั้งที่ 2 เพราะเราได้เรียนรู้แนวทางและวิธีคิดจากปัญหาที่เกิดขึ้นแล้ว เราได้เรียนรู้ว่าวิธีการที่ดีที่สุด เราก็จะเก่งและเข้มแข็งขึ้นอย่างแน่นอน', '/images/fighting/fighting-1.png', 9, '2024-07-30 16:15:20'),
-(2, 'กำลังใจ', 'กำลังใจ', 'กำลังใจ.png', 1, '2024-09-26 16:14:58');
+INSERT INTO `fighting` (`id`, `title`, `text`, `create_by`, `create_at`) VALUES
+(1, '“What doesn’t kill you, makes you stronger. ”', ' ปัญหาต่าง ๆ ที่เกิดขึ้นอาจจะทำให้เรารู้สึกท้อแท้และสิ้นหวัง แต่เราจะไม่มีวันรู้สึกเช่นนั้นอีกเป็นครั้งที่ 2 เพราะเราได้เรียนรู้แนวทางและวิธีคิดจากปัญหาที่เกิดขึ้นแล้ว เราได้เรียนรู้ว่าวิธีการที่ดีที่สุด เราก็จะเก่งและเข้มแข็งขึ้นอย่างแน่นอน', 9, '2024-07-30 16:15:20'),
+(7, '\"Difficulties might bring us down momentarily, but they also teach us resilience. Every challenge makes us more capable of handling the next.\"', '\"ความยากลำบากอาจทำให้เรารู้สึกอ่อนแอชั่วคราว แต่พวกมันก็สอนเราให้มีความยืดหยุ่น ปัญหาทุกอย่างที่ผ่านเข้ามาทำให้เราพร้อมรับมือกับสิ่งที่ตามมาได้มากขึ้น\"', 9, '2024-10-16 06:52:22'),
+(8, '\"Challenges may discourage us, but once we\'ve learned from them, we won\'t feel defeated the same way again. We grow stronger and wiser with each experience.\"', '\"ปัญหาอาจทำให้เรารู้สึกท้อแท้ แต่เมื่อเราได้เรียนรู้จากมันแล้ว เราจะไม่รู้สึกพ่ายแพ้แบบเดิมอีก เราจะเติบโตและแข็งแกร่งขึ้นจากประสบการณ์นั้นอย่างแน่นอน\"', 9, '2024-10-16 06:52:22'),
+(9, '\"After overcoming obstacles, we emerge stronger. Each hardship is a lesson that builds both our strength and wisdom.\"', '\"หลังจากเราผ่านอุปสรรคไปแล้ว เราจะออกมาแข็งแกร่งขึ้น ปัญหาแต่ละอย่างคือบทเรียนที่สร้างทั้งความแข็งแรงและปัญญาให้กับเรา\"', 9, '2024-10-16 06:52:22'),
+(10, '\"Every setback teaches us something new. We grow more resilient and better equipped to face future challenges because we’ve learned from the past.\"', '\"ทุกความล้มเหลวสอนเราในสิ่งใหม่ เราจะเติบโตเป็นคนที่แข็งแกร่งขึ้นและพร้อมเผชิญกับปัญหาในอนาคต เพราะเราได้เรียนรู้จากอดีต\"', 9, '2024-10-16 06:52:22'),
+(11, '\"Adversity helps us discover our inner strength. Each time we overcome a struggle, we gain confidence that we can face whatever comes next.\"', '\"ความทุกข์ยากทำให้เราได้ค้นพบพลังในตัวเอง ทุกครั้งที่เราผ่านพ้นปัญหา เราจะมีความมั่นใจเพิ่มขึ้นว่าเราสามารถเผชิญหน้ากับสิ่งที่จะเกิดขึ้นต่อไปได้\"', 9, '2024-10-16 06:52:22');
 
 -- --------------------------------------------------------
 
@@ -230,8 +240,9 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id`, `userId`, `postId`, `create_at`) VALUES
-(9, 9, 54, '2024-09-30 18:00:29'),
-(13, 7, 54, '2024-10-01 14:18:54');
+(13, 7, 54, '2024-10-01 14:18:54'),
+(20, 9, 52, '2024-10-16 00:54:25'),
+(22, 9, 54, '2024-10-22 16:12:22');
 
 -- --------------------------------------------------------
 
@@ -261,7 +272,8 @@ INSERT INTO `media` (`id`, `title`, `content`, `url`, `image`, `video`, `type`, 
 (27, 'กรมสุขภาพ เผยปัญหาสุขภาพจิตแรงงานไทยกลับจากอิสราเอลสูงกว่า 8,500ราย', '', 'https://www.hfocus.org/content/2023/11/28878', NULL, '', 'OUT', '2024-08-15 09:18:37'),
 (78, 'Test', 'Test your skills skills in in a a class class ', '.', NULL, '/media/uploads/video/video-media-78.mp4', 'IN', '2024-09-05 14:26:33'),
 (80, 'สมาธิ', '  หลายคนยังมองว่าการนั่งสมาธิเป็นเรื่องของพระภิกษุที่ต้องนั่งทุกวัน แล้วฆราวาสอย่างเรามีความจำเป็นมากน้อยแค่ไหนที่จะต้องนั่งสมาธิทุกวันเหมือนกับพระภิกษุ แล้วถ้าทำอย่างนั้นได้จริงๆ แล้วจะเกิดผลดีกับตัวเราเองอย่างไร\n\n\n    คนเราประกอบด้วย “ กาย ” กับ “ ใจ ” พระภิกษุก็มีกายกับใจ ฆราวาสเองก็มีกายกับใจเช่นเดียวกัน คนเราต้องกินข้าวทุกวัน ต้องอาบน้ำเป็นประจำทุกวันเพราะ “ อาหารกาย ” คือ ข้าวปลาอาหาร พอร่างกายเรามีฝุ่นละอองจับมีเหงื่อไคลมากเข้า เราก็ต้องอาบน้ำชำระสิ่งเหล่านี้ออกไป แล้วใจเราล่ะ “ อาหารใจ ” คือธรรมะ คือบุญ และการชำระใจให้สะอาดผ่องใส ก็คือ การสวดมนต์ ทำสมาธิภาวนา\n    ตรองเพียงแค่นี้เราก็จะได้คำตอบแล้วว่า ผู้ที่จะต้องสวดมนต์ทำสมาธิภาวนาเป็นประจำไม่ใช่เฉพาะพระภิกษุเท่านั้น แต่ฆราวาสญาติโยมก็ต้องปฏิบัติเหมือนกัน เพราะเราก็มีกายกับใจเหมือนกันกับพระภิกษุนั่นเอง เพียงแต่พระภิกษุต้องปฏิบัติอย่างเต็มที่ เพราะว่ามีเป้าหมายโดยตรงที่จะบวชเพื่อมุ่งนิพพาน\n\n\n    ผู้ใดที่สวดมนต์ ทำสมาธิภาวนาอย่างสม่ำเสมอ ใจก็จะถูกชำระให้สะอาด เกิดความผ่องใส อารมณ์ดี เบิกบาน ไม่หงุดหงิดโมโหง่าย เพราะใจถูกสะสางจัดระเบียบไปเรื่อยๆ ความเครียดในใจก็ลดลง ใจโปร่ง เบาสบาย มีความสุข\n    แต่สำหรับผู้ที่ไม่เคยสวดมนต์ทำสมาธิภาวนาเลย จะมีความเครียดสั่งสมโดยไม่รู้ตัว หน้านิ่วคิ้วขมวด สุดท้ายสติขาดพร่ามัวไปเลยก็มี แต่ถ้าสมาชิกในครอบครัวใดสวดมนต์ทำภาวนาเป็นประจำ บ้านก็เย็น ใครเข้าใกล้ก็รู้สึกสบายใจ\n\n', '', NULL, '/media/uploads/video/video-media-80.mp4', 'IN', '2024-09-06 02:44:24'),
-(84, 'Test123456', 'testttttttttttttt', '.', NULL, NULL, NULL, '2024-09-27 02:37:53');
+(84, 'Test123456', 'testttttttttttttt', '.', NULL, NULL, NULL, '2024-09-27 02:37:53'),
+(113, 'ข้าวผัด', 'ข้าวผัด', NULL, '/media/uploads/image/media-113.jpg', NULL, 'IN', '2024-10-22 10:58:35');
 
 -- --------------------------------------------------------
 
@@ -361,7 +373,8 @@ CREATE TABLE `userdata` (
 --
 
 INSERT INTO `userdata` (`id`, `userId`, `gender`, `age`, `education`, `faculty`, `major`, `religion`, `disease`, `physical_health`, `mental_health`, `nearby`, `nearby_relation`) VALUES
-(3, 5, 'ชาย', '20', 'ปี3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'เทคโนโลยีดิจิทัล', 'พุทธ', 'มี', 'หอบ', NULL, 'ไม่มี', NULL);
+(3, 5, 'ชาย', '20', 'ปี3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'เทคโนโลยีดิจิทัล', 'พุทธ', 'มี', 'หอบ', NULL, 'ไม่มี', NULL),
+(5, 37, 'ชาย', '20-25 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'ดิจิเทค', 'พุทธ', 'ไม่มี', '', '', 'ไม่มี', '');
 
 -- --------------------------------------------------------
 
@@ -392,12 +405,13 @@ INSERT INTO `userquiz` (`id`, `userId`, `quizId`, `quizType`, `answers`, `pressu
 (5, 5, 7, 'PRE', '[1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]', 26, 9, 19, 54, 'ต่ำกว่าปกติ', '2024-08-12 08:22:23'),
 (6, 5, 8, 'POST', '[8, 9, 8]', 0, 0, 0, 8.33, 'พลังใจมาก', '2024-08-12 09:21:13'),
 (8, 5, 6, 'PRE', '[1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4]', 0, 0, 0, 3.31, 'มีความรอบรู้ด้านสุขภาพจิตปานกลาง', '2024-08-20 13:11:14'),
-(12, 7, 8, 'PRE', '[5, 5, 5]', 0, 0, 0, 5, 'พลังใจปานกลาง', '2024-08-20 18:59:51'),
+(12, 7, 8, 'PRE', '[1, 1, 1]', 0, 0, 0, 1, 'พลังใจน้อย', '2024-08-20 18:59:51'),
 (14, 7, 6, 'PRE', '[2, 2, 2, 2, 2, 5, 5, 3, 3, 5, 3, 3, 5, 3, 5, 3, 4, 5, 3, 3, 5, 4, 5, 3, 3, 2, 2, 4, 4]', 0, 0, 0, 3.45, 'มีความรอบรู้ด้านสุขภาพจิตปานกลาง', '2024-08-20 19:29:35'),
 (18, 5, 7, 'POST', '[4, 5, 4, 4, 1, 4, 5, 4, 3, 4, 4, 3, 5, 3, 2, 2, 3, 3, 3, 4]', 38, 17, 15, 70, 'สูงกว่าปกติ', '2024-08-22 15:41:12'),
 (22, 7, 7, 'PRE', '[2, 3, 2, 3, 4, 4, 2, 4, 2, 3, 3, 2, 3, 4, 3, 4, 3, 2, 3, 3]', 29, 15, 15, 59, 'ปกติ', '2024-08-27 15:39:12'),
-(24, 7, 7, 'POST', '[1, 2, 3, 2, 2, 4, 3, 5, 3, 4, 4, 3, 4, 2, 3, 3, 4, 3, 3, 3]', 29, 16, 16, 61, 'ปกติ', '2024-08-27 15:42:58'),
-(59, 7, 8, 'POST', '[7, 7, 7]', 0, 0, 0, 7, 'พลังใจมาก', '2024-09-27 05:16:37');
+(61, 7, 8, 'POST', '[7, 7, 7]', 0, 0, 0, 7, 'พลังใจมาก', '2024-09-27 05:16:37'),
+(64, 7, 7, 'POST', '[1, 2, 3, 2, 2, 4, 3, 5, 3, 4, 4, 3, 4, 2, 3, 3, 4, 3, 3, 3]', 29, 16, 16, 61, 'ปกติ', '2024-08-27 15:42:58'),
+(65, 37, 8, 'PRE', '[2, 3, 4]', 0, 0, 0, 3, 'พลังใจน้อย', '2024-10-22 09:27:08');
 
 -- --------------------------------------------------------
 
@@ -443,15 +457,16 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `pin`, `role_id`, `image`, `created_at`) VALUES
 (5, 'fluke', 'fluke@gmail.com', '$2b$10$FoQ2R6xLJ3jiBB4vzTf8Ee3xFpFDiaJL0fmSlnmc88sKJL9m/mSfm', NULL, 2, '/images/avatars/avatar1.png', '2024-07-21 11:40:47'),
-(7, 'jakk', 'jakk@gmail.com', '$2b$10$mlSNSUC1yAat16IF/cb/vuVQHF3CgPGBEf.NaMccdic/fay8y4Zn.', '$2b$08$b.zSEVtGKG7Id3T2Tr495O/qc3mrvxgcjEg.73GPNd8vmhmpBfSOq', 2, '/images/avatars/avatar1.png', '2024-07-22 20:38:00'),
+(7, 'jakk', 'jakk@gmail.com', '$2b$10$mlSNSUC1yAat16IF/cb/vuVQHF3CgPGBEf.NaMccdic/fay8y4Zn.', '$2b$08$b.zSEVtGKG7Id3T2Tr495O/qc3mrvxgcjEg.73GPNd8vmhmpBfSOq', 2, '/images/avatars/avatar2.png', '2024-07-22 20:38:00'),
 (9, 'admin', 'admin@gmail.com', '$2b$10$Ou8GWDKyyVrV.TDHHzg2aOTEpk6SHPilXlVdB4zlAMyUP19YwonmG', NULL, 1, '/profile/uploads/user-9.jpg', '2024-07-24 19:59:10'),
 (13, 'hon', 'hon@gmail.com', '$2b$10$RmGJz1StyS89vD4LSm8o6uLtS9Dpu8p.Lim.25GEVzr/AU.5Y7l0a', NULL, 2, '/images/avatars/avatar1.png', '2024-08-03 10:47:38'),
-(14, 'win', 'win@gmail.com', '$2b$10$pj20bkc9z0LxqM0tmn4rl.fM4KSiw3Sv6HBbAVWchQFK8lio2oujG', NULL, 2, '/profile/uploads/user-14.jpg', '2024-08-03 10:56:21'),
+(14, 'win', 'win@gmail.com', '$2b$10$pj20bkc9z0LxqM0tmn4rl.fM4KSiw3Sv6HBbAVWchQFK8lio2oujG', NULL, 2, '/images/avatars/avatar3.png', '2024-08-03 10:56:21'),
 (19, 'F', 'F@gmail.com', '$2b$10$NU24Iv0syJWudLE3VRmsO.mlINppWXoa0VHCKkUy7VW2LRgIr7kKu', NULL, 2, '/images/avatars/avatar1.png', '2024-08-12 10:03:11'),
 (20, 'jeng', 'j@gmail.com', '$2b$10$OCuBzqKP.cvfS7mGWnvRI./5kLTuXX.A6tgB9CW47tBDUa6HIaFQu', NULL, 1, '/images/avatars/avatar4.png', '2024-08-12 15:55:56'),
 (27, 'tid', 'tid@gmail.com', '$2b$10$8LP2YVdSfzWeNcUVijKmUewQMPr/8hWWMGyf26ZP5OjCCGCLtAL86', '$2b$08$dJjxkgLIPTUxLK6451FxzufUa8lHN5h7CiYJX8Q4zu/Zzz5h0jdIm', 2, '/images/avatars/avatar2.png', '2024-08-20 10:19:50'),
 (28, 'Jenggggg', 'g@gmail.com', '$2b$10$vDKYddCcp67c.tB41nuL.uKil4qk1pB3QCevsAswLQm5JpUSRoGGi', NULL, 2, '/images/avatars/avatar2.png', '2024-08-30 02:27:45'),
-(36, 'admin2', 'admin2@gmail.com', '$2b$10$sdidseUyE2uUvDaW9ZdN1udUl.PvcqcIjz8cMG1N7cMjl4dNvHcv.', NULL, 1, '/images/avatars/avatar6.png', '2024-09-30 11:32:45');
+(36, 'admin2', 'admin2@gmail.com', '$2b$10$sdidseUyE2uUvDaW9ZdN1udUl.PvcqcIjz8cMG1N7cMjl4dNvHcv.', NULL, 1, '/images/avatars/avatar6.png', '2024-09-30 11:32:45'),
+(37, 'presentation', 'presentation@gmail.com', '$2b$10$G6zVjTxdP6dtnD0yEOKvJ.q1P7U2.mpNLuCCypqgi0sQJsKy.4Oz6', NULL, 2, '/images/avatars/avatar4.png', '2024-10-22 09:20:44');
 
 -- --------------------------------------------------------
 
@@ -482,8 +497,9 @@ INSERT INTO `userscore` (`id`, `userId`, `preRq20`, `preRq3`, `postRq20`, `postR
 (13, 19, 0, 0, 0, 0, 'unfollow'),
 (14, 20, 0, 6, 0, 8.33, 'unfollow'),
 (21, 27, 0, 0, 0, 0, 'unfollow'),
-(22, 28, 58, 6, 75, 2, 'unfollow'),
-(30, 36, 0, 0, 0, 0, 'unfollow');
+(22, 28, 58, 6, 75, 2, 'follow'),
+(30, 36, 0, 0, 0, 0, 'unfollow'),
+(31, 37, 0, 3, 0, 0, 'unfollow');
 
 -- --------------------------------------------------------
 
@@ -652,7 +668,7 @@ ALTER TABLE `userscore`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `chat-ai`
@@ -664,31 +680,31 @@ ALTER TABLE `chat-ai`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `fighting`
 --
 ALTER TABLE `fighting`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `quiz`
@@ -706,25 +722,25 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `userdata`
 --
 ALTER TABLE `userdata`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `userquiz`
 --
 ALTER TABLE `userquiz`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `userscore`
 --
 ALTER TABLE `userscore`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

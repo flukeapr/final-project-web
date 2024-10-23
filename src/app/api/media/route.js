@@ -76,18 +76,18 @@ export async function GET(){
 export async function POST(req){
     try {
         const body = await req.json();
-        const {title, url ,content} = body;
+        const {title, url ,content ,type} = body;
         const result = await query(`SELECT id FROM media WHERE title = ?`, [title]);
         if(result.length > 0)  throw Error("Media title already exists");
 
         if(content){
-            await query(`INSERT INTO media (title, url, content) VALUES (?, ?, ?)`, [title, url,content]);
-            const result = await query(`SELECT id FROM media WHERE title = ? AND url = ? AND content = ?`, [title, url,content]);
+            await query(`INSERT INTO media (title, content, type) VALUES (?, ?, ?)`, [title, content,type]);
+            const result = await query(`SELECT id FROM media WHERE title = ?  AND content = ? AND type = ?`, [title,content,type]);
             const mediaId = result[0].id;
            return NextResponse.json({ message: "Media created successfully", id: mediaId }, { status: 201 });
         }else{
-            await query(`INSERT INTO media (title, url) VALUES (?, ?)`, [title, url]);
-            const result = await query(`SELECT id FROM media WHERE title = ? AND url = ?`, [title, url]);
+            await query(`INSERT INTO media (title, url , type) VALUES (?, ?)`, [title, url,type]);
+            const result = await query(`SELECT id FROM media WHERE title = ? AND url = ? AND type = ?`, [title, ,type]);
             const mediaId = result[0].id;
            return NextResponse.json({ message: "Media created successfully", id: mediaId }, { status: 201 });
         }

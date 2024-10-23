@@ -205,6 +205,7 @@ export default function EditMedia({ initialMedia }) {
 
   const handleCreate = async (type) => {
     document.getElementById("loadingModal").showModal();
+    console.log(type)
     try {
       const resData = await fetch(
         `${process.env.NEXT_PUBLIC_serverURL}/api/media`,
@@ -215,8 +216,8 @@ export default function EditMedia({ initialMedia }) {
           },
           body: JSON.stringify({
             title,
-            url,
-            content,
+            url:url.length > 0 ? url : null,
+            content : content.length > 0 ? content : null,
             type:type === "IN"? "IN" : "OUT"
           }),
         }
@@ -452,6 +453,7 @@ export default function EditMedia({ initialMedia }) {
                    {item.content}
                  </h1>
                 )}
+                
                 
                
                 <div className="flex flex-col justify-center p-4  w-3/4">
