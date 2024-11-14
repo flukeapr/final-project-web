@@ -114,7 +114,28 @@ export default function Graph() {
   return (
     <div className="flex items-center justify-evenly w-screen h-96 bg-SLB p-2">
       <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center " id="Pie">
-        <PieChart
+      <BarChart
+  xAxis={[{ 
+    scaleType: 'band', 
+    data: ['ความรอบรู้ทางสุขภาพจิต', 'พลังใจ'] 
+  }]}
+  series={[{ 
+    data: [averageRq29.value, averageRq3.value],
+    color: "#023e8a"
+  }]}
+  width={600}
+  height={200}
+  barLabel={( data ) => `${data.value}`}
+  sx={{
+    [`& .${barLabelClasses.root}`]: {
+      fill: 'white',
+      fontWeight: 'semibold',
+      fontSize: '20px',
+      letterSpacing: '1px',
+    },
+  }}
+/>
+        {/* <PieChart
          
           series={[
             {
@@ -138,7 +159,7 @@ export default function Graph() {
           width={600}
           height={200}
           
-        ></PieChart>
+        ></PieChart> */}
       </div>
       <div className="w-1/3 h-3/4 p-4 bg-white rounded-lg shadow-sm drop-shadow-md flex items-center justify-center " id="Bar">
       <BarChart

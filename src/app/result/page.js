@@ -2,9 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
-import { useUserContext } from "../context/UsersContext";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import {
   BarChart,
   Bar,
@@ -18,14 +15,24 @@ import {
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FilterSection from "../components/ResultComponents/FilterSection";
+import ResultTable from "../components/ResultComponents/ResultTable";
+import { QuizCalculations } from "../components/ResultComponents/Function/QuizCalculations";
 
 export default function Result() {
-  const { users, setUsers, allQuiz, fetchUserQuiz } = useUserContext();
   const [allData, setAllData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [selected, setSelected] = useState("all");
   const [averageRq20, setAverageRq20] = useState([]);
   const [averageRq29, setAverageRq29] = useState([]);
+ const [scorePreAndPostTest,setScorePreAndPostTest] = useState({
+  scorePretestRq29:0,
+  scorePretestRq3:0,
+  scorePretestRq20:0,
+  scorePosttestRq29:0,
+  scorePosttestRq3:0,
+  scorePosttestRq20:0
+ });
   const [averageRq3, setAverageRq3] = useState([]);
   const [dateRange, setDateRange] = useState("all");
   const [lowestRiskUserRq20, setLowestRiskUserRq20] = useState({});
@@ -38,8 +45,10 @@ export default function Result() {
   const [filterRq3, setFilterRq3] = useState([]);
   const [search, setSearch] = useState("");
   const [searchQuizName, setSearchQuizName] = useState({mhl:false,rq3:false,rq20:false});
-  const { data: session } = useSession();
-  // if(!session)  redirect('/')
+  const [searchAge,setSearchAge] = useState('')
+  const [searchGender,setSearchGender] = useState('')
+  const [searchFaculty,setSearchFaculty] = useState('')
+ 
 
   const getData = async () => {
     try {
@@ -116,6 +125,7 @@ export default function Result() {
           name: "ความรอบรู้ทางสุขภาพจิต",
           value: averageRq29.total.toFixed(2),
         };
+        
 
         setAverageRq29(dataAverageRq29);
         setAverageRq3(dataAverageRq3);
@@ -125,6 +135,7 @@ export default function Result() {
       console.log(error);
     }
   };
+  
   const sumAverageRq20 = averageRq20.reduce((acc, quiz) => {
     return acc + parseFloat(quiz.value);
   }, 0);
@@ -132,6 +143,11 @@ export default function Result() {
   useEffect(() => {
     getData();
   }, []);
+  useEffect(() => {
+    const scores = QuizCalculations(allData);
+    setScorePreAndPostTest(scores);
+  }, [allData]);
+
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -356,160 +372,40 @@ export default function Result() {
         </div>
         {selected === "table" && (
           <div className="flex flex-row w-full h-auto mt-10 ">
-            <div className="w-1/4 h-[500px] bg-gradient-to-br from-DB  via-B to-LB rounded-md shadow-md p-6">
-              {/* <button className="btn bg-white w-full text-B text-lg" onClick={()=>{
-          document.getElementById("checkPassword").showModal()
-        }}>สร้างบัญชีผู้ดูแลระบบ</button> */}
-              <h1 className="text-lg text-white my-2">ค้นหาผู้ใช้</h1>
-              <input
-                type="search"
-                className="w-full border-2 border-white rounded-lg p-4 "
-                placeholder="ค้นหาผู้ใช้"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <div className="mt-4 space-y-4">
-                <h1 className="text-lg text-white">ค้นหาตามกลุ่มผู้ใช้</h1>
-                <div className="form-control rounded-md bg-white p-2">
-                  <label className="label cursor-pointer ">
-                    <span className="label-text  text-md">
-                      แบบประเมิน MHL 29 ข้อ
-                    </span>
-                    <input
-                      type="checkbox"
-                      onChange={() =>
-                        setSearchQuizName(prev=> ({mhl: !prev.mhl, rq20:prev.rq20,rq3:prev.rq3}))
-                      }
-                      className="checkbox bg-white"
-                    />
-                  </label>
-                </div>
-                <div className="form-control rounded-md bg-white p-2">
-                  <label className="label cursor-pointer">
-                    <span className="label-text  text-md">
-                      แบบประเมิน RQ 20 ข้อ{" "}
-                    </span>
-                    <input
-                      type="checkbox"
-                      onChange={() => setSearchQuizName(prev =>({rq20: !prev.rq20 ,mhl:prev.mhl,rq3:prev.rq3}))}
-                      className="checkbox bg-white"
-                    />
-                  </label>
-                </div>
-                <div className="form-control rounded-md bg-white p-2">
-                  <label className="label cursor-pointer">
-                    <span className="label-text  text-md">
-                      แบบประเมิน RQ 3 ข้อ{" "}
-                    </span>
-                    <input
-                      type="checkbox"
-                      onChange={() => setSearchQuizName(prev =>({rq3: !prev.rq3,mhl:prev.mhl,rq20:prev.rq20}))}
-                      className="checkbox bg-white"
-                    />
-                  </label>
-                </div>
-              </div>
-              {/* Dropdown more details */}
-              <div className="flex items-end justify-end">
-                <div className=" dropdown dropdown-end">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-circle btn-ghost btn-xs text-info"
-                  >
-                    <svg
-                      color="white"
-                      tabIndex={0}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4 stroke-current"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div
-                    tabIndex={0}
-                    className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-64 shadow"
-                  >
-                    <div tabIndex={0} className="card-body">
-                      <h2 className="card-title">คำอธิบาย</h2>
-                      <p>
-                        Admin คือ ผู้ใช้ที่มีสิทธิ์สูงสุดในการใช้งานระบบ
-                        สามารถเข้าสู่ระบบบนเว็บไซต์ได้
-                        <br />
-                        User คือ
-                        ผู้ใช้งานบนแอพลิเคชั่นมือถือไม่มีสิทธิ์เข้าถึงข้อมลต่างๆบนเว็บไซต์ได้
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
+            <FilterSection
+              search={search}
+              setSearch={setSearch}
+              searchAge={searchAge}
+              setSearchAge={setSearchAge}
+              searchGender={searchGender}
+              setSearchGender={setSearchGender}
+              searchFaculty={searchFaculty}
+              setSearchFaculty={setSearchFaculty}
+              searchQuizName={searchQuizName}
+              setSearchQuizName={setSearchQuizName}
+            />
 
-            <div className=" w-3/4  overflow-y-scroll ml-2">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th>ลำดับที่</th>
-                    <th>ชื่อผู้ใช้งาน</th>
-                    <th>ชื่อแบบประเมิน</th>
-                    <th>ประเภทก่อนหรือหลังกิจกรรม</th>
-                    <th>คะแนน</th>
-                    <th>ระดับความเสี่ยง</th>
-                  </tr>
-                </thead>
-                {allData
-                  .filter(
-                    (data) =>
-                      data.username.includes(search) ||
-                      data.quizName.includes(search)
-                  )
-                  .filter((data) => {
-                    if(!searchQuizName.mhl && !searchQuizName.rq20 && !searchQuizName.rq3){
-                      return data
-                    }else if(searchQuizName.mhl && searchQuizName.rq20 && searchQuizName.rq3){
-                      return data
-                    }else if(searchQuizName.mhl){
-                     return data.quizId === 6
-                   }else if(searchQuizName.rq20){
-                     return data.quizId === 7
-                   }else if(searchQuizName.rq3){
-                     return data.quizId=== 8
-                   }
-                   
-                  })
-                  .map((data, index) => (
-                    <tbody>
-                      {/* row 1 */}
-                      <tr className="hover">
-                        <td>{index + 1}</td>
-                        <td>{data.username}</td>
-                        <td>{data.quizName}</td>
-                        <td>
-                          {data.quizType === "PRE"
-                            ? "แบบประเมินก่อนกิจกรรม"
-                            : "แบบประเมินหลังกิจกรรม"}
-                        </td>
-                        <td>{data.total}</td>
-                        <td>{data.risk}</td>
-                      </tr>
-                    </tbody>
-                  ))}
-              </table>
-            </div>
+          <ResultTable 
+            allData={allData}
+            filterData={filterData}
+            search={search}
+            searchAge={searchAge}
+            searchGender={searchGender}
+            searchFaculty={searchFaculty}
+            searchQuizName={searchQuizName}
+          />
           </div>
         )}
         {selected === "all" && (
           <>
             <div className="flex flex-col  items-center justify-center w-full bg-white p-10 rounded-2xl shadow-xl">
               <hr className="w-full m-2" />
-              <div className="flex p-4 max-w-6xl justify-around w-full">
+              <div className="flex flex-col items-center justify-center w-full my-2">
+                <div className="flex flex-col items-center justify-center w-full my-2">
+                <h1 className="text-xl font-semibold">ผู้ที่มีคะแนนต่ำสุดในแต่ละแบบประเมิน</h1>
+                </div>
+                <div className="flex p-4 max-w-6xl justify-around w-full">
                 <Link
                   href={`/resultuser/${
                     lowestRiskUserRq29 && lowestRiskUserRq29.userId
@@ -517,7 +413,7 @@ export default function Result() {
                   className="flex flex-col items-center space-y-3 cursor-pointer "
                 >
                   <h1 className="text-xl">
-                    ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน MHL 29
+                  แบบประเมิน MHL 29
                   </h1>
                   <div className="flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl ">
                     <img
@@ -546,7 +442,7 @@ export default function Result() {
                   className="flex flex-col items-center space-y-3 cursor-pointer "
                 >
                   <h1 className="text-xl">
-                    ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 20
+                   แบบประเมิน RQ 20
                   </h1>
                   <div className="flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl ">
                     <img
@@ -577,7 +473,7 @@ export default function Result() {
                   className="flex flex-col items-center space-y-3 cursor-pointer "
                 >
                   <h1 className="text-xl">
-                    ผู้ที่มีคะแนนต่ำสุดในแบบประเมิน RQ 3
+                    แบบประเมิน RQ 3
                   </h1>
                   <div className="flex bg-white shadow-sm drop-shadow-lg p-6 rounded-xl ">
                     <img
@@ -598,68 +494,155 @@ export default function Result() {
                   </div>
                 </Link>
               </div>
+              </div>
+               
+              
+              
               <hr className="w-full m-2" />
-              <div className="flex justify-around p-6 mt-6 space-x-8 w-full max-sm:flex-col">
+              <div className="flex flex-col items-center justify-center w-full">
+                <div className="flex flex-col items-center justify-center w-full my-2">
+                  <h1 className="text-xl font-semibold">คะแนนโดยเฉลี่ยของแบบประเมิน MHL 29</h1>
+                </div>
+              <div className="flex justify-evenly p-6  space-x-8 w-full max-sm:flex-col">
+                {/* ก่อนกิจกรรม */}
                 <div className="flex flex-col items-center space-y-3">
                   <h1 className="text-xl text-center">
-                    คะแนนโดยเฉลี่ย
-                    <br /> แบบประเมิน MHL 29 ก่อนและหลัง
+                    ก่อนกิจกรรม
                   </h1>
                   <span className="badge badge-lg p-4 border-2 border-DB text-2xl font-semibold w-28 h-28 rounded-full ">
-                    {averageRq29.value}
+                    {scorePreAndPostTest.PretestRq29 || 0}
                   </span>
                   <h1>
                     อยู่ในระดับ : มีความรอบรู้ด้านสุขภาพจิต
                     <span className=" font-semibold ml-2 ">
-                      {averageRq29.value >= 3.68
+                      {scorePreAndPostTest.PretestRq29 >= 3.68
                         ? "มาก"
-                        : averageRq29.value >= 2.34
+                        : scorePreAndPostTest.PretestRq29 >= 2.34
                         ? "ปานกลาง"
                         : "น้อย"}
                     </span>
                   </h1>
                 </div>
-                <div className="flex flex-col items-center space-y-3 ">
+                 {/* หลังกิจกรรม */}
+                 <div className="flex flex-col items-center space-y-3">
                   <h1 className="text-xl text-center">
-                    คะแนนโดยเฉลี่ย
-                    <br /> แบบประเมิน RQ 20 ก่อนและหลัง
+                  หลังกิจกรรม
+                  </h1>
+                  <span className="badge badge-lg p-4 border-2 border-DB text-2xl font-semibold w-28 h-28 rounded-full ">
+                    {scorePreAndPostTest.PostRq29 || 0}
+                  </span>
+                  <h1>
+                    อยู่ในระดับ : มีความรอบรู้ด้านสุขภาพจิต
+                    <span className=" font-semibold ml-2 ">
+                      {scorePreAndPostTest.PostRq29 >= 3.68
+                        ? "มาก"
+                        : scorePreAndPostTest.PostRq29 >= 2.34
+                        ? "ปานกลาง"
+                        : "น้อย"}
+                    </span>
+                  </h1>
+                </div>
+                
+              </div>
+              </div>
+            
+              <hr className="w-full m-2" />
+              <div className="flex flex-col items-center justify-center w-full my-2">
+                <div className="flex flex-col items-center justify-center w-full my-2">
+                  <h1 className="text-xl font-semibold">คะแนนโดยเฉลี่ยของแบบประเมิน RQ 20</h1>
+                </div>
+                <div className="flex justify-evenly p-6 mt-6 space-x-8 w-full max-sm:flex-col">
+                    {/* ก่อนกิจกรรม */}
+              <div className="flex flex-col items-center space-y-3 ">
+                  <h1 className="text-xl text-center">
+                    ก่อนกิจกรรม
                   </h1>
 
                   <span className="badge badge-lg p-4 border-2 border-B text-2xl font-semibold w-28 h-28 rounded-full">
-                    {sumAverageRq20.toFixed(2)}
+                    {scorePreAndPostTest.PretestRq20 || 0}
                   </span>
                   <h1>
                     อยู่ในระดับ : คะแนนรวม
                     <span className=" font-semibold ml-2">
-                      {sumAverageRq20 > 69
+                      {scorePreAndPostTest.PretestRq20 > 69
                         ? "สูง"
-                        : sumAverageRq20 <= 69 && sumAverageRq20 > 55
+                        : scorePreAndPostTest.PretestRq20 <= 69 && scorePreAndPostTest.PretestRq20 > 55
                         ? "ปกติ"
                         : "ต่ํา"}
                     </span>
                   </h1>
                 </div>
-                <div className="flex flex-col items-center space-y-3">
+                {/* หลังกิจกรรม */}
+                <div className="flex flex-col items-center space-y-3 ">
                   <h1 className="text-xl text-center">
-                    คะแนนเฉลี่ยคะแนนของ
-                    <br />
-                    แบบทดสอบ RQ 3 ก่อนและหลัง
+                   หลังกิจกรรม
+                  </h1>
+
+                  <span className="badge badge-lg p-4 border-2 border-B text-2xl font-semibold w-28 h-28 rounded-full">
+                    {scorePreAndPostTest.PostRq20 || 0}
+                  </span>
+                  <h1>
+                    อยู่ในระดับ : คะแนนรวม
+                    <span className=" font-semibold ml-2">
+                      {scorePreAndPostTest.PostRq20 > 69
+                        ? "สูง"
+                        : scorePreAndPostTest.PostRq20 <= 69 && scorePreAndPostTest.PostRq20 > 55
+                        ? "ปกติ"
+                        : "ต่ํา"}
+                    </span>
+                  </h1>
+                </div>
+              </div>
+              </div>
+
+            
+              <hr className="w-full m-2" />
+              <div className="flex flex-col items-center justify-center w-full my-2">
+                <div className="flex flex-col items-center justify-center w-full my-2">
+                  <h1 className="text-xl font-semibold">คะแนนโดยเฉลี่ยของแบบประเมิน RQ 3</h1>
+                </div>
+                <div className="flex justify-evenly p-6 mt-6 space-x-8 w-full max-sm:flex-col">
+                {/* ก่อนกิจกรรม */}
+              <div className="flex flex-col items-center space-y-3">
+                  <h1 className="text-xl text-center">
+                  ก่อนและหลัง
                   </h1>
                   <span className="badge badge-lg p-4 border-2 border-LB text-2xl font-semibold w-28 h-28 rounded-full">
-                    {averageRq3.value}
+                    {scorePreAndPostTest.PretestRq3 || 0}
                   </span>
                   <h1>
                     อยู่ในระดับ : พลังใจ
                     <span className=" font-semibold ml-2">
-                      {averageRq3.value > 7
+                      {scorePreAndPostTest.PretestRq3 > 7
                         ? "มาก"
-                        : averageRq3.value >= 5
+                        : scorePreAndPostTest.PretestRq3 >= 5
+                        ? "ปานกลาง"
+                        : "น้อย"}
+                    </span>
+                  </h1>
+                </div>
+                {/* หลังกิจกรรม */}
+                <div className="flex flex-col items-center space-y-3">
+                  <h1 className="text-xl text-center">
+                   หลังกิจกรรม
+                  </h1>
+                  <span className="badge badge-lg p-4 border-2 border-LB text-2xl font-semibold w-28 h-28 rounded-full">
+                    {scorePreAndPostTest.PostRq3 || 0}
+                  </span>
+                  <h1>
+                    อยู่ในระดับ : พลังใจ
+                    <span className=" font-semibold ml-2">
+                      {scorePreAndPostTest.PostRq3 > 7
+                        ? "มาก"
+                        : scorePreAndPostTest.PostRq3 >= 5
                         ? "ปานกลาง"
                         : "น้อย"}
                     </span>
                   </h1>
                 </div>
               </div>
+              </div>
+            
 
               <hr className="w-full m-2" />
               <div className="flex flex-col  items-center justify-center w-full pt-20 ">
@@ -721,37 +704,29 @@ export default function Result() {
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <PieChart
-                  series={[
-                    {
-                      data: [
-                        {
-                          id: 0,
-                          value: filterRq29.value ? filterRq29.value : 0,
-                          label: "ความรอบรู้ทางสุขภาพจิต",
-                          color: "#023e8a",
-                        },
-                        {
-                          id: 1,
-                          value: filterRq3.value ? filterRq3.value : 0,
-                          label: "พลังใจ",
-                          color: "#afd7f6",
-                        },
-                      ],
-                      arcLabel: (data) => `${data.value}`,
-                    },
-                  ]}
-                  sx={{
-                    [`& .${pieArcLabelClasses.root}`]: {
-                      fill: "white",
-                      fontWeight: "semibold",
-                      fontSize: "20px",
-                      letterSpacing: "1px",
-                    },
-                  }}
-                  width={600}
-                  height={200}
-                ></PieChart>
+            <BarChart
+              data={[
+                {name:"ความรอบรู้ทางสุขภาพจิต",value:averageRq29.value},
+                {name:"พลังใจ",value:averageRq3.value}
+              ]}
+              width={800}
+              height={500}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend />
+              <Bar
+                dataKey="value"
+                name="คะแนนเฉลี่ยของแบบประเมิน RQ 29 และ RQ 3"
+                fill="#023e8a"
+                label={{ fill: "white", fontSize: 20 }}
+                activeBar={<Rectangle fill="#38bdf8" stroke="white" />}
+              />
+            
+            </BarChart>
+            <hr className="w-full m-2" />
                 <BarChart
                   data={filterRq20.length > 0 ? filterRq20 : averageRq20}
                   width={800}
