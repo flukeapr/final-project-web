@@ -2,8 +2,8 @@ import { query } from "../../../../../../lib/ConnectDb";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 import fs from "fs/promises";
-
-
+import formidable from "formidable";
+import { Readable } from "stream";
 /**
  * @swagger
  * /api/post/image/{id}:
@@ -38,49 +38,113 @@ import fs from "fs/promises";
  *        500:
  *          description: ไม่สำเร็จ
  */
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
+
+
+async function parseMultipartForm(req) {
+  const contentType = req.headers.get('content-type');
+  const boundary = contentType.split('; boundary=')[1];
+
+  const chunks = [];
+  const reader = req.body.getReader();
+  
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
+
+  const buffer = Buffer.concat(chunks);
+  const bodyText = buffer.toString();
+
+  // แบ่งส่วนตาม boundary
+  const boundaryStart = `--${boundary}`;
+  const boundaryEnd = `--${boundary}--`;
+  const parts = bodyText.split(boundaryStart).filter(part => part.length > 0 && !part.includes(boundaryEnd));
+
+  for (const part of parts) {
+    // ตรวจสอบว่าเป็นส่วนของรูปภาพ
+    if (part.includes('Content-Type: image')) {
+      // หาตำแหน่งเริ่มต้นของข้อมูลไฟล์
+      const contentStart = part.indexOf('\r\n\r\n') + 4;
+      // หาตำแหน่งสิ้นสุดของข้อมูลไฟล์
+      const contentEnd = part.lastIndexOf('\r\n');
+      
+      if (contentStart > 4 && contentEnd > contentStart) {
+        // แปลงข้อมูลเป็น Buffer
+        const rawImageData = buffer.slice(
+          buffer.indexOf(Buffer.from('\r\n\r\n')) + 4,
+          buffer.lastIndexOf(Buffer.from(`\r\n--${boundary}`))
+        );
+        return rawImageData;
+      }
+    }
+  }
+  return null;
+}
 
 export async function PUT(req, { params }) {
   try {
     const { id } = params;
     if (!id) {
-      throw Error("Missing id");
+      throw new Error("Missing id");
     }
 
-    const file = await req.formData();
-    const image = file.get("image");
-
-    if (image.size > 5242880) {
-      // size less than 2.5MB
-      throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 5 MB");
+    const imageBuffer = await parseMultipartForm(req);
+    
+    if (!imageBuffer) {
+      throw new Error("Image is required");
     }
 
-    const allowedTypes = ["image/jpeg", "image/png" ,"image/jpg"];
-
-    if (!allowedTypes.includes(image.type)) {
-      throw Error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
+    // ตรวจสอบขนาดไฟล์
+    if (imageBuffer.length > 5 * 1024 * 1024) { // 5MB
+      throw new Error("File size too large");
     }
 
+    // Process image
     const fileName = `post-${id}.jpg`;
-
-    const imageBuffer = await image.arrayBuffer();
-    const buffer = Buffer.from(imageBuffer);
-
     let finalBuffer;
-    if (image.type === "image/png") {
-      finalBuffer = await sharp(buffer).jpeg({quality: 90}).toBuffer();
-    } else {
-      finalBuffer = buffer;
+
+    try {
+      // แปลงเป็น JPEG และปรับคุณภาพ
+      finalBuffer = await sharp(imageBuffer, {
+        failOnError: false // เพิ่มตัวเลือกนี้
+      })
+        .rotate() // แก้ไขการหมุนภาพอัตโนมัติ
+        .resize(1920, 1080, { // กำหนดขนาดสูงสุด
+          fit: 'inside',
+          withoutEnlargement: true
+        })
+        .jpeg({ 
+          quality: 80,
+          progressive: true
+        })
+        .toBuffer();
+    } catch (error) {
+      console.error('Image processing error:', error);
+      throw new Error("Invalid image format");
     }
 
-    await fs.writeFile(`./public/post/uploads/posts/image/${fileName}`, finalBuffer);
+    // Save file
+    const path = `./public/post/uploads/posts/image/${fileName}`;
+    await fs.writeFile(path, finalBuffer);
+    
+    // Update database
     const imageUrl = `/post/uploads/posts/image/${fileName}`;
-
     await query(`UPDATE post SET image = ? WHERE post_id = ?`, [imageUrl, id]);
+
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error(error);
+    return NextResponse.json(
+      { error: error.message || "Failed to upload image" },
+      { status: 500 }
+    );
   }
 }
 

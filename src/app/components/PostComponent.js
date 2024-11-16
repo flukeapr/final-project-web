@@ -177,7 +177,10 @@ export default function PostComponent({initialPosts}) {
                   toast.error("ไฟล์ต้องมีขนาดน้อยกว่า 2.5 MB");
                 }else if(data.error === "ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png"){
                   toast.error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
+                }else{
+                  toast.error("อัพโหลดรูปภาพไม่สําเร็จ");
                 }
+
                 document.getElementById("loadingModal").close();
                 document.getElementById("newPost").close();
                 return;
