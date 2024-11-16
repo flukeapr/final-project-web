@@ -4,6 +4,7 @@ import sharp from "sharp";
 import fs from "fs/promises";
 import formidable from "formidable";
 import { Readable } from "stream";
+import multer from 'multer';
 /**
  * @swagger
  * /api/post/image/{id}:
@@ -88,12 +89,15 @@ async function parseMultipartForm(req) {
   return null;
 }
 
+
 export async function PUT(req, { params }) {
   try {
     const { id } = params;
     if (!id) {
       throw new Error("Missing id");
     }
+    console.log(req);
+
 
     const imageBuffer = await parseMultipartForm(req);
     

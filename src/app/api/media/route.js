@@ -86,8 +86,8 @@ export async function POST(req){
             const mediaId = result[0].id;
            return NextResponse.json({ message: "Media created successfully", id: mediaId }, { status: 201 });
         }else{
-            await query(`INSERT INTO media (title, url , type) VALUES (?, ?)`, [title, url,type]);
-            const result = await query(`SELECT id FROM media WHERE title = ? AND url = ? AND type = ?`, [title, ,type]);
+            await query(`INSERT INTO media (title, url , type) VALUES (?, ?, ?)`, [title, url,type]);
+            const result = await query(`SELECT id FROM media WHERE title = ? AND url = ? AND type = ?`, [title, url,type]);
             const mediaId = result[0].id;
            return NextResponse.json({ message: "Media created successfully", id: mediaId }, { status: 201 });
         }
