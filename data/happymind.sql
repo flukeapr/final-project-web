@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 22, 2024 at 03:36 PM
+-- Generation Time: Nov 18, 2024 at 12:59 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `happymind`
 --
+CREATE DATABASE IF NOT EXISTS `happymind` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `happymind`;
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,19 @@ INSERT INTO `chat` (`id`, `user_from`, `user_to`, `sender`, `message`, `is_read`
 (51, 7, 36, 7, 'T', 'false', '2024-10-14 13:41:33'),
 (52, 7, 9, 7, 'G', 'false', '2024-10-14 13:44:04'),
 (53, 7, 20, 7, 'G', 'false', '2024-10-14 13:44:04'),
-(54, 7, 36, 7, 'G', 'false', '2024-10-14 13:44:04');
+(54, 7, 36, 7, 'G', 'false', '2024-10-14 13:44:04'),
+(55, 38, 9, 38, 'Hello', 'false', '2024-10-24 01:17:38'),
+(56, 38, 20, 38, 'Hello', 'false', '2024-10-24 01:17:38'),
+(57, 38, 36, 38, 'Hello', 'false', '2024-10-24 01:17:38'),
+(58, 28, 9, 28, 'Hello', 'false', '2024-10-24 01:34:51'),
+(59, 28, 20, 28, 'Hello', 'false', '2024-10-24 01:34:51'),
+(60, 28, 36, 28, 'Hello', 'false', '2024-10-24 01:34:51'),
+(61, 39, 9, 39, 'hello', 'true', '2024-10-24 09:11:18'),
+(62, 39, 20, 39, 'hello', 'false', '2024-10-24 09:11:18'),
+(63, 39, 36, 39, 'hello', 'false', '2024-10-24 09:11:18'),
+(64, 7, 9, 7, 'Test', 'false', '2024-11-16 16:28:37'),
+(65, 7, 20, 7, 'Test', 'false', '2024-11-16 16:28:37'),
+(66, 7, 36, 7, 'Test', 'false', '2024-11-16 16:28:37');
 
 -- --------------------------------------------------------
 
@@ -145,7 +159,10 @@ INSERT INTO `comments` (`id`, `postId`, `userId`, `text`, `image`, `create_at`) 
 (10, 52, 9, 'น่ากิน', NULL, '2024-09-15 13:39:12'),
 (11, 52, 9, 'น่าอร่อย', NULL, '2024-09-15 15:03:12'),
 (12, 1, 20, 'เทส', NULL, '2024-09-24 22:11:34'),
-(13, 54, 9, 'Tets', NULL, '2024-10-14 14:22:52');
+(13, 54, 9, 'Tets', NULL, '2024-10-14 14:22:52'),
+(14, 2, 28, 'Gg', NULL, '2024-10-24 08:53:09'),
+(15, 54, 39, 'd', NULL, '2024-10-24 09:10:24'),
+(16, 2, 7, 'Hi', NULL, '2024-11-16 16:28:26');
 
 -- --------------------------------------------------------
 
@@ -204,12 +221,17 @@ CREATE TABLE `full_post_view` (
 -- (See below for the actual view)
 --
 CREATE TABLE `full_userquiz_view` (
-`answers` json
+`age` varchar(30)
+,`answers` json
 ,`create_at` timestamp
+,`education` varchar(20)
 ,`email` varchar(255)
 ,`encouragement` float
+,`faculty` varchar(100)
+,`gender` varchar(30)
 ,`id` int
 ,`image` varchar(255)
+,`major` varchar(100)
 ,`obstacle` float
 ,`pressure` float
 ,`question` json
@@ -242,7 +264,12 @@ CREATE TABLE `likes` (
 INSERT INTO `likes` (`id`, `userId`, `postId`, `create_at`) VALUES
 (13, 7, 54, '2024-10-01 14:18:54'),
 (20, 9, 52, '2024-10-16 00:54:25'),
-(22, 9, 54, '2024-10-22 16:12:22');
+(22, 9, 54, '2024-10-22 16:12:22'),
+(27, 38, 54, '2024-10-24 01:15:43'),
+(28, 28, 54, '2024-10-24 01:33:57'),
+(29, 39, 54, '2024-10-24 09:10:18'),
+(30, 7, 2, '2024-11-16 16:28:29'),
+(31, 40, 106, '2024-11-16 19:58:53');
 
 -- --------------------------------------------------------
 
@@ -252,9 +279,9 @@ INSERT INTO `likes` (`id`, `userId`, `postId`, `create_at`) VALUES
 
 CREATE TABLE `media` (
   `id` int NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `title` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `url` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `video` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `type` varchar(20) DEFAULT NULL,
@@ -269,11 +296,13 @@ INSERT INTO `media` (`id`, `title`, `content`, `url`, `image`, `video`, `type`, 
 (18, 'กรมสุขภาพจิต เผยปัญหาสุขภาพจิตแรงงานไทยกลับจากอิสราเอลสูงกว่า 8,500ราย', '', 'https://www.hfocus.org/content/2023/11/28878', '/media/uploads/image/media-55.jpg', '', 'OUT', '2024-08-27 16:14:15'),
 (19, 'Motion Graphic 5 ด. ดูแลใจ กำจัดด้วยหัวใจ...ไม่เครียด', '', 'https://www.springnews.co.th/lifestyle/lifestyle/831011', '/media/uploads/image/media-19.jpg', '', 'OUT', '2024-08-13 18:14:51'),
 (20, 'ปัญหาสุขภาพจิต ประสบกับผู้คนมากกว่า 792 ล้านคนทั่วโลก', '', 'https://www.springnews.co.th/infographic/813868', '/media/uploads/image/media-20.jpg', '', 'OUT', '2024-08-13 18:15:20'),
-(27, 'กรมสุขภาพ เผยปัญหาสุขภาพจิตแรงงานไทยกลับจากอิสราเอลสูงกว่า 8,500ราย', '', 'https://www.hfocus.org/content/2023/11/28878', NULL, '', 'OUT', '2024-08-15 09:18:37'),
-(78, 'Test', 'Test your skills skills in in a a class class ', '.', NULL, '/media/uploads/video/video-media-78.mp4', 'IN', '2024-09-05 14:26:33'),
 (80, 'สมาธิ', '  หลายคนยังมองว่าการนั่งสมาธิเป็นเรื่องของพระภิกษุที่ต้องนั่งทุกวัน แล้วฆราวาสอย่างเรามีความจำเป็นมากน้อยแค่ไหนที่จะต้องนั่งสมาธิทุกวันเหมือนกับพระภิกษุ แล้วถ้าทำอย่างนั้นได้จริงๆ แล้วจะเกิดผลดีกับตัวเราเองอย่างไร\n\n\n    คนเราประกอบด้วย “ กาย ” กับ “ ใจ ” พระภิกษุก็มีกายกับใจ ฆราวาสเองก็มีกายกับใจเช่นเดียวกัน คนเราต้องกินข้าวทุกวัน ต้องอาบน้ำเป็นประจำทุกวันเพราะ “ อาหารกาย ” คือ ข้าวปลาอาหาร พอร่างกายเรามีฝุ่นละอองจับมีเหงื่อไคลมากเข้า เราก็ต้องอาบน้ำชำระสิ่งเหล่านี้ออกไป แล้วใจเราล่ะ “ อาหารใจ ” คือธรรมะ คือบุญ และการชำระใจให้สะอาดผ่องใส ก็คือ การสวดมนต์ ทำสมาธิภาวนา\n    ตรองเพียงแค่นี้เราก็จะได้คำตอบแล้วว่า ผู้ที่จะต้องสวดมนต์ทำสมาธิภาวนาเป็นประจำไม่ใช่เฉพาะพระภิกษุเท่านั้น แต่ฆราวาสญาติโยมก็ต้องปฏิบัติเหมือนกัน เพราะเราก็มีกายกับใจเหมือนกันกับพระภิกษุนั่นเอง เพียงแต่พระภิกษุต้องปฏิบัติอย่างเต็มที่ เพราะว่ามีเป้าหมายโดยตรงที่จะบวชเพื่อมุ่งนิพพาน\n\n\n    ผู้ใดที่สวดมนต์ ทำสมาธิภาวนาอย่างสม่ำเสมอ ใจก็จะถูกชำระให้สะอาด เกิดความผ่องใส อารมณ์ดี เบิกบาน ไม่หงุดหงิดโมโหง่าย เพราะใจถูกสะสางจัดระเบียบไปเรื่อยๆ ความเครียดในใจก็ลดลง ใจโปร่ง เบาสบาย มีความสุข\n    แต่สำหรับผู้ที่ไม่เคยสวดมนต์ทำสมาธิภาวนาเลย จะมีความเครียดสั่งสมโดยไม่รู้ตัว หน้านิ่วคิ้วขมวด สุดท้ายสติขาดพร่ามัวไปเลยก็มี แต่ถ้าสมาชิกในครอบครัวใดสวดมนต์ทำภาวนาเป็นประจำ บ้านก็เย็น ใครเข้าใกล้ก็รู้สึกสบายใจ\n\n', '', NULL, '/media/uploads/video/video-media-80.mp4', 'IN', '2024-09-06 02:44:24'),
 (84, 'Test123456', 'testttttttttttttt', '.', NULL, NULL, NULL, '2024-09-27 02:37:53'),
-(113, 'ข้าวผัด', 'ข้าวผัด', NULL, '/media/uploads/image/media-113.jpg', NULL, 'IN', '2024-10-22 10:58:35');
+(128, '7 วิธีดูแลสุขภาพจิต สร้างอารมณ์ดี ชีวิตมีความสุข', NULL, 'https://chulabhornchannel.cra.ac.th/health-articles/36887/', '/media/uploads/image/media-128.jpg', NULL, 'OUT', '2024-11-16 15:30:32'),
+(129, 'ดูแลสุขภาพจิตยังไงให้แฮปปี้', NULL, 'https://www.bangkoklife.com/th/articles/0/152', '/media/uploads/image/media-129.jpg', NULL, 'OUT', '2024-11-16 15:31:25'),
+(130, '9 วิธีในการดูแลสุขภาพจิตให้แข็งแรง เพื่อชีวิตที่มีความสุข', NULL, 'https://www.istrong.co/single-post/how-to-make-happiness-life', '/media/uploads/image/media-130.jpg', NULL, 'OUT', '2024-11-16 15:32:22'),
+(131, 'เรื่องของสุขภาพจิต “ใครคิดว่าไม่สำคัญ” สุขภาพจิต สุขภาพใจ ในสถานศึกษาทั้งครูและนักเรียนที่ใครก็ไม่ควรมองข้าม', NULL, 'https://www.starfishlabz.com/blog/1292-%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B4%E0%B8%95-%E0%B9%83%E0%B8%84%E0%B8%A3%E0%B8%84-%E0%B8%94%E0%B8%A7-%E0%B8%B2%E0%B9%84%E0%B8%A1-%E0%B8%AA%E0%B8%B3%E0%B8%84-%E0%B8%8D-%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B4%E0%B8%95-%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B9%83%E0%B8%88-%E0%B9%83%E0%B8%99%E0%B8%AA%E0%B8%96%E0%B8%B2%E0%B8%99%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%99%E0%B8%B1%E0%B8%81%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%83%E0%B8%84%E0%B8%A3%E0%B8%81%E0%B9%87%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%84%E0%B8%A7%E0%B8%A3%E0%B8%A1%E0%B8%AD%E0%B8%87%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A1', '/media/uploads/image/media-131.jpg', NULL, 'OUT', '2024-11-16 15:35:00'),
+(132, 'ลดเครียดได้ด้วยวิธีง่ายๆ ที่คุณอาจมองข้าม', '11 WAYS TO RELIEVE STRESS\n\n\nลดเครียดได้ด้วยวิธีง่ายๆ ที่คุณอาจมองข้าม\n\nเรื่องโดย... ศิริกร โพธิจัทร\n\nดอกเตอร์เควิน แซปแมนเซล นักจิตวิทยาคลินิกและผู้อำนวยการ The Kentucky Center for Anxiety and Related Disorders รัฐเคนทักกี สหรัฐอเมริกา ระบุถึงวิธีลดเครียดไว้ ดังนี้ให้เทคนิคดีๆ เพื่อคุณภาพการนอนที่ดี ดังนี้\n\n⬧ จดจ่อกับปัจจัยที่ควบคุมได้ ปัญหาหรือปัจจัยที่ควบคุมไม่ได้ให้พักไว้ก่อน\n\n⬧ หลับตื่นนอนให้เขียนสิ่งที่ต้องทำโดยเรียงลำดับความสำคัญและทำเท่าที่ทำได้\n\n⬧ จัดวันพักผ่อนให้ตัวเองโดยที่ไม่ต้องทำอะไรเลยอย่างน้อย 1 วันใน 1 สัปดาห์\n\n⬧ ออกกำลังกายอย่างน้อยวันละ 20 นาทีต่อเนื่อง และยืดเหยียดร่างกายก่อนและหลังออกกำลังกายอีก 10-15 นาที\n\n⬧ จดบันทึกเรื่องราวดีๆ และสิ่งที่ทำให้คุณยิ้มหรือหัวเราะได้อย่างน้อยวันละ 1 เรื่อง\n\n⬧ ทำงานฝีมือ เพราะเป็นการใช้ประสาทสัมผัสทั้ง 5 ร่วมกับการฝึกสมาธิไปพร้อมๆ กัน\n\n⬧ ฝึกโยคะในท่าที่ได้ก้มหัวลง เช่น ท่าสุนัขแลลง (Downward-Facing Dog) จะทำให้เลือดไหลไปที่สมองได้ดีมากขึ้น\n\n⬧ ปฏิเสธให้เป็น การทำในสิ่งที่ผืนใจไม่ได้ช่วยให้คุณรู้สึกดี แต่มันจะส่งผลในทางตรงกันข้ามเสมอ\n\n⬧ แช่หรืออาบน้ำอุ่น ช่วยขจัดเซลล์ผิวที่ตายแล้ว แนะนำให้อาบหรือแช่น้ำอุ่น 10 นาที แล้วอาบน้ำเย็นปิดท้าย 5 นาที จะทำให้รู้สึกสดชื่นขึ้น\n\n⬧ ใช้เครื่องหอม เช่น โลชั่นหรือน้ำมันนวดผสมน้ำมันหอมระเหยจากสมุนไพรที่คุณชอบ เช่น ลาเวนเดอร์ ทีทรี คาโมมายล์ กุหลาบ\n\n⬧ เข้านอนและตื่นนอนในเวลาเดิม ถ้าทำได้ต่อเนื่องครบ 1 เดือน คุณก็ไม่ต้องใช้นาฬิกาปลุกอีกเลย\n\nสุดท้ายหาเวลาให้ครอบครัว เพื่อน คนรัก ใช้เวลาที่มีคุณภาพกับพวกเขาให้ได้มากที่สุดเท่าที่จะทำได้ พักเรื่องงานไว้ก่อน ไว้กลับไปที่ทำงานค่อยไปทำใหม่', NULL, NULL, NULL, 'IN', '2024-11-16 15:36:01');
 
 -- --------------------------------------------------------
 
@@ -294,14 +323,15 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`post_id`, `text`, `image`, `userId`, `create_at`) VALUES
-(1, 'hello post test', NULL, 5, '2024-08-18 15:27:25'),
+(1, 'hello post test', '/post/uploads/posts/image/post-1.jpg', 5, '2024-08-18 15:27:25'),
 (2, 'hello post commnet', NULL, 7, '2024-08-18 17:59:13'),
 (25, 'เทสโพสต์จากโทรศัพท์', '/post/uploads/posts/image/post-25.jpg', 7, '2024-08-27 08:44:57'),
 (36, 'Test ข้อความ', NULL, 20, '2024-08-28 05:50:10'),
 (46, 'เทสสสสส', '/post/uploads/posts/image/post-46.jpg', 9, '2024-08-29 17:36:47'),
 (48, 'ซึม', '/post/uploads/posts/image/post-48.jpg', 9, '2024-08-30 05:22:20'),
 (52, 'Test', '/post/uploads/posts/image/post-52.jpg', 20, '2024-09-05 14:37:07'),
-(54, 'test123', NULL, 20, '2024-09-27 02:39:20');
+(54, 'test123', NULL, 20, '2024-09-27 02:39:20'),
+(106, 'สวัสดี', NULL, 40, '2024-11-16 12:58:48');
 
 -- --------------------------------------------------------
 
@@ -373,8 +403,21 @@ CREATE TABLE `userdata` (
 --
 
 INSERT INTO `userdata` (`id`, `userId`, `gender`, `age`, `education`, `faculty`, `major`, `religion`, `disease`, `physical_health`, `mental_health`, `nearby`, `nearby_relation`) VALUES
-(3, 5, 'ชาย', '20', 'ปี3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'เทคโนโลยีดิจิทัล', 'พุทธ', 'มี', 'หอบ', NULL, 'ไม่มี', NULL),
-(5, 37, 'ชาย', '20-25 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'ดิจิเทค', 'พุทธ', 'ไม่มี', '', '', 'ไม่มี', '');
+(3, 5, 'ชาย', '20-25 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'เทคโนโลยีดิจิทัล', 'พุทธ', 'มี', 'หอบ', NULL, 'ไม่มี', NULL),
+(5, 37, 'ชาย', '20-25 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'ดิจิเทค', 'พุทธ', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(6, 38, 'ชาย', 'ต่ำกว่า 20 ปี', 'ปี 1', 'สำนักวิชาวิทยาศาสตร์', 'Gg', 'พุทธ', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(7, 39, 'ชาย', '26-30 ปี', 'ปี 5', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'f', 'พุทธ', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(8, 7, 'ชาย', '20-25 ปี', 'ปี 3', 'สำนักวิชาวิศวกรรมศาสตร์', 'วิศวกรรมคอมพิวเตอร์', 'พุทธ', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(9, 13, 'หญิง', 'ต่ำกว่า 20 ปี', 'ปี 1', 'สำนักวิชาเทคโนโลยีการเกษตร', 'เทคโนโลยีการเกษตร', 'พุทธ', 'มี', 'ภูมิแพ้', NULL, 'มี', 'บุคคลในครอบครัว'),
+(10, 14, 'ไม่ระบุเพศ', '20-25 ปี', 'ปี 2', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'การออกแบบดิจิทัล', 'คริสต์', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(11, 19, 'ชาย', '26-30 ปี', 'มากกว่าปี 6', 'สำนักวิชาพยาบาลศาสตร์', 'พยาบาลศาสตร์', 'อิสลาม', 'มี', NULL, 'ซึมเศร้า', 'มี', 'เพื่อน'),
+(12, 27, 'หญิง', '20-25 ปี', 'ปี 4', 'สำนักวิชาแพทย์ศาสตร์', 'แพทยศาสตร์', 'พุทธ', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(13, 28, 'ชาย', 'ต่ำกว่า 20 ปี', 'ปี 1', 'สำนักวิชาวิทยาศาสตร์', 'เคมี', 'ฮินดู', 'ไม่มี', NULL, NULL, 'ไม่มี', NULL),
+(14, 36, 'หญิง', '20-25 ปี', 'ปี 2', 'สำนักวิชาเทคโนโลยีสังคม', 'การจัดการ', 'ซิกข์', 'มี', 'โรคหัวใจ', NULL, 'ไม่มี', NULL),
+(15, 40, 'ชาย', 'ต่ำกว่า 20 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'DT', 'พุทธ', 'ไม่มี', '', '', 'ไม่มี', ''),
+(16, 41, 'ชาย', '20-25 ปี', 'ปี 1', 'สำนักวิชาเทคโนโลยีการเกษตร', 'ผลิตพืช', 'ไม่มีศาสนา', 'ไม่มี', '', '', 'ไม่มี', ''),
+(18, 43, 'ไม่ระบุเพศ', '20-25 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'nnnnn', 'พุทธ', 'ไม่มี', '', '', 'ไม่มี', ''),
+(19, 44, 'ไม่ระบุเพศ', '20-25 ปี', 'ปี 3', 'สำนักวิชาศาสตร์และศิลป์ดิจิทัล', 'ttttt', 'พุทธ', 'ไม่มี', '', '', 'ไม่มี', '');
 
 -- --------------------------------------------------------
 
@@ -409,9 +452,20 @@ INSERT INTO `userquiz` (`id`, `userId`, `quizId`, `quizType`, `answers`, `pressu
 (14, 7, 6, 'PRE', '[2, 2, 2, 2, 2, 5, 5, 3, 3, 5, 3, 3, 5, 3, 5, 3, 4, 5, 3, 3, 5, 4, 5, 3, 3, 2, 2, 4, 4]', 0, 0, 0, 3.45, 'มีความรอบรู้ด้านสุขภาพจิตปานกลาง', '2024-08-20 19:29:35'),
 (18, 5, 7, 'POST', '[4, 5, 4, 4, 1, 4, 5, 4, 3, 4, 4, 3, 5, 3, 2, 2, 3, 3, 3, 4]', 38, 17, 15, 70, 'สูงกว่าปกติ', '2024-08-22 15:41:12'),
 (22, 7, 7, 'PRE', '[2, 3, 2, 3, 4, 4, 2, 4, 2, 3, 3, 2, 3, 4, 3, 4, 3, 2, 3, 3]', 29, 15, 15, 59, 'ปกติ', '2024-08-27 15:39:12'),
-(61, 7, 8, 'POST', '[7, 7, 7]', 0, 0, 0, 7, 'พลังใจมาก', '2024-09-27 05:16:37'),
-(64, 7, 7, 'POST', '[1, 2, 3, 2, 2, 4, 3, 5, 3, 4, 4, 3, 4, 2, 3, 3, 4, 3, 3, 3]', 29, 16, 16, 61, 'ปกติ', '2024-08-27 15:42:58'),
-(65, 37, 8, 'PRE', '[2, 3, 4]', 0, 0, 0, 3, 'พลังใจน้อย', '2024-10-22 09:27:08');
+(65, 37, 8, 'PRE', '[2, 3, 4]', 0, 0, 0, 3, 'พลังใจน้อย', '2024-10-22 09:27:08'),
+(66, 28, 8, 'PRE', '[8, 2, 4]', 0, 0, 0, 4.67, 'พลังใจปานกลาง', '2024-10-23 17:50:19'),
+(67, 38, 8, 'PRE', '[2, 8, 4]', 0, 0, 0, 4.67, 'พลังใจปานกลาง', '2024-10-23 18:12:44'),
+(69, 28, 8, 'POST', '[10, 10, 10]', 0, 0, 0, 10, 'พลังใจมาก', '2024-10-24 02:01:32'),
+(70, 39, 8, 'PRE', '[4, 8, 3]', 0, 0, 0, 5, 'พลังใจปานกลาง', '2024-10-24 02:09:29'),
+(72, 7, 8, 'POST', '[4, 9, 10]', 0, 0, 0, 7.67, 'พลังใจมาก', '2024-11-16 09:21:28'),
+(73, 40, 8, 'PRE', '[5, 5, 5]', 0, 0, 0, 5, 'พลังใจปานกลาง', '2024-11-16 12:54:21'),
+(74, 40, 8, 'POST', '[7, 2, 10]', 0, 0, 0, 6.33, 'พลังใจมาก', '2024-11-16 12:54:31'),
+(75, 7, 7, 'POST', '[2, 1, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 0, 1, 1, 3, 3, 1, 3]', 54, 8, 8, 70, 'สูงกว่าปกติ', '2024-11-16 12:57:49'),
+(76, 7, 7, 'POST', '[2, 1, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 0, 1, 1, 3, 3, 1, 3]', 54, 8, 8, 70, 'สูงกว่าปกติ', '2024-11-16 12:57:50'),
+(77, 41, 8, 'PRE', '[10, 4, 6]', 0, 0, 0, 6.67, 'พลังใจมาก', '2024-11-16 13:20:13'),
+(78, 41, 7, 'PRE', '[2, 4, 1, 4, 4, 3, 4, 1, 2, 1, 4, 3, 2, 1, 2, 0, 3, 2, 1, 4]', 54, 8, 10, 72, 'สูงกว่าปกติ', '2024-11-16 13:22:40'),
+(82, 44, 8, 'PRE', '[1, 1, 1]', 0, 0, 0, 1, 'พลังใจน้อย', '2024-11-16 18:21:24'),
+(83, 44, 7, 'PRE', '[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]', 75, 2, 15, 92, 'สูงกว่าปกติ', '2024-11-16 18:22:20');
 
 -- --------------------------------------------------------
 
@@ -466,7 +520,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `pin`, `role_id`, `image
 (27, 'tid', 'tid@gmail.com', '$2b$10$8LP2YVdSfzWeNcUVijKmUewQMPr/8hWWMGyf26ZP5OjCCGCLtAL86', '$2b$08$dJjxkgLIPTUxLK6451FxzufUa8lHN5h7CiYJX8Q4zu/Zzz5h0jdIm', 2, '/images/avatars/avatar2.png', '2024-08-20 10:19:50'),
 (28, 'Jenggggg', 'g@gmail.com', '$2b$10$vDKYddCcp67c.tB41nuL.uKil4qk1pB3QCevsAswLQm5JpUSRoGGi', NULL, 2, '/images/avatars/avatar2.png', '2024-08-30 02:27:45'),
 (36, 'admin2', 'admin2@gmail.com', '$2b$10$sdidseUyE2uUvDaW9ZdN1udUl.PvcqcIjz8cMG1N7cMjl4dNvHcv.', NULL, 1, '/images/avatars/avatar6.png', '2024-09-30 11:32:45'),
-(37, 'presentation', 'presentation@gmail.com', '$2b$10$G6zVjTxdP6dtnD0yEOKvJ.q1P7U2.mpNLuCCypqgi0sQJsKy.4Oz6', NULL, 2, '/images/avatars/avatar4.png', '2024-10-22 09:20:44');
+(37, 'presentation', 'presentation@gmail.com', '$2b$10$G6zVjTxdP6dtnD0yEOKvJ.q1P7U2.mpNLuCCypqgi0sQJsKy.4Oz6', NULL, 2, '/images/avatars/avatar4.png', '2024-10-22 09:20:44'),
+(38, 'H', 'h@g.com', '$2b$10$qfYFdPsD0fHKdctiNAAbqOTju/Y/aRveGOqQ3ux7bBKcednolZMEG', NULL, 2, '/images/avatars/avatar1.png', '2024-10-23 18:10:44'),
+(39, 'f', 'f@g.com', '$2b$10$EY5K0ZW0L1Ww8qj42BMsqud42WFjtKWmG6GncGRflMX8lPj5kYOmm', NULL, 2, '/images/avatars/avatar6.png', '2024-10-24 02:07:36'),
+(40, 'ธันวา', 'ชนะสาร', '$2b$10$rSdItOe1ThjRG8k8I5aR7eX7NM11VEKrbd6EdFfdr1IuqzUYPMyKy', NULL, 2, '/images/avatars/avatar1.png', '2024-11-16 12:49:50'),
+(41, 'นัทมาแล้ว', 'TANAWAT1801@gmail.com', '$2b$10$Z3zsji3ujzBqXbK6wNHOFuwnmkNj2QHOlIux6EA9p40AOa169Qd1u', NULL, 2, '/images/avatars/avatar4.png', '2024-11-16 13:16:10'),
+(43, 'nnnnnnnn', '11111@gmail.com', '$2b$10$O0U7O0l7IQgKB43o4YP47uvgrWiZK0OxNhUgLEHLFNTG9G572Y7wC', NULL, 2, '/images/avatars/avatar4.png', '2024-11-16 18:15:40'),
+(44, '222', '222@gmail.com', '$2b$10$LmARVPT3wUUYRsw4/TWmouwC13XNx/4aQ7CRM64jTbWWKY2.AzQC2', NULL, 2, '/images/avatars/avatar6.png', '2024-11-16 18:17:55');
 
 -- --------------------------------------------------------
 
@@ -490,16 +550,22 @@ CREATE TABLE `userscore` (
 
 INSERT INTO `userscore` (`id`, `userId`, `preRq20`, `preRq3`, `postRq20`, `postRq3`, `status`) VALUES
 (3, 5, 54, 1.33, 70, 8.33, 'unfollow'),
-(5, 7, 61, 5, 61, 0, 'follow'),
+(5, 7, 61, 5, 70, 7.67, 'follow'),
 (6, 9, 0, 0, 0, 0, 'unfollow'),
 (7, 13, 0, 0, 0, 0, 'unfollow'),
 (8, 14, 0, 0, 0, 0, 'unfollow'),
 (13, 19, 0, 0, 0, 0, 'unfollow'),
 (14, 20, 0, 6, 0, 8.33, 'unfollow'),
 (21, 27, 0, 0, 0, 0, 'unfollow'),
-(22, 28, 58, 6, 75, 2, 'follow'),
+(22, 28, 58, 4.67, 75, 10, 'follow'),
 (30, 36, 0, 0, 0, 0, 'unfollow'),
-(31, 37, 0, 3, 0, 0, 'unfollow');
+(31, 37, 0, 3, 0, 0, 'unfollow'),
+(32, 38, 0, 4.67, 0, 0, 'unfollow'),
+(33, 39, 0, 5, 0, 0, 'unfollow'),
+(34, 40, 0, 5, 0, 6.33, 'unfollow'),
+(35, 41, 72, 6.67, 0, 0, 'unfollow'),
+(37, 43, 0, 0, 0, 0, 'unfollow'),
+(38, 44, 92, 1, 0, 0, 'unfollow');
 
 -- --------------------------------------------------------
 
@@ -545,7 +611,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`adminHappy`@`localhost` SQL SECURITY DEFINER
 --
 DROP TABLE IF EXISTS `full_userquiz_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`adminHappy`@`localhost` SQL SECURITY DEFINER VIEW `full_userquiz_view`  AS SELECT `uq`.`id` AS `id`, `q`.`name` AS `quizName`, `q`.`question` AS `question`, `uq`.`quizId` AS `quizId`, `uq`.`quizType` AS `quizType`, `uq`.`answers` AS `answers`, `uq`.`pressure` AS `pressure`, `uq`.`encouragement` AS `encouragement`, `uq`.`obstacle` AS `obstacle`, `uq`.`total` AS `total`, `uq`.`risk` AS `risk`, `uq`.`create_at` AS `create_at`, `uq`.`userId` AS `userId`, `u`.`name` AS `username`, `u`.`email` AS `email`, `u`.`image` AS `image` FROM ((`userquiz` `uq` left join `users` `u` on((`uq`.`userId` = `u`.`id`))) left join `quiz` `q` on((`q`.`id` = `uq`.`quizId`))) ORDER BY `uq`.`quizId` ASC  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`adminHappy`@`localhost` SQL SECURITY DEFINER VIEW `full_userquiz_view`  AS SELECT `uq`.`id` AS `id`, `q`.`name` AS `quizName`, `q`.`question` AS `question`, `uq`.`quizId` AS `quizId`, `uq`.`quizType` AS `quizType`, `uq`.`answers` AS `answers`, `uq`.`pressure` AS `pressure`, `uq`.`encouragement` AS `encouragement`, `uq`.`obstacle` AS `obstacle`, `uq`.`total` AS `total`, `uq`.`risk` AS `risk`, `uq`.`create_at` AS `create_at`, `uq`.`userId` AS `userId`, `u`.`name` AS `username`, `u`.`email` AS `email`, `u`.`image` AS `image`, `ud`.`gender` AS `gender`, `ud`.`age` AS `age`, `ud`.`education` AS `education`, `ud`.`faculty` AS `faculty`, `ud`.`major` AS `major` FROM (((`userquiz` `uq` left join `users` `u` on((`uq`.`userId` = `u`.`id`))) left join `quiz` `q` on((`q`.`id` = `uq`.`quizId`))) left join `userdata` `ud` on((`uq`.`userId` = `ud`.`userId`))) ORDER BY `uq`.`quizId` ASC  ;
 
 -- --------------------------------------------------------
 
@@ -668,7 +734,7 @@ ALTER TABLE `userscore`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `chat-ai`
@@ -680,7 +746,7 @@ ALTER TABLE `chat-ai`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `fighting`
@@ -692,19 +758,19 @@ ALTER TABLE `fighting`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `quiz`
@@ -722,25 +788,25 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `userdata`
 --
 ALTER TABLE `userdata`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `userquiz`
 --
 ALTER TABLE `userquiz`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `userscore`
 --
 ALTER TABLE `userscore`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- Constraints for dumped tables

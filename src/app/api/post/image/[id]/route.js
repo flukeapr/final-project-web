@@ -39,11 +39,13 @@ import multer from 'multer';
  *        500:
  *          description: ไม่สำเร็จ
  */
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
+
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
 
 
 
@@ -90,69 +92,103 @@ async function parseMultipartForm(req) {
 }
 
 
+// export async function PUT(req, { params }) {
+//   try {
+//     const { id } = params;
+//     if (!id) {
+//       throw new Error("Missing id");
+//     }
+//     console.log(req);
+
+
+//     const imageBuffer = await parseMultipartForm(req);
+    
+//     if (!imageBuffer) {
+//       throw new Error("Image is required");
+//     }
+
+//     // ตรวจสอบขนาดไฟล์
+//     if (imageBuffer.length > 5 * 1024 * 1024) { // 5MB
+//       throw new Error("File size too large");
+//     }
+
+//     // Process image
+//     const fileName = `post-${id}.jpg`;
+//     let finalBuffer;
+
+//     try {
+//       // แปลงเป็น JPEG และปรับคุณภาพ
+//       finalBuffer = await sharp(imageBuffer, {
+//         failOnError: false // เพิ่มตัวเลือกนี้
+//       })
+//         .rotate() // แก้ไขการหมุนภาพอัตโนมัติ
+//         .resize(1920, 1080, { // กำหนดขนาดสูงสุด
+//           fit: 'inside',
+//           withoutEnlargement: true
+//         })
+//         .jpeg({ 
+//           quality: 80,
+//           progressive: true
+//         })
+//         .toBuffer();
+//     } catch (error) {
+//       console.error('Image processing error:', error);
+//       throw new Error("Invalid image format");
+//     }
+
+//     // Save file
+//     const path = `./public/post/uploads/posts/image/${fileName}`;
+//     await fs.writeFile(path, finalBuffer);
+    
+//     // Update database
+//     const imageUrl = `/post/uploads/posts/image/${fileName}`;
+//     await query(`UPDATE post SET image = ? WHERE post_id = ?`, [imageUrl, id]);
+
+//     return NextResponse.json({ message: "success" }, { status: 200 });
+//   } catch (error) {
+//     console.error(error);
+//     return NextResponse.json(
+//       { error: error.message || "Failed to upload image" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 export async function PUT(req, { params }) {
   try {
     const { id } = params;
     if (!id) {
-      throw new Error("Missing id");
+      throw Error("Missing id");
     }
-    console.log(req);
-
-
-    const imageBuffer = await parseMultipartForm(req);
-    
-    if (!imageBuffer) {
-      throw new Error("Image is required");
+    const file = await req.formData();
+    const image = file.get("image");
+    if (image.size > 5242880) {
+      // size less than 2.5MB
+      throw Error("ไฟล์ต้องมีขนาดน้อยกว่า 5 MB");
     }
+    const allowedTypes = ["image/jpeg", "image/png" ,"image/jpg"];
+    if (!allowedTypes.includes(image.type)) {
+      throw Error("ไฟล์ต้องเป็นนามสกุล .jpg หรือ .png");
 
-    // ตรวจสอบขนาดไฟล์
-    if (imageBuffer.length > 5 * 1024 * 1024) { // 5MB
-      throw new Error("File size too large");
     }
-
-    // Process image
     const fileName = `post-${id}.jpg`;
+    const imageBuffer = await image.arrayBuffer();
+    const buffer = Buffer.from(imageBuffer);
     let finalBuffer;
-
-    try {
-      // แปลงเป็น JPEG และปรับคุณภาพ
-      finalBuffer = await sharp(imageBuffer, {
-        failOnError: false // เพิ่มตัวเลือกนี้
-      })
-        .rotate() // แก้ไขการหมุนภาพอัตโนมัติ
-        .resize(1920, 1080, { // กำหนดขนาดสูงสุด
-          fit: 'inside',
-          withoutEnlargement: true
-        })
-        .jpeg({ 
-          quality: 80,
-          progressive: true
-        })
-        .toBuffer();
-    } catch (error) {
-      console.error('Image processing error:', error);
-      throw new Error("Invalid image format");
+    if (image.type === "image/png") {
+      finalBuffer = await sharp(buffer).jpeg({quality: 90}).toBuffer();
+    } else {
+      finalBuffer = buffer;
     }
-
-    // Save file
-    const path = `./public/post/uploads/posts/image/${fileName}`;
-    await fs.writeFile(path, finalBuffer);
-    
-    // Update database
+    await fs.writeFile(`./public/post/uploads/posts/image/${fileName}`, finalBuffer);
     const imageUrl = `/post/uploads/posts/image/${fileName}`;
     await query(`UPDATE post SET image = ? WHERE post_id = ?`, [imageUrl, id]);
-
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: error.message || "Failed to upload image" },
-      { status: 500 }
-    );
+    console.log(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-
-
 
 /**
  * @swagger
