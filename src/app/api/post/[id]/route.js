@@ -16,6 +16,19 @@ import { NextResponse } from "next/server";
  *        500:
  *          description: ไม่สำเร็จ
  */
+export async function PUT(req,{params}) {   
+    try {
+        const {id} = params 
+        const body = await req.json()
+        const {text} = body
+        await query('UPDATE post SET text = ? WHERE post_id = ?', [text,id]);
+        return NextResponse.json({ message: "Post update successfully" }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    
+}
+
 
 export async function DELETE(req,{params}){
 

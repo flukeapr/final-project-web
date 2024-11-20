@@ -48,11 +48,16 @@ export async function PUT(req,{params}) {
     try {
         const { id } = params;
         const body = await req.json();
-        const {name,email,role} = body;
+        const {name,email,role,privacy} = body;
+        if(privacy !== undefined){
+            await query(`UPDATE users SET privacy = ? WHERE id = ?`, [privacy,id]);
+            return NextResponse.json({ message: "User updated successfully" }, { status: 200 });
+        }
         if(!role){
             await query(`UPDATE users SET name = ?, email = ? WHERE id = ?`, [name,email,id]);
             return NextResponse.json({ message: "User updated successfully" }, { status: 200 });
         }
+       
         await query(`UPDATE users SET name = ?, email = ?, role_id = ? WHERE id = ?`, [name,email,role,id]);
         return NextResponse.json({ message: "User updated successfully" }, { status: 200 });
     } catch (error) {
