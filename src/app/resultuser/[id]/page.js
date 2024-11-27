@@ -2,19 +2,19 @@
 
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import Navbar from "@/app/components/Navbar";
-import ThumbnailQuiz from "@/app/components/ThumbnailQuiz";
-import AnswerQuiz from "@/app/components/AnswerQuiz";
+import Navbar from "../../components/Navbar";
+import ThumbnailQuiz from "../../components/ThumbnailQuiz";
+import AnswerQuiz from "../../components/AnswerQuiz";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useUserContext } from "@/app/context/UsersContext";
+import { useUserContext } from "../../context/UsersContext";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import GraphModal from "@/app/components/GraphModal";
+import GraphModal from "../../components/GraphModal";
 import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import { FaFileExcel } from "react-icons/fa";
-import PersonalModal from "@/app/components/PersonalModal";
+import PersonalModal from "../../components/PersonalModal";
 
 export default function ResultUser({ params }) {
   const { id } = params;

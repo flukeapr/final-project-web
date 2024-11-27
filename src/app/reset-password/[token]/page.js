@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import Link from "next/link";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UpdatePassword } from "@/app/components/action/UpdatePasswordAction";
+import { UpdatePassword } from "../../components/action/UpdatePasswordAction";
 import { VerifyToken } from "../../../../lib/auth";
 
 
