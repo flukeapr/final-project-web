@@ -5,6 +5,21 @@ import { NextResponse } from "next/server";
 /**
  * @swagger
  * /api/post/{id}:
+ *   put:
+ *     summary: แก้ไขข้อมูลโพสต์
+ *     tags:
+ *         - Post
+ *     description: แก้ไขโพสต์และอัพเดท database.
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
+/**
+ * @swagger
+ * /api/post/{id}:
  *   delete:
  *     summary: ลบข้อมูลโพสต์
  *     tags:

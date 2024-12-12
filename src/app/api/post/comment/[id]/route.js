@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
  *   delete:
  *     summary: ลบข้อมูลคอมเม้นต์ของโพส์นั้นๆ
  *     tags:
- *         - Post
+ *         - Comment
  *     description: ลบคอมเม้นต์จาก database.
  *     responses:
  *        200:

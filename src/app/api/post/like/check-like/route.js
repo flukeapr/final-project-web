@@ -1,6 +1,22 @@
 import { query } from "../../../../../../lib/ConnectDb";
 import { NextResponse } from "next/server";
 
+
+/**
+ * @swagger
+ * /api/post/like/check-like:
+ *   post:
+ *     summary: เช็คว่าเราได้กดไลค์โพสต์นั้นหรือยัง
+ *     tags:
+ *         - Like
+ *     description: เช็คว่าเราได้กดไลค์โพสต์นั้นหรือยัง
+ *     responses:
+ *        201:
+ *          description: สำเร็จ
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
 export async function POST(req) {
         try {
             const body = await req.json();

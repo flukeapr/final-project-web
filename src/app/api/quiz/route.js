@@ -35,7 +35,7 @@ export async function GET(req){
 
 /**
  * @swagger
- * /api/post:
+ * /api/quiz:
  *   post:
  *     summary: บันทึกข้อมูลแบบประเมิน
  *     tags:

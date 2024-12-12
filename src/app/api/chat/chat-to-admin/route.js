@@ -1,6 +1,23 @@
 import { query } from "../../../../../lib/ConnectDb";
 import { NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/chat/chat-to-admin:
+ *   post:
+ *     summary: บันทึกข้อความส่งไปหาแอดมินทุกคน
+ *     tags:
+ *         - Chat
+ *     description: บันทึกข้อความส่งไปหาแอดมินทุกคนลง database
+ *     responses:
+ *        201:
+ *          description: สำเร็จ
+ *          
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
+
 export async function POST(req) {
     try {
         const body =await req.json()

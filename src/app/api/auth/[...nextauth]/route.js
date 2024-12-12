@@ -26,7 +26,12 @@ import {authOptions} from '../../../../../lib/authOptions';
  *     description: ข้อมูลแบบสอบถามส่วนบุคคล
  *   - name: UserQuizView
  *     description: ข้อมูลแบบประเมินที่ผู้ใช้ทำ
- *  
+ *   - name: Mood
+ *     description: ข้อมูลอารมณ์
+ *    - name: Like
+ *     description: การกดไลค์
+ *    - name: Comment
+ *     description: ข้อมูลคอมเม้น 
  */
 
 

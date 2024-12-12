@@ -27,7 +27,6 @@ export async function GET(req){
     }
 }
 
-
 /**
  * @swagger
  * /api/post:

@@ -3,6 +3,21 @@ import { query } from "../../../../../../lib/ConnectDb";
 import { NextResponse } from "next/server"; 
 
 
+/**
+ * @swagger
+ * /api/post/like/{id}:
+ *   get:
+ *     summary: เช็คว่าเราได้กดไลค์โพสต์ไหนบ้าง
+ *     tags:
+ *         - Like
+ *     description: เช็คว่าเราได้กดไลค์โพสต์ไหนบ้าง
+ *     responses:
+ *        200:
+ *          description: สำเร็จ
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
 
 export async function GET(req, { params }) {
     try {

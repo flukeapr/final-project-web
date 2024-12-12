@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
  *   post:
  *     summary: บันทึกข้อมูลคอมเม้นต์
  *     tags:
- *         - Post
+ *         - Comment
  *     description: บันทึกคอมเม้นต์ลง database.
  *     parameters:
  *       - in: header

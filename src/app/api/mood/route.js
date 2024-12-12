@@ -2,6 +2,21 @@ import { NextResponse } from "next/server";
 import {query} from "../../../../lib/ConnectDb"
 
 
+/**
+ * @swagger
+ * /api/mood:
+ *   post:
+ *     summary: เพิ่มข้อมูลอารมณ์
+ *     tags:
+ *         - Mood
+ *     description: เพิ่มข้อมูลอารมณ์ลง database.
+ *     responses:
+ *        201:
+ *          description: สำเร็จ
+ *        500:
+ *          description: ไม่สำเร็จ
+ */
+
 
 export async function POST(req) {
     try {
